@@ -1,0 +1,15 @@
+<?php
+function connectDB(){
+   $servername = "localhost";
+   $username = "root";
+   $password = "";
+   try {
+      $conn = new PDO("mysql:host=$servername;dbname=shopthoitrang", $username, $password);
+      $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+      echo "Kết nối thành công";
+   } catch (PDOException $th) {
+      echo "Kết nối thất bại, lỗi:".$th->getMessage();
+   }
+   return $conn;
+}
+ ?>

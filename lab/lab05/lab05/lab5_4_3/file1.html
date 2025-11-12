@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Form nhập liệu</title>
+  </head>
+  <body>
+    <form action="./file1.php" method="post" onsubmit="return validateForm()">
+      <label for="username">Tên đăng nhập:</label>
+      <input
+        type="text"
+        name="username"
+        id="username"
+        placeholder="Username"
+      /><br />
+      <span id="err1"></span><br />
+      <label for="password">Mật khẩu:</label>
+      <input
+        type="text"
+        name="password"
+        id="password"
+        placeholder="Password"
+      /><br />
+      <label for="verifyPassword">Nhập lại mật khẩu:</label>
+      <input
+        type="text"
+        name="verifyPassword"
+        id="verifyPassword"
+        placeholder="VerifyPassword"
+      /><br />
+      <span id="err2"></span><br />
+      <label for="gender">Giới tính:</label>
+      <input type="radio" name="gender" value="0" />Nam
+      <input type="radio" name="gender" value="1" />Nữ <br />
+      <span id="err3"></span><br />
+      <label for="hobbyForm">Sở thích:</label>
+      <input type="checkbox" name="hobby[]" value="Chơi game" />Chơi game
+      <input type="checkbox" name="hobby[]" value="Học lập trình" />Học lập
+      trình <input type="checkbox" name="hobby[]" value="Học tiếng Anh" />Học
+      tiếng Anh <br />
+      <span id="err4"></span><br />
+      <label for="city">Tỉnh:</label>
+      <select name="city" id="city">
+        <option value="">Chọn tỉnh/thành phố</option>
+        <option value="0">Thành phố Hồ Chí Minh</option>
+        <option value="1">Tỉnh Bà Rịa Vũng Tàu</option>
+        <option value="2">Tỉnh Long An</option></select
+      ><br />
+      <span id="err5"></span><br />
+      <input type="submit" name="submit" value="submit" />
+      <input type="reset" name="reset" value="reset" />
+    </form>
+    <script>
+      function validateForm() {
+        const username = document.getElementById("username").value;
+        const password = document.getElementById("password").value;
+        const verifyPassword = document.getElementById("verifyPassword").value;
+        const gender = document.getElementsByName("gender");
+        const hobbies = document.getElementsByName("hobby[]");
+        const city = document.getElementById("city").value;
+        let daChon = false;
+        let daChon1 = false;
+        let daChon2 = false;
+        for (let i = 0; i < gender.length; i++) {
+          if (gender[i].checked) {
+            daChon = true;
+            break;
+          }
+        }
+        for (let i = 0; i < hobbies.length; i++) {
+          if (hobbies[i].checked) {
+            daChon1 = true;
+            break;
+          }
+        }
+
+        const err1 = document.getElementById("err1");
+        const err2 = document.getElementById("err2");
+        const err3 = document.getElementById("err3");
+        const err4 = document.getElementById("err4");
+        const err5 = document.getElementById("err5");
+        err1.innerText = "";
+        err2.innerText = "";
+        err3.innerText = "";
+        err4.innerText = "";
+        err5.innerText = "";
+        if (username === "") {
+          err1.innerText = "Chưa nhập tên đăng nhập";
+          return false;
+        }
+        if (
+          password === "" ||
+          verifyPassword === "" ||
+          password !== verifyPassword
+        ) {
+          err2.innerText = "Chưa nhập mật khẩu hoặc mật khẩu không khớp";
+          return false;
+        }
+        if (!daChon) {
+          err3.innerText = "Chưa chọn giới tính";
+          return false;
+        }
+        if (!daChon1) {
+          err4.innerText = "Chưa chọn sở thích";
+          return false;
+        }
+        if (city === "") {
+          err5.innerText = "Chưa chọn tỉnh/thành phố";
+          return false;
+        }
+        return true;
+      }
+    </script>
+  </body>
+</html>
