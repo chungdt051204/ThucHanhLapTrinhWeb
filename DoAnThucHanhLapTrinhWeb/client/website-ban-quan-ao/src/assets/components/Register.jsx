@@ -42,7 +42,7 @@ export default function Register() {
       username.current.value === "" ||
       username.current.value.trim().length < 5
     ) {
-      setUsernameNotValid("Tên đăng nhập phải có tối thiểu 5 ký tự");
+      setUsernameNotValid("Tên đăng nhập phải có tối thiểu 5 ký tự ");
       return;
     } else if (!email.current.value.includes("@")) {
       setEmailNotValid("Vui lòng điền email hợp lệ");
@@ -86,94 +86,122 @@ export default function Register() {
   };
   return (
     <>
-      <section>
-        <div>
-          <h2>Register</h2>
-          <form onSubmit={handleSubmit}>
-            <div>
+      <section className="register-section">
+        <div className="register-container">
+          <h2 className="register-title">Register</h2>
+
+          <form onSubmit={handleSubmit} className="register-form">
+            <div className="input-group-register">
               <input
                 type="text"
                 name="fullname"
                 ref={fullName}
                 placeholder=" "
                 onChange={() => setFullNameNotValid("")}
+                className="input-field-register"
               />
-              <label htmlFor="fullname">Fullname</label>
+              <label htmlFor="fullname" className="input-label">Fullname</label>
             </div>
-            {fullNameNotValid && <span>{fullNameNotValid}</span>}
-            <div>
+            {fullNameNotValid && <span className="error-message">{fullNameNotValid}</span>}
+
+            <div className="input-group-register">
               <input
                 type="text"
                 name="username"
                 ref={username}
                 placeholder=" "
                 onChange={() => setUsernameNotValid("")}
+                className="input-field-register"
               />
-              <label htmlFor="username">Username</label>
+              <label htmlFor="username" className="input-label">Username</label>
             </div>
-            {usernameNotValid && <span>{usernameNotValid}</span>}
-            <div>
+            {usernameNotValid && <span className="error-message">{usernameNotValid}</span>}
+
+            <div className="input-group-register">
               <input
                 type="text"
                 name="email"
                 ref={email}
                 placeholder=" "
                 onChange={() => setEmailNotValid("")}
+                className="input-field-register"
               />
-              <label htmlFor="email">Email</label>
+              <label htmlFor="email" className="input-label">Email</label>
             </div>
-            {emailNotValid && <span>{emailNotValid}</span>}
-            <div>
+            {emailNotValid && <span className="error-message">{emailNotValid}</span>}
+
+            <div className="input-group-register">
               <input
                 type="password"
                 name="password"
                 ref={password}
                 placeholder=" "
                 onChange={() => setPasswordNotValid("")}
+                className="input-field-register"
               />
-              <label htmlFor="verifyPassword">Password</label>
+              <label htmlFor="password" className="input-label">Password</label>
             </div>
-            {passwordNotValid && <span>{passwordNotValid}</span>}
-            <div>
+            {passwordNotValid && <span className="error-message">{passwordNotValid}</span>}
+
+            <div className="input-group-register">
               <input
                 type="password"
                 name="verifyPassword"
                 ref={verifyPassword}
                 placeholder=" "
                 onChange={() => setVerifyPasswordNotValid("")}
+                className="input-field-register"
               />
-              <label htmlFor="password">Verify password</label>
+              <label htmlFor="verifyPassword" className="input-label">Verify Password</label>
             </div>
-            {verifyPasswordNotValid && <span>{verifyPasswordNotValid}</span>}
-            <div>
+            {verifyPasswordNotValid && <span className="error-message">{verifyPasswordNotValid}</span>}
+
+            <div className="input-group-register">
               <input
                 type="text"
                 name="phone"
                 ref={phone}
                 placeholder=" "
                 onChange={() => setPhoneNotValid("")}
+                className="input-field-register"
               />
-              <label htmlFor="phone">Phone</label>
+              <label htmlFor="phone" className="input-label">Phone</label>
             </div>
-            {phoneNotValid && <span>{phoneNotValid}</span>}
-            <div>
-              <input type="date" name="dateOfBirth" ref={dateOfBirth} />
-              <label htmlFor="dateOfBirth">Date Of Birth</label>
+            {phoneNotValid && <span className="error-message">{phoneNotValid}</span>}
+
+            <div className="input-group-register">
+              <input
+                type="date"
+                name="dateOfBirth"
+                ref={dateOfBirth}
+                className="input-field-register"
+              />
+              <label htmlFor="dateOfBirth" className="input-label">Date of Birth</label>
             </div>
-            <div>
-              <label htmlFor="gender">Gender: </label>
-              <input type="radio" name="gender" ref={male} value="nam" />
-              Nam
-              <input type="radio" name="gender" ref={female} value="nữ" />
-              Nữ
+
+            <div className="gender-group">
+              <label htmlFor="gender" className="gender-label">Gender:</label>
+              <div className="gender-options">
+                <label className="gender-option">
+                  <input type="radio" name="gender" ref={male} value="nam" />
+                  <span>Nam</span>
+                </label>
+                <label className="gender-option">
+                  <input type="radio" name="gender" ref={female} value="nữ" />
+                  <span>Nữ</span>
+                </label>
+              </div>
             </div>
-            <div>
-              <input type="file" name="avatar" ref={avatar} />
+
+            <div className="input-group file-input">
+              <input type="file" name="avatar" ref={avatar} className="input-field file" />
             </div>
-            <button>Đăng ký</button>
+
+            <button className="register-button">Đăng ký</button>
           </form>
         </div>
       </section>
+
     </>
   );
 }

@@ -25,40 +25,53 @@ export default function Login() {
         navigate("/");
       })
       .catch(() => {
-        alert("Sai thông tin đăng nhập");
+        alert("Sai thông tin đăng nhập ");
       });
   };
   return (
     <>
-      <section>
-        <div>
-          <h2>Login</h2>
-          <form onSubmit={handleSubmit}>
-            <div>
+      <section className="login-section">
+        <div className="login-container">
+          <h2 className="login-title">Login</h2>
+          <form onSubmit={handleSubmit} className="login-form">
+            <div className="input-group">
               <input
                 type="email"
                 name="email"
                 ref={email}
                 placeholder=" "
                 onChange={() => setLoginNotValid("")}
+                className="input-field"
               />
-              <label htmlFor="email">Email</label>
+              <label htmlFor="email" className="input-label">
+                Email
+              </label>
             </div>
-            <div>
+
+            <div className="input-group">
               <input
                 type="password"
                 name="password"
                 ref={password}
                 placeholder=" "
                 onChange={() => setLoginNotValid("")}
+                className="input-field"
               />
-              <label htmlFor="password">Password</label>
+              <label htmlFor="password" className="input-label">
+                Password
+              </label>
             </div>
-            {loginNotValid && <span>{loginNotValid}</span>}
-            <button>Login</button>
+
+            {loginNotValid && <span className="error-message">{loginNotValid}</span>}
+
+            <button className="login-button">Login</button>
           </form>
-          <p>
-            Chưa có tài khoản? <Link to="/register">Đăng ký ngay</Link>
+
+          <p className="register-prompt">
+            Chưa có tài khoản?{" "}
+            <Link to="/register" className="register-link">
+              Đăng ký ngay
+            </Link>
           </p>
         </div>
       </section>
