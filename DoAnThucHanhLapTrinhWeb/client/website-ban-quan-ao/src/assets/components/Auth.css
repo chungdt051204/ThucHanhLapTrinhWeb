@@ -8,11 +8,11 @@
 }
 
 .login-container {
-  background: #ffffff; 
+  background: #ffffff;
   border-radius: 20px;
   padding: 40px 50px;
   width: 360px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15); 
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
   text-align: center;
   color: #333;
 }
@@ -112,7 +112,6 @@
 }
 
 .register-section {
-  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -121,18 +120,14 @@
 }
 
 .register-container {
-  background: #ffffff; 
+  background: #ffffff;
   border-radius: 20px;
-  padding: 0px 50px 80px 50px;
+  padding: 0px 50px 10px 50px;
   width: 360px;
-  height: 600px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15); 
+  height: 100vh;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
   text-align: center;
   color: #333;
-}
-
-.register-form{
-    height: 600px;
 }
 
 .register-title {
@@ -148,12 +143,9 @@
   width: 25%;
 }
 
-.input-group-register .input-field-register{
-}
-
 .input-field-register {
   width: 330px;
-  padding: 12px 15px;
+  padding: 8px 15px;
   border-radius: 12px;
   border: 1.5px solid #ddd;
   outline: none;
@@ -178,7 +170,7 @@
   transition: 0.3s ease;
   background: transparent;
   font-size: 0.8rem;
-  width: 100px;
+  width: 200px;
 }
 
 .input-field-register:focus + .input-label,
@@ -195,6 +187,7 @@
 .register-button {
   width: 100%;
   padding: 12px;
+  margin-top: 15px;
   border: none;
   border-radius: 12px;
   background: linear-gradient(135deg, #0072ff, #00c6ff);
@@ -217,14 +210,17 @@
   display: block;
 }
 
-.gender-group{
-    display: flex;
-    gap:12px;
-    margin-bottom: 20px;
-    margin-left: 10px;
+.gender-group {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 15px;
+  margin-left: 10px;
 }
 
-.gender-options{
-    display: flex;
-    gap: 12px;
+.gender-options {
+  display: flex;
+  gap: 12px;
+}
+input[type="file"] {
+  margin-left: -100px;
 }
