@@ -1,7 +1,7 @@
 <?php
 include_once "model/connect.php";
 include_once "model/product.php";
-
+connectdb();
 $products = getproducts();
 ?>
 <!DOCTYPE html>

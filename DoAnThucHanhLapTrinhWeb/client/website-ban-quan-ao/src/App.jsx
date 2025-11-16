@@ -5,6 +5,9 @@ import Login from "./assets/components/Login";
 import { useEffect, useState } from "react";
 import Detail from "./assets/components/Detail";
 import Register from "./assets/components/Register";
+import GetAllProducts from "./assets/components/GetAllProducts";
+import GetWomenProducts from "./assets/components/GetWomenProducts";
+import GetMenProducts from "./assets/components/GetMenProducts";
 
 function App() {
   const [user, setUser] = useState("");
@@ -26,7 +29,18 @@ function App() {
     <>
       <AppContext.Provider value={{ user, isLogin, setIsLogin }}>
         <Routes>
-          <Route path="/" element={<Home></Home>} />
+          <Route
+            path="/"
+            element={<Home component={<GetAllProducts />}></Home>}
+          />
+          <Route
+            path="/women-product"
+            element={<Home component={<GetWomenProducts />}></Home>}
+          />
+          <Route
+            path="/men-product"
+            element={<Home component={<GetMenProducts />}></Home>}
+          />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/detail" element={<Detail />} />

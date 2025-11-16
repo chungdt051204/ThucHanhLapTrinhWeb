@@ -62,7 +62,9 @@ export default function Login() {
               </label>
             </div>
 
-            {loginNotValid && <span className="error-message">{loginNotValid}</span>}
+            {loginNotValid && (
+              <span className="error-message">{loginNotValid}</span>
+            )}
 
             <button className="login-button">Login</button>
           </form>
