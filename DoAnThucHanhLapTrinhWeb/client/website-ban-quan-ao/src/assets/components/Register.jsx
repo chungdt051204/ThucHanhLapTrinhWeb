@@ -89,7 +89,6 @@ export default function Register() {
       <section className="register-section">
         <div className="register-container">
           <h2 className="register-title">Register</h2>
-
           <form onSubmit={handleSubmit} className="register-form">
             <div className="input-group-register">
               <input
@@ -100,10 +99,13 @@ export default function Register() {
                 onChange={() => setFullNameNotValid("")}
                 className="input-field-register"
               />
-              <label htmlFor="fullname" className="input-label">Fullname</label>
+              <label htmlFor="fullname" className="input-label">
+                Fullname
+              </label>
             </div>
-            {fullNameNotValid && <span className="error-message">{fullNameNotValid}</span>}
-
+            {fullNameNotValid && (
+              <span className="error-message">{fullNameNotValid}</span>
+            )}
             <div className="input-group-register">
               <input
                 type="text"
@@ -113,10 +115,13 @@ export default function Register() {
                 onChange={() => setUsernameNotValid("")}
                 className="input-field-register"
               />
-              <label htmlFor="username" className="input-label">Username</label>
+              <label htmlFor="username" className="input-label">
+                Username
+              </label>
             </div>
-            {usernameNotValid && <span className="error-message">{usernameNotValid}</span>}
-
+            {usernameNotValid && (
+              <span className="error-message">{usernameNotValid}</span>
+            )}
             <div className="input-group-register">
               <input
                 type="text"
@@ -126,10 +131,13 @@ export default function Register() {
                 onChange={() => setEmailNotValid("")}
                 className="input-field-register"
               />
-              <label htmlFor="email" className="input-label">Email</label>
+              <label htmlFor="email" className="input-label">
+                Email
+              </label>
             </div>
-            {emailNotValid && <span className="error-message">{emailNotValid}</span>}
-
+            {emailNotValid && (
+              <span className="error-message">{emailNotValid}</span>
+            )}
             <div className="input-group-register">
               <input
                 type="password"
@@ -139,10 +147,13 @@ export default function Register() {
                 onChange={() => setPasswordNotValid("")}
                 className="input-field-register"
               />
-              <label htmlFor="password" className="input-label">Password</label>
+              <label htmlFor="password" className="input-label">
+                Password
+              </label>
             </div>
-            {passwordNotValid && <span className="error-message">{passwordNotValid}</span>}
-
+            {passwordNotValid && (
+              <span className="error-message">{passwordNotValid}</span>
+            )}
             <div className="input-group-register">
               <input
                 type="password"
@@ -152,10 +163,13 @@ export default function Register() {
                 onChange={() => setVerifyPasswordNotValid("")}
                 className="input-field-register"
               />
-              <label htmlFor="verifyPassword" className="input-label">Verify Password</label>
+              <label htmlFor="verifyPassword" className="input-label">
+                Verify Password
+              </label>
             </div>
-            {verifyPasswordNotValid && <span className="error-message">{verifyPasswordNotValid}</span>}
-
+            {verifyPasswordNotValid && (
+              <span className="error-message">{verifyPasswordNotValid}</span>
+            )}
             <div className="input-group-register">
               <input
                 type="text"
@@ -165,10 +179,13 @@ export default function Register() {
                 onChange={() => setPhoneNotValid("")}
                 className="input-field-register"
               />
-              <label htmlFor="phone" className="input-label">Phone</label>
+              <label htmlFor="phone" className="input-label">
+                Phone
+              </label>
             </div>
-            {phoneNotValid && <span className="error-message">{phoneNotValid}</span>}
-
+            {phoneNotValid && (
+              <span className="error-message">{phoneNotValid}</span>
+            )}
             <div className="input-group-register">
               <input
                 type="date"
@@ -176,11 +193,14 @@ export default function Register() {
                 ref={dateOfBirth}
                 className="input-field-register"
               />
-              <label htmlFor="dateOfBirth" className="input-label">Date of Birth</label>
+              <label htmlFor="dateOfBirth" className="input-label">
+                Date of Birth
+              </label>
             </div>
-
             <div className="gender-group">
-              <label htmlFor="gender" className="gender-label">Gender:</label>
+              <label htmlFor="gender" className="gender-label">
+                Gender:
+              </label>
               <div className="gender-options">
                 <label className="gender-option">
                   <input type="radio" name="gender" ref={male} value="nam" />
@@ -192,16 +212,11 @@ export default function Register() {
                 </label>
               </div>
             </div>
-
-            <div className="input-group file-input">
-              <input type="file" name="avatar" ref={avatar} className="input-field file" />
-            </div>
-
+            <input type="file" name="avatar" ref={avatar} />
             <button className="register-button">Đăng ký</button>
           </form>
         </div>
       </section>
-
     </>
   );
 }
