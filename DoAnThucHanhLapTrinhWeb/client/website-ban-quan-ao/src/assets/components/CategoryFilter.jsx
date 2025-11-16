@@ -26,7 +26,7 @@ export default function CategoryFilter() {
               </Link>
             </li>
             <li>
-              <Link>
+              <Link to="/kid-product">
                 <p>Kid's</p>
               </Link>
             </li>
