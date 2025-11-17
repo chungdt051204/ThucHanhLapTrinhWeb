@@ -3,7 +3,7 @@ export default function Products({ data }) {
   return (
     <>
       <div className="product-track">
-        {data.length > 0 &&
+        {data.length > 0 ?
           data.map((value, index) => {
             return (
               <div key={index} className="product-item">
@@ -11,7 +11,7 @@ export default function Products({ data }) {
                 <hp>{value.name}</hp>
               </div>
             );
-          })}
+          }): <p>Khong co san pham de hien thi</p>}
       </div>
     </>
   );

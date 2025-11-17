@@ -4,7 +4,7 @@ import Products from "./Products";
 export default function GetMenProducts() {
   const [menProducts, setMenProducts] = useState([]);
   useEffect(() => {
-    fetch("http://localhost:3000/ket_noi_database/model/getMenProducts.php")
+    fetch("http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/model/getMenProducts.php")
       .then((res) => {
         return res.json();
       })
