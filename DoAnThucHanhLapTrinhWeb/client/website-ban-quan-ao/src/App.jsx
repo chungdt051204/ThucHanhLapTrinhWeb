@@ -8,7 +8,7 @@ import Register from "./assets/components/Register";
 import GetAllProducts from "./assets/components/GetAllProducts";
 import GetWomenProducts from "./assets/components/GetWomenProducts";
 import GetMenProducts from "./assets/components/GetMenProducts";
-
+import GetKidProducts from "./assets/components/GetKidProducts";
 function App() {
   const [user, setUser] = useState("");
   const [isLogin, setIsLogin] = useState(false);
@@ -40,6 +40,10 @@ function App() {
           <Route
             path="/men-product"
             element={<Home component={<GetMenProducts />}></Home>}
+          />
+          <Route
+            path="/kid-product"
+            element={<Home component={<GetKidProducts />}></Home>}
           />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
