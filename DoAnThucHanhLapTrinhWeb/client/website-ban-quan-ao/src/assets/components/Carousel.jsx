@@ -1,11 +1,9 @@
 import { useEffect, useRef, useState } from "react";
-import category1 from "../../assets/category-1.jpg";
-import category2 from "../../assets/category-2.jpg";
-import category3 from "../../assets/category-3.jpg";
-import category4 from "../../assets/category-4.jpg";
-import category5 from "../../assets/category-5.jpg";
+import { useContext } from "react";
+import AppContext from "./AppContext";
 import "./Carousel.css";
 export default function Carousel() {
+  const { categories } = useContext(AppContext);
   const carousel = useRef();
   const [index, setIndex] = useState(0);
   useEffect(() => {
@@ -25,21 +23,17 @@ export default function Carousel() {
   return (
     <>
       <div className="carousel-track" ref={carousel}>
-        <div className="carousel-items">
-          <img src={category1} alt="" />
-        </div>
-        <div className="carousel-items">
-          <img src={category2} alt="" />
-        </div>
-        <div className="carousel-items">
-          <img src={category3} alt="" />
-        </div>
-        <div className="carousel-items">
-          <img src={category4} alt="" />
-        </div>
-        <div className="carousel-items">
-          <img src={category5} alt="" />
-        </div>
+        {categories.length > 0 ? (
+          categories.map((value, index) => {
+            return (
+              <div key={index} className="carousel-items">
+                <img src={value.img_url} alt="" />
+              </div>
+            );
+          })
+        ) : (
+          <p>Không có dữ liệu để hiển thị</p>
+        )}
       </div>
     </>
   );

@@ -1,17 +1,9 @@
-import { useEffect, useState } from "react";
+import { useContext } from "react";
+import AppContext from "./AppContext";
 import Products from "./Products";
 
 export default function GetWomenProducts() {
-  const [womenProducts, setWomenProducts] = useState([]);
-  useEffect(() => {
-    fetch("http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/model/getWomenProducts.php")
-      .then((res) => {
-        return res.json();
-      })
-      .then((data) => {
-        setWomenProducts(data);
-      });
-  }, []);
+  const { womenProducts } = useContext(AppContext);
   return (
     <>
       <Products data={womenProducts} />

@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
 import "./Category.css";
 export default function Category() {
   return (
@@ -9,9 +10,9 @@ export default function Category() {
             <div>
               <h1>Women’s fashion</h1>
               <p>
-                Sitamet, consectetur adipiscing elit, sed do eiusmod tempor
-                incidid-unt labore edolore magna aliquapendisse ultrices
-                gravida.
+                Nơi tôn vinh phong cách và cá tính phái đẹp. Khám phá những xu
+                hướng thời trang mới nhất từ trang phục hằng ngày, đầm dự tiệc,
+                đến phụ kiện tinh tế giúp bạn tự tin trong mọi khoảnh khắc.
               </p>
               <Link className="shop">
                 <p>SHOP NOW</p>
@@ -23,7 +24,7 @@ export default function Category() {
           <div className="category-item item1">
             <div className="ct2">
               <h2>Men’s fashion</h2>
-              <p>358 items</p>
+              <p>10 items</p>
               <Link className="shop">
                 <p>SHOP NOW</p>
               </Link>
@@ -32,7 +33,7 @@ export default function Category() {
           <div className="category-item item2">
             <div className="ct3">
               <h2>Kid’s fashion</h2>
-              <p>273 items</p>
+              <p>10 items</p>
               <Link className="shop">
                 <p className="shop">SHOP NOW</p>
               </Link>
@@ -41,7 +42,7 @@ export default function Category() {
           <div className="category-item item3">
             <div className="ct4">
               <h2>Cosmetics</h2>
-              <p>159 items</p>
+              <p>10 items</p>
               <Link className="shop">
                 <p>SHOP NOW</p>
               </Link>
@@ -50,7 +51,7 @@ export default function Category() {
           <div className="category-item item4">
             <div className="ct5">
               <h2>Accessories</h2>
-              <p>792 items</p>
+              <p>10 items</p>
               <Link className="shop">
                 <p>SHOP NOW</p>
               </Link>

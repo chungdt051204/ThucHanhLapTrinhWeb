@@ -5,7 +5,6 @@ import Category from "./Category";
 import NavBar from "./NavBar";
 import CategoryFilter from "./CategoryFilter";
 import Footer from "./Footer";
-import GetAllProducts from "./GetAllProducts";
 export default function Home({ component }) {
   const { user, isLogin } = useContext(AppContext);
   return (

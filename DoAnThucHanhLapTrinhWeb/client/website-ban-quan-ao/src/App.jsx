@@ -13,6 +13,12 @@ import GetAccessoriesProducts from "./assets/components/GetAccessoriesProducts";
 function App() {
   const [user, setUser] = useState("");
   const [isLogin, setIsLogin] = useState(false);
+  const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [womenProducts, setWomenProducts] = useState([]);
+  const [menProducts, setMenProducts] = useState([]);
+  const [kidProducts, setKidProducts] = useState([]);
+  const [accessoriesProducts, setAccessoriesProducts] = useState([]);
   useEffect(() => {
     fetch("http://localhost:3000/server/me.php", {
       credentials: "include",
@@ -26,9 +32,86 @@ function App() {
       })
       .catch();
   }, []);
+  useEffect(() => {
+    fetch("http://localhost:3000/server/model/getCategories.php")
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        console.log(data);
+        setCategories(data);
+      });
+  }, []);
+  useEffect(() => {
+    fetch(
+      "http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/model/getAllProducts.php"
+    )
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        setProducts(data);
+      });
+  }, []);
+  useEffect(() => {
+    fetch(
+      "http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/model/getWomenProducts.php"
+    )
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        setWomenProducts(data);
+      });
+  }, []);
+  useEffect(() => {
+    fetch(
+      "http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/model/getMenProducts.php"
+    )
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        setMenProducts(data);
+      });
+  }, []);
+  useEffect(() => {
+    fetch(
+      "http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/model/getKidProducts.php"
+    )
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        setKidProducts(data);
+      });
+  }, []);
+  useEffect(() => {
+    fetch(
+      "http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/model/getAccessoriesProducts.php"
+    )
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        setAccessoriesProducts(data);
+      });
+  }, []);
   return (
     <>
-      <AppContext.Provider value={{ user, isLogin, setIsLogin }}>
+      <AppContext.Provider
+        value={{
+          user,
+          isLogin,
+          setIsLogin,
+          products,
+          categories,
+          womenProducts,
+          menProducts,
+          kidProducts,
+          accessoriesProducts,
+        }}
+      >
         <Routes>
           <Route
             path="/"

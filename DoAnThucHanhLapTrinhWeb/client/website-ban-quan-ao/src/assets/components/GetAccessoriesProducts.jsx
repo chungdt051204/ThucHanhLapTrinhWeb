@@ -1,17 +1,9 @@
-import { useEffect, useState } from "react";
+import { useContext } from "react";
+import AppContext from "./AppContext";
 import Products from "./Products";
 
 export default function GetAccessoriesProducts() {
-  const [accessoriesProducts, setAccessoriesProducts] = useState([]);
-  useEffect(() => {
-    fetch("http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/model/getAccessoriesProducts.php")
-      .then((res) => {
-        return res.json();
-      })
-      .then((data) => {
-        setAccessoriesProducts(data);
-      });
-  }, []);
+  const { accessoriesProducts } = useContext(AppContext);
   return (
     <>
       <Products data={accessoriesProducts} />
