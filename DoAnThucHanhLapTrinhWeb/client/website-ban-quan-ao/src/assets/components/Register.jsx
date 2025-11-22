@@ -18,7 +18,6 @@ export default function Register() {
   const phone = useRef();
   const male = useRef();
   const female = useRef();
-  const dateOfBirth = useRef();
   const handleSubmit = (e) => {
     e.preventDefault();
     const formData = new FormData();
@@ -32,9 +31,8 @@ export default function Register() {
       ? male.current.value
       : female.current.value;
     formData.append("gender", gender);
-    formData.append("dateOfBirth", dateOfBirth.current.value);
-    // const data = Object.fromEntries(formData.entries());
-    // console.log("Dữ liệu form:", data);
+    const data = Object.fromEntries(formData.entries());
+    console.log("Dữ liệu form:", data);
     if (fullName.current.value === "") {
       setFullNameNotValid("Họ tên không được bỏ trống");
       return;
@@ -42,7 +40,7 @@ export default function Register() {
       username.current.value === "" ||
       username.current.value.trim().length < 5
     ) {
-      setUsernameNotValid("Tên đăng nhập phải có tối thiểu 5 ký tự ");
+      setUsernameNotValid("Tên đăng nhập phải có tối thiểu 5 ký tự");
       return;
     } else if (!email.current.value.includes("@")) {
       setEmailNotValid("Vui lòng điền email hợp lệ");
@@ -62,58 +60,55 @@ export default function Register() {
       setPhoneNotValid("Số điện thoại hợp lệ phải có đủ 10 số");
       return;
     } else {
-      fetch("http://localhost:3000/register", {
+      fetch("http://localhost:3000/server/user/register.php", {
         method: "POST",
         body: formData,
-        credentials: "include",
       })
         .then((res) => {
           if (res.ok) return res.json();
           throw res;
         })
-        .then(({ message }) => {
-          alert(message);
+        .then((data) => {
+          alert(data);
           navigate("/login");
         })
-        .catch(async (err) => {
-          if (err.status === 400) {
-            //Lấy dữ liệu gửi từ backend
-            const { message } = await err.json();
-            setEmailNotValid(message);
+        .catch((error) => {
+          if (error.status == 400) {
+            setEmailNotValid("Email này đã tồn tại");
           }
         });
     }
   };
   return (
     <>
-      <section className="register-section">
-        <div className="register-container">
-          <h2 className="register-title">Register</h2>
-          <form onSubmit={handleSubmit} className="register-form">
-            <div className="input-group-register">
+      <section className="auth-section">
+        <div className="auth-container">
+          <h2>Register</h2>
+          <form onSubmit={handleSubmit} className="auth-form">
+            <div className="input-group">
               <input
                 type="text"
-                name="fullname"
+                name="fullName"
                 ref={fullName}
                 placeholder=" "
                 onChange={() => setFullNameNotValid("")}
-                className="input-field-register"
+                className="input-field"
               />
-              <label htmlFor="fullname" className="input-label">
-                Fullname
+              <label htmlFor="fullName" className="input-label">
+                Full name
               </label>
             </div>
             {fullNameNotValid && (
               <span className="error-message">{fullNameNotValid}</span>
             )}
-            <div className="input-group-register">
+            <div className="input-group">
               <input
                 type="text"
                 name="username"
                 ref={username}
                 placeholder=" "
                 onChange={() => setUsernameNotValid("")}
-                className="input-field-register"
+                className="input-field"
               />
               <label htmlFor="username" className="input-label">
                 Username
@@ -122,14 +117,14 @@ export default function Register() {
             {usernameNotValid && (
               <span className="error-message">{usernameNotValid}</span>
             )}
-            <div className="input-group-register">
+            <div className="input-group">
               <input
                 type="text"
                 name="email"
                 ref={email}
                 placeholder=" "
                 onChange={() => setEmailNotValid("")}
-                className="input-field-register"
+                className="input-field"
               />
               <label htmlFor="email" className="input-label">
                 Email
@@ -138,14 +133,14 @@ export default function Register() {
             {emailNotValid && (
               <span className="error-message">{emailNotValid}</span>
             )}
-            <div className="input-group-register">
+            <div className="input-group">
               <input
                 type="password"
                 name="password"
                 ref={password}
                 placeholder=" "
                 onChange={() => setPasswordNotValid("")}
-                className="input-field-register"
+                className="input-field"
               />
               <label htmlFor="password" className="input-label">
                 Password
@@ -154,30 +149,33 @@ export default function Register() {
             {passwordNotValid && (
               <span className="error-message">{passwordNotValid}</span>
             )}
-            <div className="input-group-register">
+            <div className="input-group">
               <input
                 type="password"
                 name="verifyPassword"
                 ref={verifyPassword}
                 placeholder=" "
                 onChange={() => setVerifyPasswordNotValid("")}
-                className="input-field-register"
+                className="input-field"
               />
-              <label htmlFor="verifyPassword" className="input-label">
+              <label
+                htmlFor="verifyPassword"
+                className="input-label input-label-verifyPassword"
+              >
                 Verify Password
               </label>
             </div>
             {verifyPasswordNotValid && (
               <span className="error-message">{verifyPasswordNotValid}</span>
             )}
-            <div className="input-group-register">
+            <div className="input-group">
               <input
                 type="text"
                 name="phone"
                 ref={phone}
                 placeholder=" "
                 onChange={() => setPhoneNotValid("")}
-                className="input-field-register"
+                className="input-field"
               />
               <label htmlFor="phone" className="input-label">
                 Phone
@@ -186,17 +184,6 @@ export default function Register() {
             {phoneNotValid && (
               <span className="error-message">{phoneNotValid}</span>
             )}
-            <div className="input-group-register">
-              <input
-                type="date"
-                name="dateOfBirth"
-                ref={dateOfBirth}
-                className="input-field-register"
-              />
-              <label htmlFor="dateOfBirth" className="input-label">
-                Date of Birth
-              </label>
-            </div>
             <div className="gender-group">
               <label htmlFor="gender" className="gender-label">
                 Gender:
@@ -213,7 +200,7 @@ export default function Register() {
               </div>
             </div>
             <input type="file" name="avatar" ref={avatar} />
-            <button className="register-button">Đăng ký</button>
+            <button className="auth-button register ">Đăng ký</button>
           </form>
         </div>
       </section>

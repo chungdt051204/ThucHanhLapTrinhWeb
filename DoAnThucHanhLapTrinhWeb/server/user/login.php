@@ -7,7 +7,8 @@
     header("Access-Control-Allow-Methods: POST, OPTIONS");
     //Cho phép các header, nếu client dùng form data để gửi dữ liệu thì không cần
     header("Access-Control-Allow-Headers: Content-Type"); 
-
+    require_once("../model/connect.php");
+    $conn = connectdb();
     //Xử lý yêu cầu preflight
     if ($_SERVER["REQUEST_METHOD"] === "OPTIONS"){
         http_response_code(200);
@@ -18,19 +19,23 @@
         if(!isset($_SESSION))
             session_start();
         $email = $_POST["email"]??"";
-        $password = $_POST["password"]??"";
-        if($email === "admin@gmail.com" && $password === "admin123"){
+        $password = md5($_POST["password"])??"";
+        $sql = "SELECT * FROM users WHERE email = ? AND password = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->execute([$email, $password]);
+        $userInDatabase = $stmt->fetchAll();
+        if($userInDatabase){
             $_SESSION["user"] = [
                 "email" => $email,
                 "loginTime" => time(),
             ];
             http_response_code(200);
             echo json_encode(["message" => "Đăng nhập thành công"]);
-           
         }
         else{
             http_response_code(401);
             echo json_encode(["message" => "Sai thông tin đăng nhập"]);
         }
-    }  
+    }
+    $conn = null;  
 ?>

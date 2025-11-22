@@ -12,5 +12,4 @@ function connectdb(){
    }
    return $conn;
 }
-connectdb();
 ?>

@@ -11,7 +11,7 @@ export default function Login() {
     const formData = new FormData();
     formData.append("email", email.current.value);
     formData.append("password", password.current.value);
-    fetch("http://localhost:3000/server/login.php", {
+    fetch("http://localhost:3000/server/user/login.php", {
       method: "POST",
       body: formData,
       credentials: "include",
@@ -25,15 +25,15 @@ export default function Login() {
         navigate("/");
       })
       .catch(() => {
-        alert("Sai thông tin đăng nhập ");
+        setLoginNotValid("Sai thông ");
       });
   };
   return (
     <>
-      <section className="login-section">
-        <div className="login-container">
-          <h2 className="login-title">Login</h2>
-          <form onSubmit={handleSubmit} className="login-form">
+      <section className="auth-section">
+        <div className="auth-container">
+          <h2>Login</h2>
+          <form onSubmit={handleSubmit} className="auth-form">
             <div className="input-group">
               <input
                 type="email"
@@ -66,14 +66,10 @@ export default function Login() {
               <span className="error-message">{loginNotValid}</span>
             )}
 
-            <button className="login-button">Login</button>
+            <button className="auth-button">Login</button>
           </form>
-
-          <p className="register-prompt">
-            Chưa có tài khoản?{" "}
-            <Link to="/register" className="register-link">
-              Đăng ký ngay
-            </Link>
+          <p>
+            Chưa có tài khoản? <Link to="/register">Đăng ký ngay</Link>
           </p>
         </div>
       </section>

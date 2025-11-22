@@ -21,7 +21,7 @@ function App() {
   const [kidProducts, setKidProducts] = useState([]);
   const [accessoriesProducts, setAccessoriesProducts] = useState([]);
   useEffect(() => {
-    fetch("http://localhost:3000/server/me.php", {
+    fetch("http://localhost:3000/server/user/me.php", {
       credentials: "include",
     })
       .then((res) => {
@@ -34,7 +34,7 @@ function App() {
       .catch();
   }, []);
   useEffect(() => {
-    fetch("http://localhost:3000/server/model/getCategories.php")
+    fetch("http://localhost:3000/server/product/getCategories.php")
       .then((res) => {
         return res.json();
       })
@@ -44,9 +44,7 @@ function App() {
       });
   }, []);
   useEffect(() => {
-    fetch(
-      "http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/model/getAllProducts.php"
-    )
+    fetch("http://localhost:3000/server/product/getAllProducts.php")
       .then((res) => {
         return res.json();
       })
@@ -55,9 +53,7 @@ function App() {
       });
   }, []);
   useEffect(() => {
-    fetch(
-      "http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/model/getWomenProducts.php"
-    )
+    fetch("http://localhost:3000/server/product/getWomenProducts.php")
       .then((res) => {
         return res.json();
       })
@@ -66,9 +62,7 @@ function App() {
       });
   }, []);
   useEffect(() => {
-    fetch(
-      "http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/model/getMenProducts.php"
-    )
+    fetch("http://localhost:3000/server/product/getMenProducts.php")
       .then((res) => {
         return res.json();
       })
@@ -77,9 +71,7 @@ function App() {
       });
   }, []);
   useEffect(() => {
-    fetch(
-      "http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/model/getKidProducts.php"
-    )
+    fetch("http://localhost:3000/server/product/getKidProducts.php")
       .then((res) => {
         return res.json();
       })
@@ -88,9 +80,7 @@ function App() {
       });
   }, []);
   useEffect(() => {
-    fetch(
-      "http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/model/getAccessoriesProducts.php"
-    )
+    fetch("http://localhost:3000/server/product/getAccessoriesProducts.php")
       .then((res) => {
         return res.json();
       })

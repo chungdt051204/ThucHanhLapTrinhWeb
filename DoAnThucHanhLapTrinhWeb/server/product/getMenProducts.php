@@ -1,12 +1,12 @@
 <?php
 header("Access-Control-Allow-Origin: http://localhost:5173"); 
-require_once("./connect.php");
+require_once("../model/connect.php");
 $conn = connectdb();
-$sql = "SELECT * FROM categories";
+$sql = "SELECT * FROM products WHERE category_id = 2";
 $stmt = $conn->prepare($sql);
 $stmt->execute();
-$arrCategory = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$arrProduct = $stmt->fetchAll(PDO::FETCH_ASSOC);
 $conn = null;
 http_response_code(200);
-echo json_encode($arrCategory);   
+echo json_encode($arrProduct);   
 ?>

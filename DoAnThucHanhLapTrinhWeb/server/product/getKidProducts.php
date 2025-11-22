@@ -1,8 +1,8 @@
 <?php
 header("Access-Control-Allow-Origin: http://localhost:5173"); 
-require_once("./connect.php");
+require_once("../model/connect.php");
 $conn = connectdb();
-$sql = "SELECT * FROM products WHERE category_id = 4";
+$sql = "SELECT * FROM products WHERE category_id = 3";
 $stmt = $conn->prepare($sql);
 $stmt->execute();
 $arrProduct = $stmt->fetchAll(PDO::FETCH_ASSOC);
