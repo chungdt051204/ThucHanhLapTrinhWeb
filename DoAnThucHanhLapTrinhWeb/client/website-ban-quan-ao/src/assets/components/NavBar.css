@@ -12,7 +12,7 @@ nav > ul:first-of-type {
   padding-right: 200px;
 }
 nav > ul:nth-of-type(2) {
-  width: 40%;
+  width: 80%;
   justify-content: space-around;
 }
 ul:nth-of-type(2) > li {
@@ -29,6 +29,18 @@ nav > ul:last-of-type {
   width: 40%;
   justify-content: end;
   gap: 20px;
+}
+.input {
+  position: relative;
+}
+.searchSuggestion-track {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  width: 180px;
+  height: 300px;
+  background-color: white;
 }
 ul > li {
   list-style-type: none;

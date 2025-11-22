@@ -1,10 +1,27 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import AppContext from "./AppContext";
 import { Link } from "react-router-dom";
 import "./NavBar.css";
 import logo from "./logo.png";
+import { useRef } from "react";
 export default function NavBar() {
   const { isLogin, setIsLogin } = useContext(AppContext);
+  const inputRef = useRef();
+  const [searchValue, setSearchValue] = useState("");
+  const [searchSuggestion, setSearchSuggestion] = useState([]);
+  const handleChange = () => {
+    setSearchValue(inputRef.current.value);
+    fetch(
+      `http://localhost:3000/server/model/getSearchSuggestions.php?name=${encodeURIComponent(
+        inputRef.current.value
+      )}`
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        setSearchSuggestion(data);
+      })
+      .catch();
+  };
   const handleLogout = () => {
     setIsLogin(false);
     fetch("http://localhost:3000/server/logout.php", {
@@ -37,31 +54,56 @@ export default function NavBar() {
             </Link>
           </li>
           <li>
-            <Link>
+            <Link to="/womenProduct-page">
               <p>WOMEN'S</p>
             </Link>
           </li>
           <li>
-            <Link>
+            <Link to="/menProduct-page">
               <p>MEN'S</p>
             </Link>
           </li>
           <li>
-            <Link>
-              <p>SHOP</p>
+            <Link to="/kidProduct-page">
+              <p>KID'S</p>
             </Link>
           </li>
           <li>
-            <Link>
-              <p>PAGES</p>
+            <Link to="/accessoryProduct-page">
+              <p>ACCESSORIES</p>
+            </Link>
+          </li>
+          <li>
+            <Link to="/cosmeticProduct-page">
+              <p>COSMETIC</p>
             </Link>
           </li>
         </ul>
         <ul>
           <li>
             <Link>
-              <div>
-                <input type="text" />
+              <div className="input">
+                <input type="text" ref={inputRef} onChange={handleChange} />
+                <div>
+                  {searchValue != "" && (
+                    <div className="searchSuggestion-track">
+                      {searchSuggestion.length > 0 &&
+                        searchSuggestion.map((value, index) => {
+                          return (
+                            <div key={index} className="searchSuggestion-item">
+                              <img
+                                src={value.image_url}
+                                alt=""
+                                width={80}
+                                height={100}
+                              />
+                              <p>{value.name}</p>
+                            </div>
+                          );
+                        })}
+                    </div>
+                  )}
+                </div>
               </div>
             </Link>
           </li>

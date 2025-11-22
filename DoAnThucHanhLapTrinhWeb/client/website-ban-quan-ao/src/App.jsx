@@ -10,6 +10,7 @@ import GetWomenProducts from "./assets/components/GetWomenProducts";
 import GetMenProducts from "./assets/components/GetMenProducts";
 import GetKidProducts from "./assets/components/GetKidProducts";
 import GetAccessoriesProducts from "./assets/components/GetAccessoriesProducts";
+import ProductsPage from "./assets/components/ProductsPage";
 function App() {
   const [user, setUser] = useState("");
   const [isLogin, setIsLogin] = useState(false);
@@ -132,6 +133,32 @@ function App() {
           <Route
             path="/accessories-product"
             element={<Home component={<GetAccessoriesProducts />}></Home>}
+          />
+          <Route
+            path="/womenProduct-page"
+            element={
+              <ProductsPage component={<GetWomenProducts />}></ProductsPage>
+            }
+          />
+          <Route
+            path="/menProduct-page"
+            element={
+              <ProductsPage component={<GetMenProducts />}></ProductsPage>
+            }
+          />
+          <Route
+            path="/kidProduct-page"
+            element={
+              <ProductsPage component={<GetKidProducts />}></ProductsPage>
+            }
+          />
+          <Route
+            path="/accessoryProduct-page"
+            element={
+              <ProductsPage
+                component={<GetAccessoriesProducts />}
+              ></ProductsPage>
+            }
           />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
