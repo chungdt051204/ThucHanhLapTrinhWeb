@@ -12,7 +12,7 @@ export default function NavBar() {
   const handleChange = () => {
     setSearchValue(inputRef.current.value);
     fetch(
-      `http://localhost:3000/server/product/getSearchSuggestions.php?name=${encodeURIComponent(
+      `http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/product/getSearchSuggestions.php?name=${encodeURIComponent(
         inputRef.current.value
       )}`
     )
@@ -24,7 +24,7 @@ export default function NavBar() {
   };
   const handleLogout = () => {
     setIsLogin(false);
-    fetch("http://localhost:3000/server/user/logout.php", {
+    fetch("http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/user/logout.php", {
       method: "DELETE",
       credentials: "include",
     })
@@ -74,7 +74,7 @@ export default function NavBar() {
             </Link>
           </li>
           <li>
-            <Link to="/cosmeticProduct-page">
+            <Link to="/cosmeticsProduct-page">
               <p>COSMETIC</p>
             </Link>
           </li>

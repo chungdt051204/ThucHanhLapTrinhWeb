@@ -11,7 +11,7 @@ export default function Login() {
     const formData = new FormData();
     formData.append("email", email.current.value);
     formData.append("password", password.current.value);
-    fetch("http://localhost:3000/server/user/login.php", {
+    fetch("http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/user/login.php", {
       method: "POST",
       body: formData,
       credentials: "include",

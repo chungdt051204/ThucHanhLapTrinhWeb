@@ -10,6 +10,7 @@ import GetWomenProducts from "./assets/components/GetWomenProducts";
 import GetMenProducts from "./assets/components/GetMenProducts";
 import GetKidProducts from "./assets/components/GetKidProducts";
 import GetAccessoriesProducts from "./assets/components/GetAccessoriesProducts";
+import GetCosmeticsProducts from "./assets/components/GetCosmeticsProducts";
 import ProductsPage from "./assets/components/ProductsPage";
 function App() {
   const [user, setUser] = useState("");
@@ -20,8 +21,9 @@ function App() {
   const [menProducts, setMenProducts] = useState([]);
   const [kidProducts, setKidProducts] = useState([]);
   const [accessoriesProducts, setAccessoriesProducts] = useState([]);
+  const [cosmeticsProducts, setCosmeticsProducts] = useState([]);
   useEffect(() => {
-    fetch("http://localhost:3000/server/user/me.php", {
+    fetch("http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/user/me.php", {
       credentials: "include",
     })
       .then((res) => {
@@ -34,7 +36,7 @@ function App() {
       .catch();
   }, []);
   useEffect(() => {
-    fetch("http://localhost:3000/server/product/getCategories.php")
+    fetch("http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/product/getCategories.php")
       .then((res) => {
         return res.json();
       })
@@ -44,7 +46,7 @@ function App() {
       });
   }, []);
   useEffect(() => {
-    fetch("http://localhost:3000/server/product/getAllProducts.php")
+    fetch("http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/product/getAllProducts.php")
       .then((res) => {
         return res.json();
       })
@@ -53,7 +55,7 @@ function App() {
       });
   }, []);
   useEffect(() => {
-    fetch("http://localhost:3000/server/product/getWomenProducts.php")
+    fetch("http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/product/getWomenProducts.php")
       .then((res) => {
         return res.json();
       })
@@ -62,7 +64,7 @@ function App() {
       });
   }, []);
   useEffect(() => {
-    fetch("http://localhost:3000/server/product/getMenProducts.php")
+    fetch("http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/product/getMenProducts.php")
       .then((res) => {
         return res.json();
       })
@@ -71,7 +73,7 @@ function App() {
       });
   }, []);
   useEffect(() => {
-    fetch("http://localhost:3000/server/product/getKidProducts.php")
+    fetch("http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/product/getKidProducts.php")
       .then((res) => {
         return res.json();
       })
@@ -80,12 +82,21 @@ function App() {
       });
   }, []);
   useEffect(() => {
-    fetch("http://localhost:3000/server/product/getAccessoriesProducts.php")
+    fetch("http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/product/getAccessoriesProducts.php")
       .then((res) => {
         return res.json();
       })
       .then((data) => {
         setAccessoriesProducts(data);
+      });
+  }, []);
+  useEffect(() => {
+    fetch("http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/product/getCosmeticsProducts.php")
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        setCosmeticsProducts(data);
       });
   }, []);
   return (
@@ -101,6 +112,7 @@ function App() {
           menProducts,
           kidProducts,
           accessoriesProducts,
+          cosmeticsProducts,
         }}
       >
         <Routes>
@@ -125,6 +137,11 @@ function App() {
             element={<Home component={<GetAccessoriesProducts />}></Home>}
           />
           <Route
+            path="/cosmetics-product"
+            element={<Home component={<GetCosmeticsProducts />}></Home>}
+          />
+
+          <Route
             path="/womenProduct-page"
             element={
               <ProductsPage component={<GetWomenProducts />}></ProductsPage>
@@ -147,6 +164,14 @@ function App() {
             element={
               <ProductsPage
                 component={<GetAccessoriesProducts />}
+              ></ProductsPage>
+            }
+          />
+          <Route
+            path="/cosmeticsProduct-page"
+            element={
+              <ProductsPage
+                component={<GetCosmeticsProducts />}
               ></ProductsPage>
             }
           />
