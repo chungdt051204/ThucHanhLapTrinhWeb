@@ -24,10 +24,13 @@ export default function NavBar() {
   };
   const handleLogout = () => {
     setIsLogin(false);
-    fetch("http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/user/logout.php", {
-      method: "DELETE",
-      credentials: "include",
-    })
+    fetch(
+      "http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/user/logout.php",
+      {
+        method: "DELETE",
+        credentials: "include",
+      }
+    )
       .then((res) => {
         if (res.ok) return res.json();
         throw res;

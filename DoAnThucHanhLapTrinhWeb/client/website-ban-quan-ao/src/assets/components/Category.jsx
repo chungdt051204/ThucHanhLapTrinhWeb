@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
 import "./Category.css";
 export default function Category() {
   return (
@@ -14,7 +13,7 @@ export default function Category() {
                 hướng thời trang mới nhất từ trang phục hằng ngày, đầm dự tiệc,
                 đến phụ kiện tinh tế giúp bạn tự tin trong mọi khoảnh khắc.
               </p>
-              <Link className="shop">
+              <Link className="shop" to="/womenProduct-page">
                 <p>SHOP NOW</p>
               </Link>
             </div>
@@ -25,7 +24,7 @@ export default function Category() {
             <div className="ct2">
               <h2>Men’s fashion</h2>
               <p>10 items</p>
-              <Link className="shop">
+              <Link className="shop" to="/menProduct-page">
                 <p>SHOP NOW</p>
               </Link>
             </div>
@@ -34,7 +33,7 @@ export default function Category() {
             <div className="ct3">
               <h2>Kid’s fashion</h2>
               <p>10 items</p>
-              <Link className="shop">
+              <Link className="shop" to="/kidProduct-page">
                 <p className="shop">SHOP NOW</p>
               </Link>
             </div>
@@ -43,7 +42,7 @@ export default function Category() {
             <div className="ct4">
               <h2>Cosmetics</h2>
               <p>10 items</p>
-              <Link className="shop">
+              <Link className="shop" to="/cosmeticsProduct-page">
                 <p>SHOP NOW</p>
               </Link>
             </div>
@@ -52,7 +51,7 @@ export default function Category() {
             <div className="ct5">
               <h2>Accessories</h2>
               <p>10 items</p>
-              <Link className="shop">
+              <Link className="shop" to="/accessoryProduct-page">
                 <p>SHOP NOW</p>
               </Link>
             </div>
