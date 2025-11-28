@@ -28,7 +28,7 @@
   font-size: 22px;
   cursor: pointer;
 }
-
+/**/
 @keyframes modalPop {
   from { transform: translateY(-8px) scale(.98); opacity: 0; }
   to { transform: translateY(0) scale(1); opacity: 1; }

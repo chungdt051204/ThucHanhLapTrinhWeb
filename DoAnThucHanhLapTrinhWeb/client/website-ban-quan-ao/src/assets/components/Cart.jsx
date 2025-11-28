@@ -34,7 +34,6 @@ export default function Cart_page() {
         setOrderData(payload);
         setOpen(false);
         console.log("Order confirmed:", payload);
-        // TODO: call API or navigate to thank-you page
     }
 
     return (
