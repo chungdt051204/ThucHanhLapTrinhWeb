@@ -31,7 +31,7 @@ export default function Checkout({ items, total, onClose, onConfirm }) {
       <div className="sp-box address-box">
         <h3>📍 Địa Chỉ Nhận Hàng</h3>
         <div className="addr-info">
-          <strong>Duy nhìn Nhân sóc lọ</strong> | 069696969
+          <strong>Nhân sóc lọ Duy khoái</strong> | 069696969
           <div>Cao Lỗ, Quận 8, Trường Đại Học STU</div>
         </div>
         <button className="change-btn">Thay đổi</button>
