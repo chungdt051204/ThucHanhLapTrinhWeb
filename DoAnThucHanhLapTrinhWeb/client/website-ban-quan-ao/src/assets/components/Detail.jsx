@@ -1,25 +1,32 @@
 import Footer from "./Footer";
 import NavBar from "./NavBar";
-import product1 from "../../assets/product-1.jpg";
 import "./Detail.css";
+import { useSearchParams } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 export default function Detail() {
+  const [searchParams] = useSearchParams();
+  const id = searchParams.get("id");
+  const [product, setProduct] = useState("");
+  useEffect(() => {
+    fetch(`http://localhost:3000/server/product/getDetailProduct.php?id=${id}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setProduct(data);
+        console.log(data);
+      })
+      .catch();
+  }, [id]);
   return (
     <>
       <NavBar />
       <div className="product-container">
         <div className="product-image">
-          <img src={product1} alt="" />
+          <img src={product.image_url} alt="" />
         </div>
         <div className="product-details">
-          <h1 className="product-title">Buttons tweed blazer</h1>
-          <p>
-            <strong>Brand:</strong> C&M Made in Wang Materials | Item S-014
-          </p>
-          <div class="rating">★★★★★</div>( 138 reviews )
-          <p className="product-price">
-            $59.0 <span className="product-oldprice">$82.0</span>
-          </p>
+          <h1 className="product-title">{product.name}</h1>
+          <p className="product-price">{product.price}000 VND</p>
           <div className="add-cart">
             <div className="qty">
               <button>-</button>
@@ -30,27 +37,11 @@ export default function Detail() {
           </div>
           <div className="availability">
             <strong>Availability:</strong>
-            <input type="checkbox" name="" id="" /> In Stock
-          </div>
-          <div className="colors">
-            <strong>Available colors:</strong>
-            <span className="color-dot color-brown"></span>
-            <span className="color-dot color-red"></span>
-          </div>
-          <div className="sizes">
-            <strong>Available sizes:</strong>
-            <span>XS</span>
-            <span>S</span>
-            <span>M</span>
+            <p>{product.stock_quantity}</p>
           </div>
           <div className="description">
             <h3>Description</h3>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi
-              doloremque, dolores sapiente excepturi voluptas voluptatem
-              temporibus perspiciatis? Iusto sint voluptate necessitatibus sed!
-              Alias, provident dolore. Natus illum minus debitis. Veniam.
-            </p>
+            <p>{product.description}</p>
           </div>
         </div>
       </div>

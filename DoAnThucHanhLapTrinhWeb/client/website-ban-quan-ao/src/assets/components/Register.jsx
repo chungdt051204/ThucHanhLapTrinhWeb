@@ -60,10 +60,13 @@ export default function Register() {
       setPhoneNotValid("Số điện thoại hợp lệ phải có đủ 10 số");
       return;
     } else {
-      fetch("http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/user/register.php", {
-        method: "POST",
-        body: formData,
-      })
+      fetch(
+        "http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/user/register.php",
+        {
+          method: "POST",
+          body: formData,
+        }
+      )
         .then((res) => {
           if (res.ok) return res.json();
           throw res;

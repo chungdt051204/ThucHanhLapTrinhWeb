@@ -24,9 +24,12 @@ function App() {
   const [accessoriesProducts, setAccessoriesProducts] = useState([]);
   const [cosmeticsProducts, setCosmeticsProducts] = useState([]);
   useEffect(() => {
-    fetch("http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/user/me.php", {
-      credentials: "include",
-    })
+    fetch(
+      "http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/user/me.php",
+      {
+        credentials: "include",
+      }
+    )
       .then((res) => {
         return res.json();
       })
@@ -37,7 +40,9 @@ function App() {
       .catch();
   }, []);
   useEffect(() => {
-    fetch("http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/product/getCategories.php")
+    fetch(
+      "http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/product/getCategories.php"
+    )
       .then((res) => {
         return res.json();
       })
@@ -47,7 +52,9 @@ function App() {
       });
   }, []);
   useEffect(() => {
-    fetch("http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/product/getAllProducts.php")
+    fetch(
+      "http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/product/getAllProducts.php"
+    )
       .then((res) => {
         return res.json();
       })
@@ -56,7 +63,9 @@ function App() {
       });
   }, []);
   useEffect(() => {
-    fetch("http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/product/getWomenProducts.php")
+    fetch(
+      "http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/product/getWomenProducts.php"
+    )
       .then((res) => {
         return res.json();
       })
@@ -65,7 +74,9 @@ function App() {
       });
   }, []);
   useEffect(() => {
-    fetch("http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/product/getMenProducts.php")
+    fetch(
+      "http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/product/getMenProducts.php"
+    )
       .then((res) => {
         return res.json();
       })
@@ -74,7 +85,9 @@ function App() {
       });
   }, []);
   useEffect(() => {
-    fetch("http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/product/getKidProducts.php")
+    fetch(
+      "http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/product/getKidProducts.php"
+    )
       .then((res) => {
         return res.json();
       })
@@ -83,7 +96,9 @@ function App() {
       });
   }, []);
   useEffect(() => {
-    fetch("http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/product/getAccessoriesProducts.php")
+    fetch(
+      "http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/product/getAccessoriesProducts.php"
+    )
       .then((res) => {
         return res.json();
       })
@@ -92,7 +107,9 @@ function App() {
       });
   }, []);
   useEffect(() => {
-    fetch("http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/product/getCosmeticsProducts.php")
+    fetch(
+      "http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/product/getCosmeticsProducts.php"
+    )
       .then((res) => {
         return res.json();
       })
@@ -175,9 +192,7 @@ function App() {
           <Route
             path="/cosmeticsProduct-page"
             element={
-              <ProductsPage
-                component={<GetCosmeticsProducts />}
-              ></ProductsPage>
+              <ProductsPage component={<GetCosmeticsProducts />}></ProductsPage>
             }
           />
           <Route
@@ -188,7 +203,7 @@ function App() {
           />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/detail" element={<Detail />} />
+          <Route path="/product/detail" element={<Detail />} />
         </Routes>
       </AppContext.Provider>
     </>
