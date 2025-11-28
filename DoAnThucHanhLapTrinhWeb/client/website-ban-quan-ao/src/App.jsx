@@ -12,6 +12,7 @@ import GetKidProducts from "./assets/components/GetKidProducts";
 import GetAccessoriesProducts from "./assets/components/GetAccessoriesProducts";
 import GetCosmeticsProducts from "./assets/components/GetCosmeticsProducts";
 import ProductsPage from "./assets/components/ProductsPage";
+import Cart from "./assets/components/Cart";
 function App() {
   const [user, setUser] = useState("");
   const [isLogin, setIsLogin] = useState(false);
@@ -140,6 +141,10 @@ function App() {
             path="/cosmetics-product"
             element={<Home component={<GetCosmeticsProducts />}></Home>}
           />
+          <Route
+            path="/Cart"
+            element={<Cart component={<Cart />}></Cart>}
+          />
 
           <Route
             path="/womenProduct-page"
@@ -173,6 +178,12 @@ function App() {
               <ProductsPage
                 component={<GetCosmeticsProducts />}
               ></ProductsPage>
+            }
+          />
+          <Route
+            path="/Cart"
+            element={
+              <ProductsPage component={<Cart />}></ProductsPage>
             }
           />
           <Route path="/login" element={<Login />} />

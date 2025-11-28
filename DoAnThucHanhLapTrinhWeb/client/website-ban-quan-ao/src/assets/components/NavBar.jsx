@@ -124,7 +124,7 @@ export default function NavBar() {
             </Link>
           </li>
           <li>
-            <Link>
+            <Link to = "/Cart">
               <i className="fa-solid fa-cart-shopping"></i>
             </Link>
           </li>
