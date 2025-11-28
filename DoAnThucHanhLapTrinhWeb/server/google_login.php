@@ -1,7 +1,7 @@
 <?php
 //CẤU HÌNH CƠ SỞ DỮ LIỆU VÀ COMPOSER
 require_once("model/connect.php");
-require_once  ("vendor/autoload.php"); 
+require_once  ("../vendor/autoload.php"); 
 $conn = connectdb(); 
 //CẤU HÌNH GOOGLE
 $CLIENT_ID="479773514232-gn1q883tk2berunr0irpomrm96burot9.apps.googleusercontent.com"; 
@@ -54,10 +54,9 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
             $sql_insert = "INSERT INTO users (fullName, username, email, password, avatar) VALUES (?, ?, ?, ?, ?)";
             $stmt_insert = $conn->prepare($sql_insert);
             $stmt_insert->execute([$fullName, $username, $email, $placeholder_password, $avatar]);
-            $user_id = $conn->lastInsertId();
         }
         //Thiết lập Phiên (Session) ---
-        $_SESSION["user"] = ["user_id" => $user_id, "email" => $email, "loginTime" => time()];
+        $_SESSION["user"] = ["email" => $email, "loginTime" => time()];
         // TRẢ VỀ THÀNH CÔNG CUỐI CÙNG
         http_response_code(200);
         echo json_encode("Đăng nhập thành công"); 

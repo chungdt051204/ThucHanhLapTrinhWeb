@@ -43,4 +43,5 @@
             echo json_encode(["message" => "Email này đã tồn tại"]);
         }
     } 
+    $conn = null;
 ?>

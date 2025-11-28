@@ -10,27 +10,28 @@ export default function Login() {
   const password = useRef();
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (email.current.value === "" || password.current.value === "") {
+      setLoginNotValid("Email và mật khẩu không được bỏ trống");
+      return;
+    }
     const formData = new FormData();
     formData.append("email", email.current.value);
     formData.append("password", password.current.value);
-    fetch(
-      "http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/user/login.php",
-      {
-        method: "POST",
-        body: formData,
-        credentials: "include",
-      }
-    )
+    fetch("http://localhost:3000/server/user/login.php", {
+      method: "POST",
+      body: formData,
+      credentials: "include",
+    })
       .then((res) => {
         if (res.ok) return res.json();
         throw res;
       })
-      .then(({ message }) => {
+      .then((message) => {
         alert(message);
         navigate("/");
       })
-      .catch(() => {
-        setLoginNotValid("Sai thông tin đăng nhập.");
+      .catch((error) => {
+        setLoginNotValid("Sai thông tin đăng nhập.", error);
       });
   };
   return (
