@@ -67,7 +67,7 @@ function App() {
       });
   }, []);
   useEffect(() => {
-    fetch("http://localhost:3000/server/product/getProductsPage1.php")
+    fetch("http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/product/getProductsPage1.php")
       .then((res) => {
         if (res.ok) return res.json();
         throw res;
@@ -78,7 +78,7 @@ function App() {
       .catch();
   }, []);
   useEffect(() => {
-    fetch("http://localhost:3000/server/product/getProductsPage2.php")
+    fetch("http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/product/getProductsPage2.php")
       .then((res) => {
         if (res.ok) return res.json();
         throw res;
