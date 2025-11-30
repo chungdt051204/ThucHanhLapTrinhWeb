@@ -74,6 +74,7 @@
 .auth-button {
   width: 100%;
   padding: 12px;
+  margin-top: 10px;
   border: none;
   border-radius: 12px;
   background: linear-gradient(135deg, #0072ff, #00c6ff);
@@ -115,7 +116,7 @@
 
 .error-message {
   color: red;
-  font-size: 12px;
+  font-size: 14px;
 }
 
 .gender-group {

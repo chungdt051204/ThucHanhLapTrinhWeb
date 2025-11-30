@@ -5,7 +5,8 @@ import Login from "./assets/components/Login";
 import { useEffect, useState } from "react";
 import Detail from "./assets/components/Detail";
 import Register from "./assets/components/Register";
-import GetAllProducts from "./assets/components/GetAllProducts";
+import GetProductsPage1 from "./assets/components/GetProductsPage1";
+import GetProductsPage2 from "./assets/components/GetProductsPage2";
 import GetWomenProducts from "./assets/components/GetWomenProducts";
 import GetMenProducts from "./assets/components/GetMenProducts";
 import GetKidProducts from "./assets/components/GetKidProducts";
@@ -13,10 +14,13 @@ import GetAccessoriesProducts from "./assets/components/GetAccessoriesProducts";
 import GetCosmeticsProducts from "./assets/components/GetCosmeticsProducts";
 import ProductsPage from "./assets/components/ProductsPage";
 import Cart from "./assets/components/Cart";
+import PaginationButton from "./assets/components/PaginationButton";
 function App() {
   const [user, setUser] = useState("");
   const [isLogin, setIsLogin] = useState(false);
   const [products, setProducts] = useState([]);
+  const [productsPage1, setProductsPage1] = useState([]);
+  const [productsPage2, setProductsPage2] = useState([]);
   const [categories, setCategories] = useState([]);
   const [womenProducts, setWomenProducts] = useState([]);
   const [menProducts, setMenProducts] = useState([]);
@@ -61,6 +65,28 @@ function App() {
       .then((data) => {
         setProducts(data);
       });
+  }, []);
+  useEffect(() => {
+    fetch("http://localhost:3000/server/product/getProductsPage1.php")
+      .then((res) => {
+        if (res.ok) return res.json();
+        throw res;
+      })
+      .then((data) => {
+        setProductsPage1(data);
+      })
+      .catch();
+  }, []);
+  useEffect(() => {
+    fetch("http://localhost:3000/server/product/getProductsPage2.php")
+      .then((res) => {
+        if (res.ok) return res.json();
+        throw res;
+      })
+      .then((data) => {
+        setProductsPage2(data);
+      })
+      .catch();
   }, []);
   useEffect(() => {
     fetch(
@@ -125,6 +151,8 @@ function App() {
           isLogin,
           setIsLogin,
           products,
+          productsPage1,
+          productsPage2,
           categories,
           womenProducts,
           menProducts,
@@ -136,7 +164,21 @@ function App() {
         <Routes>
           <Route
             path="/"
-            element={<Home component={<GetAllProducts />}></Home>}
+            element={
+              <Home
+                component={<GetProductsPage1 />}
+                button={<PaginationButton />}
+              ></Home>
+            }
+          />
+          <Route
+            path="/page2"
+            element={
+              <Home
+                component={<GetProductsPage2 />}
+                button={<PaginationButton />}
+              ></Home>
+            }
           />
           <Route
             path="/women-product"
@@ -158,10 +200,7 @@ function App() {
             path="/cosmetics-product"
             element={<Home component={<GetCosmeticsProducts />}></Home>}
           />
-          <Route
-            path="/Cart"
-            element={<Cart component={<Cart />}></Cart>}
-          />
+          <Route path="/Cart" element={<Cart component={<Cart />}></Cart>} />
 
           <Route
             path="/womenProduct-page"
@@ -196,10 +235,8 @@ function App() {
             }
           />
           <Route
-            path="/Cart"
-            element={
-              <ProductsPage component={<Cart />}></ProductsPage>
-            }
+            path="/cart"
+            element={<ProductsPage component={<Cart />}></ProductsPage>}
           />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />

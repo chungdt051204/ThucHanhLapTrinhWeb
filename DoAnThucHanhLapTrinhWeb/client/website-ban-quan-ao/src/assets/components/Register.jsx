@@ -9,6 +9,7 @@ export default function Register() {
   const [passwordNotValid, setPasswordNotValid] = useState();
   const [verifyPasswordNotValid, setVerifyPasswordNotValid] = useState();
   const [phoneNotValid, setPhoneNotValid] = useState();
+  const [avatarNotValid, setAvatarNotValid] = useState();
   const fullName = useRef();
   const username = useRef();
   const email = useRef();
@@ -58,6 +59,9 @@ export default function Register() {
       return;
     } else if (phone.current.value.length < 10) {
       setPhoneNotValid("Số điện thoại hợp lệ phải có đủ 10 số");
+      return;
+    } else if (!avatar.current.files[0]) {
+      setAvatarNotValid("Bạn chưa chọn tệp");
       return;
     } else {
       fetch(
@@ -202,7 +206,10 @@ export default function Register() {
                 </label>
               </div>
             </div>
-            <input type="file" name="avatar" ref={avatar} />
+            <input type="file" name="avatar" ref={avatar} /> <br />
+            {avatarNotValid && (
+              <span className="error-message">{avatarNotValid}</span>
+            )}
             <button className="auth-button register ">Đăng ký</button>
           </form>
         </div>

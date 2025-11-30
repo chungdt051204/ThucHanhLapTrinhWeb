@@ -1,119 +1,83 @@
-import React, { useRef, useState } from "react";
+import { useContext, useEffect } from "react";
+import AppContext from "./AppContext";
+import React, { useState } from "react";
 import Footer from "./Footer";
 import NavBar from "./NavBar";
-import Checkout from "./Checkout";
 import "./Cart.css";
 
 export default function Cart_page() {
-  const dialogRef = useRef(null);
-  const [orderData, setOrderData] = useState(null);
-
-  const items = [
-    {
-      id: 1,
-      name: "Áo thun form rộng Unisex",
-      variant: "Màu: Đen · Size: L",
-      price: "120.000₫",
-      priceNumber: 120000,
-      qty: 1,
-      image: "https://down-vn.img.susercontent.com/file/sg-11134201-22110-iisjvfz8j8jv93"
-    }
-  ];
-
-  const totalNumber = items.reduce((s, it) => s + it.priceNumber * it.qty, 0);
-
-  function openCheckout() {
-    dialogRef.current.showModal();
-  }
-
-  function closeCheckout() {
-    dialogRef.current.close();
-  }
-
-  function handleConfirm(payload) {
-    setOrderData(payload);
-    closeCheckout();
-  }
-
+  const { user } = useContext(AppContext);
+  const [cartItems, setCartItems] = useState([]);
+  useEffect(() => {
+    fetch(`http://localhost:3000/server/cart/cart.php?user_id=${user.user_id}`)
+      .then((res) => {
+        if (res.ok) return res.json();
+        throw res;
+      })
+      .then((data) => {
+        setCartItems(data);
+      })
+      .catch();
+  }, [user.user_id]);
   return (
-    <>
+    <section className="cart">
       <NavBar />
-      <div className="cart-container">
-        <div className="cart-header">
-          <div className="cart-col product">Sản Phẩm</div>
-          <div className="cart-col price">Đơn Giá</div>
-          <div className="cart-col quantity">Số Lượng</div>
-          <div className="cart-col total">Số Tiền</div>
-          <div className="cart-col action">Thao Tác</div>
+      <table class="cart-table">
+        <thead>
+          <tr>
+            <th class="cart-col product">Sản Phẩm</th>
+            <th class="cart-col price">Đơn Giá</th>
+            <th class="cart-col quantity">Số Lượng</th>
+            <th class="cart-col total">Số Tiền</th>
+            <th class="cart-col action">Thao Tác</th>
+          </tr>
+        </thead>
+        <tbody>
+          {cartItems.length > 0 &&
+            cartItems.map((value, index) => {
+              return (
+                <tr key={index} class="cart-item">
+                  <td class="cart-product">
+                    <input type="checkbox" class="cart-checkbox" />
+                    <img src={value.image_url} class="cart-image" />
+                    <div class="cart-info">
+                      <h4 class="cart-name">{value.name}</h4>
+                    </div>
+                  </td>
+                  <td class="cart-price">{value.price}000 VND</td>
+
+                  <td class="cart-quantity">
+                    <button>-</button>
+                    <input type="text" defaultValue={value.quantity} />
+                    <button>+</button>
+                  </td>
+
+                  <td class="cart-total">{value.total}000 VND</td>
+
+                  <td class="cart-action">
+                    <button class="remove-btn">Xóa</button>
+                  </td>
+                </tr>
+              );
+            })}
+        </tbody>
+      </table>
+
+      <div className="cart-footer">
+        <div className="left">
+          <input type="checkbox" />
+          <span>Chọn tất cả</span>
+          <button className="delete-all">Xóa</button>
         </div>
 
-        {items.map((it) => (
-          <div className="cart-item" key={it.id}>
-            <div className="cart-product">
-              <input type="checkbox" className="cart-checkbox" />
-              <img src={it.image} className="cart-image" alt={it.name} />
-              <div className="cart-info">
-                <h4 className="cart-name">{it.name}</h4>
-                <p className="cart-variant">{it.variant}</p>
-              </div>
-            </div>
-
-            <div className="cart-price">{it.price}</div>
-
-            <div className="cart-quantity">
-              <button>-</button>
-              <input type="text" defaultValue={it.qty} />
-              <button>+</button>
-            </div>
-
-            <div className="cart-total">{it.price}</div>
-
-            <div className="cart-action">
-              <button className="remove-btn">Xóa</button>
-            </div>
-          </div>
-        ))}
-
-        <div className="cart-footer">
-          <div className="left">
-            <input type="checkbox" />
-            <span>Chọn tất cả</span>
-            <button className="delete-all">Xóa</button>
-          </div>
-
-          <div className="right">
-            <span className="total-label">
-              Tổng cộng ({items.length} sản phẩm):
-            </span>
-            <span className="total-price">
-              {totalNumber.toLocaleString()}₫
-            </span>
-            <button className="checkout-btn" onClick={openCheckout}>
-              Mua Hàng
-            </button>
-          </div>
+        <div className="right">
+          <span className="total-label">Tổng cộng sản phẩm:</span>
+          <span className="total-price">₫</span>
+          <button className="checkout-btn">Mua Hàng</button>
         </div>
       </div>
 
-      <dialog
-        ref={dialogRef}
-        className="checkout-dialog"
-        onCancel={(e) => {}}
-        onClick={(e) => {
-          if (e.target === dialogRef.current) dialogRef.current.close();
-        }}
-      >
-        <div className="dialog-inner">
-          <Checkout
-            items={items}
-            totalNumber={totalNumber}
-            onClose={closeCheckout}
-            onConfirm={handleConfirm}
-          />
-        </div>
-      </dialog>
-
       <Footer />
-    </>
+    </section>
   );
 }

@@ -5,15 +5,16 @@ import Category from "./Category";
 import NavBar from "./NavBar";
 import CategoryFilter from "./CategoryFilter";
 import Footer from "./Footer";
-export default function Home({ component }) {
+export default function Home({ component, button }) {
   const { user, isLogin } = useContext(AppContext);
   return (
     <>
       <NavBar />
-      {isLogin && <h2>Xin chào {user.email}</h2>}
+      {isLogin && <h2>Xin chào {user.fullName}</h2>}
       <Category />
       <CategoryFilter />
       {component}
+      {button}
       <Carousel />
       <Footer />
     </>

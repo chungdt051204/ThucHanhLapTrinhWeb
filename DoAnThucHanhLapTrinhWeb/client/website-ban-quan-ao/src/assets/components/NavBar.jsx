@@ -1,10 +1,11 @@
 import { useContext, useState } from "react";
 import AppContext from "./AppContext";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./NavBar.css";
 import logo from "./logo.png";
 import { useRef } from "react";
 export default function NavBar() {
+  const navigate = useNavigate();
   const { isLogin, setIsLogin } = useContext(AppContext);
   const inputRef = useRef();
   const [searchValue, setSearchValue] = useState("");
@@ -127,9 +128,12 @@ export default function NavBar() {
             </Link>
           </li>
           <li>
-            <Link to="/Cart">
-              <i className="fa-solid fa-cart-shopping"></i>
-            </Link>
+            <i
+              onClick={() => {
+                isLogin ? navigate("/cart") : alert("Bạn chưa đăng nhập");
+              }}
+              className="fa-solid fa-cart-shopping"
+            ></i>
           </li>
         </ul>
       </nav>

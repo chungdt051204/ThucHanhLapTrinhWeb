@@ -1,13 +1,17 @@
+import { useSearchParams } from "react-router-dom";
+import { useEffect, useRef, useState, useContext } from "react";
+import AppContext from "./AppContext";
 import Footer from "./Footer";
 import NavBar from "./NavBar";
 import "./Detail.css";
-import { useSearchParams } from "react-router-dom";
-import { useEffect, useState } from "react";
 
 export default function Detail() {
+  const { user, isLogin } = useContext(AppContext);
   const [searchParams] = useSearchParams();
   const id = searchParams.get("id");
   const [product, setProduct] = useState("");
+  const [quantity, setQuantity] = useState(1);
+  const quantityRef = useRef();
   useEffect(() => {
     fetch(`http://localhost:3000/server/product/getDetailProduct.php?id=${id}`)
       .then((res) => res.json())
@@ -17,6 +21,30 @@ export default function Detail() {
       })
       .catch();
   }, [id]);
+  const handleClick = (product) => {
+    if (!isLogin) {
+      alert("Bạn chưa đăng nhập");
+      return;
+    }
+    const formData = new FormData();
+    formData.append("user_id", user.user_id);
+    formData.append("product_id", id);
+    formData.append("product_name", product.name);
+    formData.append("product_image", product.image_url);
+    formData.append("product_price", product.price);
+    formData.append("quantity", quantityRef.current.value);
+    fetch("http://localhost:3000/server/cart/cart_add.php", {
+      method: "POST",
+      body: formData,
+    })
+      .then((res) => {
+        if (res.ok) return res.json();
+        throw res;
+      })
+      .then((data) => {
+        alert(data);
+      });
+  };
   return (
     <>
       <NavBar />
@@ -29,11 +57,18 @@ export default function Detail() {
           <p className="product-price">{product.price}000 VND</p>
           <div className="add-cart">
             <div className="qty">
-              <button>-</button>
-              <input type="text" value="1" readOnly />
-              <button>+</button>
+              <button
+                onClick={() => {
+                  if (quantity >= 1) setQuantity(quantity - 1);
+                  setQuantity(1);
+                }}
+              >
+                -
+              </button>
+              <input type="text" ref={quantityRef} value={quantity} readOnly />
+              <button onClick={() => setQuantity(quantity + 1)}>+</button>
             </div>
-            <button>ADD TO CART</button>
+            <button onClick={() => handleClick(product)}>ADD TO CART</button>
           </div>
           <div className="availability">
             <strong>Availability:</strong>
