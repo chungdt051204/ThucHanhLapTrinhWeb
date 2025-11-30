@@ -28,8 +28,7 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
             $fullName = $userInDatabase["fullName"];
             $username = $userInDatabase["username"];
             //Thiết lập Phiên (Session) ---
-            $_SESSION["user"] = ["user_id" => $user_id, "fullName" => $fullName, "username" => $username,
-            "email" => $email, "loginTime" => time()];
+            $_SESSION["user"] = ["user_id" => $user_id, "loginTime" => time()];
             http_response_code(200);
             echo json_encode("Đăng nhập thành công");
         }

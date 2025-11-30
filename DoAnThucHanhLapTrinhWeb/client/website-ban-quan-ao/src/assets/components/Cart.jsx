@@ -47,9 +47,7 @@ export default function Cart_page() {
                   <td class="cart-price">{value.price}000 VND</td>
 
                   <td class="cart-quantity">
-                    <button>-</button>
                     <input type="text" defaultValue={value.quantity} />
-                    <button>+</button>
                   </td>
 
                   <td class="cart-total">{value.total}000 VND</td>

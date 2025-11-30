@@ -130,7 +130,11 @@ export default function NavBar() {
           <li>
             <i
               onClick={() => {
-                isLogin ? navigate("/cart") : alert("Bạn chưa đăng nhập");
+                if (isLogin) navigate("/cart");
+                else {
+                  alert("Bạn chưa đăng nhập");
+                  navigate("/");
+                }
               }}
               className="fa-solid fa-cart-shopping"
             ></i>
