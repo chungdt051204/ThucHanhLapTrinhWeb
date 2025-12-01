@@ -13,7 +13,7 @@ export default function Detail() {
   const [quantity, setQuantity] = useState(1);
   const quantityRef = useRef();
   useEffect(() => {
-    fetch(`http://localhost:3000/server/product/getDetailProduct.php?id=${id}`)
+    fetch(`http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/product/getDetailProduct.php?id=${id}`)
       .then((res) => res.json())
       .then((data) => {
         setProduct(data);
@@ -33,7 +33,7 @@ export default function Detail() {
     formData.append("product_image", product.image_url);
     formData.append("product_price", product.price);
     formData.append("quantity", quantityRef.current.value);
-    fetch("http://localhost:3000/server/cart/cart_add.php", {
+    fetch("http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/cart/cart_add.php", {
       method: "POST",
       body: formData,
     })

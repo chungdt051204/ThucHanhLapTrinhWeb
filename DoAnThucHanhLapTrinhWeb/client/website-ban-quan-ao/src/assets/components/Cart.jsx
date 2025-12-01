@@ -9,7 +9,7 @@ export default function Cart_page() {
   const { user } = useContext(AppContext);
   const [cartItems, setCartItems] = useState([]);
   useEffect(() => {
-    fetch(`http://localhost:3000/server/cart/cart.php?user_id=${user.user_id}`)
+    fetch(`http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/cart/cart.php?user_id=${user.user_id}`)
       .then((res) => {
         if (res.ok) return res.json();
         throw res;
