@@ -4,9 +4,15 @@ import { Link, useNavigate } from "react-router-dom";
 import "./NavBar.css";
 import logo from "./logo.png";
 import { useRef } from "react";
+
 export default function NavBar() {
   const navigate = useNavigate();
-  const { isLogin, setIsLogin } = useContext(AppContext);
+  const { user, isLogin, setIsLogin } = useContext(AppContext);
+  const avatar =
+    user.avatar && user.avatar.includes("https")
+      ? user.avatar
+      : `http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/images/${user.avatar}`;
+
   const inputRef = useRef();
   const [searchValue, setSearchValue] = useState("");
   const [searchSuggestion, setSearchSuggestion] = useState([]);
@@ -113,9 +119,12 @@ export default function NavBar() {
           </li>
           <li>
             {isLogin ? (
-              <Link>
-                <p onClick={handleLogout}>LOGOUT</p>
-              </Link>
+              <div style={{ display: "flex" }}>
+                <img src={avatar} alt="" width={50} height={50} />
+                <Link>
+                  <p onClick={handleLogout}>LOGOUT</p>
+                </Link>
+              </div>
             ) : (
               <Link to="/login">
                 <p>LOGIN</p>

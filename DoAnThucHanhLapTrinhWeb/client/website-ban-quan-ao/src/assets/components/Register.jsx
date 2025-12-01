@@ -79,10 +79,9 @@ export default function Register() {
           alert(data);
           navigate("/login");
         })
-        .catch((error) => {
-          if (error.status == 400) {
-            setEmailNotValid("Email này đã tồn tại");
-          }
+        .catch(async (error) => {
+          const { message } = await error.json();
+          setAvatarNotValid(message);
         });
     }
   };

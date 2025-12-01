@@ -21,7 +21,13 @@
         $phone = $_POST["phone"] ?? "";
         $gender = $_POST["gender"] ?? "";
         $isGender = $gender === "nam" ? 1 : 0;
+        $Types = ["jpg", "png"];
         $avatar = $_FILES["avatar"]["name"] ?? "";
+        // $ext = pathinfo($avatar, PATHINFO_EXTENSION);
+        // if(!in_array($ext, $Types)){
+        //     http_response_code(500);
+        //     echo json_encode(["message" => "Định dạng file không hợp lệ"]);
+        // }
         //Lưu file về thư mục images của server
         $fileTemp = $_FILES["avatar"]["tmp_name"];
         $fileSave = "../images/$avatar";
