@@ -1,10 +1,3 @@
-* {
-  font-family: "Inter", Arial, sans-serif;
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
 .userInfo-section {
   background: #f5f6fa;
   min-height: 100vh;
@@ -44,14 +37,14 @@
   object-fit: cover;
   margin: 0 auto 24px auto;
   border: 4px solid #f0f0f0;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
 }
 
-.info-group {
+.userInfo-container .info-group {
   margin-bottom: 18px;
 }
 
-.info-group label {
+.userInfo-container.info-group label {
   display: block;
   font-size: 14px;
   color: #555;
@@ -82,7 +75,7 @@
 }
 
 .update-btn:hover {
-  background: #6BB5FF;
+  background: #6bb5ff;
 }
 
 .update-panel {
@@ -91,7 +84,7 @@
   background: #fafafa;
   border-radius: 16px;
   border: 1px solid #eee;
-  box-shadow: 0px 4px 20px rgba(0,0,0,0.05);
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.05);
 }
 
 .update-panel h3 {
@@ -121,7 +114,7 @@
 .update-panel input[type="password"]:focus {
   border-color: #111;
   outline: none;
-  box-shadow: 0 0 0 4px rgba(0,0,0,0.08);
+  box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.08);
 }
 
 .update-panel input[type="file"] {
@@ -136,7 +129,7 @@
   display: block;
 }
 input[type="file"] {
-    margin-left: 0px;
+  margin-left: 0px;
 }
 
 .save-btn {
@@ -153,5 +146,5 @@ input[type="file"] {
 }
 
 .save-btn:hover {
-  background: #6BB5FF;
+  background: #6bb5ff;
 }

@@ -16,6 +16,7 @@ export default function NavBar() {
   const inputRef = useRef();
   const [searchValue, setSearchValue] = useState("");
   const [searchSuggestion, setSearchSuggestion] = useState([]);
+  const [count, setCount] = useState(0);
   const handleChange = () => {
     setSearchValue(inputRef.current.value);
     fetch(
@@ -119,19 +120,32 @@ export default function NavBar() {
           </li>
           <li>
             {isLogin ? (
-              <div style={{ display: "flex" }}>
-                <Link to="/user-info">
+              <div className="user-dropdown">
+                <div className="user-dropdown-item">
                   <img
+                    onClick={() => setCount(count + 1)}
                     src={avatar}
                     alt="avatar"
                     width={50}
                     height={50}
                     style={{ cursor: "pointer", borderRadius: "50%" }}
                   />
-                </Link>
-                <Link>
-                  <p onClick={handleLogout}>LOGOUT</p>
-                </Link>
+                  {count % 2 == 0 ? (
+                    <div>
+                      <i class="fa-solid fa-angle-up"></i>
+                    </div>
+                  ) : (
+                    <i class="fa-solid fa-angle-down"></i>
+                  )}
+                </div>
+                {count % 2 != 0 && (
+                  <div className="user-dropdown-menu">
+                    <Link to="/user-info">
+                      <p>USER INFO</p>
+                    </Link>
+                    <p onClick={handleLogout}>LOGOUT</p>
+                  </div>
+                )}
               </div>
             ) : (
               <Link to="/login">
