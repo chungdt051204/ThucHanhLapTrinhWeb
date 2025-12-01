@@ -14,9 +14,10 @@ import GetAccessoriesProducts from "./assets/components/GetAccessoriesProducts";
 import GetCosmeticsProducts from "./assets/components/GetCosmeticsProducts";
 import ProductsPage from "./assets/components/ProductsPage";
 import Cart from "./assets/components/Cart";
+import UserInfo from "./assets/components/UserInfo";
 import PaginationButton from "./assets/components/PaginationButton";
 function App() {
-  const [user, setUser] = useState("");
+  const [user, setUser] = useState({});
   const [isLogin, setIsLogin] = useState(false);
   const [products, setProducts] = useState([]);
   const [productsPage1, setProductsPage1] = useState([]);
@@ -148,6 +149,7 @@ function App() {
       <AppContext.Provider
         value={{
           user,
+          setUser,
           isLogin,
           setIsLogin,
           products,
@@ -201,6 +203,7 @@ function App() {
             element={<Home component={<GetCosmeticsProducts />}></Home>}
           />
           <Route path="/Cart" element={<Cart component={<Cart />}></Cart>} />
+          <Route path="/user-info" element={<UserInfo />} />
 
           <Route
             path="/womenProduct-page"

@@ -120,7 +120,15 @@ export default function NavBar() {
           <li>
             {isLogin ? (
               <div style={{ display: "flex" }}>
-                <img src={avatar} alt="" width={50} height={50} />
+                <Link to="/user-info">
+                  <img
+                    src={avatar}
+                    alt="avatar"
+                    width={50}
+                    height={50}
+                    style={{ cursor: "pointer", borderRadius: "50%" }}
+                  />
+                </Link>
                 <Link>
                   <p onClick={handleLogout}>LOGOUT</p>
                 </Link>
