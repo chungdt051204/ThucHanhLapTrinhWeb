@@ -56,7 +56,7 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
             $stmt_insert->execute([$fullName, $username, $email, $placeholder_password, $avatar]);
         }
         //Thiết lập Phiên (Session) ---
-        $_SESSION["user"] = ["email" => $email, "loginTime" => time()];
+        $_SESSION["user"] = ["user_id" => $user_id, "loginTime" => time()];
         // TRẢ VỀ THÀNH CÔNG CUỐI CÙNG
         http_response_code(200);
         echo json_encode("Đăng nhập thành công"); 
