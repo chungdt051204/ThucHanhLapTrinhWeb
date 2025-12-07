@@ -2,7 +2,7 @@ import { useContext, useEffect } from "react";
 import AppContext from "./AppContext";
 import React, { useState } from "react";
 import Footer from "./Footer";
-import NavBar from "./NavBar";
+import UserNavbar from "./UserNavbar";
 import "./Cart.css";
 
 export default function Cart_page() {
@@ -21,7 +21,7 @@ export default function Cart_page() {
   }, [user.user_id]);
   return (
     <section className="cart">
-      <NavBar />
+      <UserNavBar />
       <table class="cart-table">
         <thead>
           <tr>

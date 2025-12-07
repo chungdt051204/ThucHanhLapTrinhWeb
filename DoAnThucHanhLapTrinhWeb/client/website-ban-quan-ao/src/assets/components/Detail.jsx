@@ -2,7 +2,7 @@ import { useSearchParams } from "react-router-dom";
 import { useEffect, useRef, useState, useContext } from "react";
 import AppContext from "./AppContext";
 import Footer from "./Footer";
-import NavBar from "./NavBar";
+import UserNavbar from "./UserNavbar";
 import "./Detail.css";
 
 export default function Detail() {
@@ -47,7 +47,7 @@ export default function Detail() {
   };
   return (
     <>
-      <NavBar />
+      <UserNavBar />
       <div className="product-container">
         <div className="product-image">
           <img src={product.image_url} alt="" />

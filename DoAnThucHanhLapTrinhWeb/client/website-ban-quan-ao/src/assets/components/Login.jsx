@@ -1,9 +1,12 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useRef, useState } from "react";
 import GoogleLoginButton from "./GoogleLoginButton";
+import { useContext } from "react";
+import AppContext from "./AppContext";
 import "./Auth.css";
 
 export default function Login() {
+  const {setIsLogin} = useContext(AppContext);
   const navigate = useNavigate();
   const [loginNotValid, setLoginNotValid] = useState("");
   const email = useRef();
@@ -26,9 +29,13 @@ export default function Login() {
         if (res.ok) return res.json();
         throw res;
       })
-      .then((message) => {
+      .then(({ message, user }) => {
         alert(message);
-        navigate("/");
+        setIsLogin(true);
+        if (user.role === "admin")
+          navigate("/admin");
+        else
+          navigate("/");
       })
       .catch((error) => {
         setLoginNotValid("Sai thông tin đăng nhập.", error);

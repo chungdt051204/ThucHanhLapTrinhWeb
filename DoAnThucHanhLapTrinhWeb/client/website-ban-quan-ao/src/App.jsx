@@ -1,6 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import AppContext from "./assets/components/AppContext";
 import Home from "./assets/components/Home";
+import HomeAdmin from "./assets/components/HomeAdmin";
 import Login from "./assets/components/Login";
 import { useEffect, useState } from "react";
 import Detail from "./assets/components/Detail";
@@ -15,6 +16,7 @@ import GetCosmeticsProducts from "./assets/components/GetCosmeticsProducts";
 import ProductsPage from "./assets/components/ProductsPage";
 import Cart from "./assets/components/Cart";
 import UserInfo from "./assets/components/UserInfo";
+import QuanLyLoai from "./assets/components/QuanLyLoai";
 import PaginationButton from "./assets/components/PaginationButton";
 function App() {
   const [user, setUser] = useState({});
@@ -180,6 +182,22 @@ function App() {
                 component={<GetProductsPage2 />}
                 button={<PaginationButton />}
               ></Home>
+            }
+          />
+          <Route
+            path="/admin"
+            element={
+              <HomeAdmin
+
+              ></HomeAdmin>
+            }
+          />
+          <Route
+            path="/admin/category"
+            element={
+              <QuanLyLoai
+
+              ></QuanLyLoai>
             }
           />
           <Route

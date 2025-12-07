@@ -16,7 +16,7 @@ if ($_SERVER["REQUEST_METHOD"] === "OPTIONS"){
 if($_SERVER["REQUEST_METHOD"] === "POST"){
     if(!isset($_SESSION))
         session_start();
-    $email = $_POST["email"] ?? "gà";
+    $email = $_POST["email"] ?? "";
     $password = $_POST["password"] ?? "";
     if($email !== "" && $password !== ""){
         $sql = "SELECT * FROM users WHERE email = ? AND password = ?";
@@ -30,7 +30,10 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
             //Thiết lập Phiên (Session) ---
             $_SESSION["user"] = ["user_id" => $user_id, "loginTime" => time()];
             http_response_code(200);
-            echo json_encode("Đăng nhập thành công");
+            echo json_encode([
+                "message" => "Đăng nhập thành công",
+                "user" => $userInDatabase 
+            ]);
         }
         else{
             http_response_code(401);

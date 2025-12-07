@@ -2,20 +2,15 @@ import { useContext } from "react";
 import AppContext from "./AppContext";
 import Carousel from "./Carousel";
 import Category from "./Category";
-import UserNavbar from "./UserNavbar";
+import AdminNavbar from "./AdminNavbar";
 import CategoryFilter from "./CategoryFilter";
 import Footer from "./Footer";
 export default function Home({ component, button }) {
   const { user, isLogin } = useContext(AppContext);
   return (
     <>
-      <UserNavbar/>
-      {isLogin && <h2>Xin chào {user.fullName}</h2>}
-      <Category />
-      <CategoryFilter />
-      {component}
-      {button}
-      <Carousel />
+      <AdminNavbar />
+        trang daskboard
       <Footer />
     </>
   );
