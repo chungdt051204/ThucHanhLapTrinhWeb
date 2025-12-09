@@ -3,7 +3,7 @@
     header("Access-Control-Allow-Credentials: true"); 
     require_once("../model/connect.php");
     $conn = connectdb();
-    $sql = "SELECT * FROM products LIMIT 25,40";
+    $sql = "SELECT * FROM products LIMIT 21,40";
     $stmt = $conn->prepare($sql);
     $stmt->execute();
     $products = $stmt->fetchAll(PDO::FETCH_ASSOC);

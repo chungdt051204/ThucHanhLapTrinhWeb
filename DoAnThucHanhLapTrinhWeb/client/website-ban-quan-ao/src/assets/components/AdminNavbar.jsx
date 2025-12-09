@@ -45,6 +45,7 @@ export default function NavBar() {
       })
       .then(({ message }) => {
         alert(message);
+        navigate("/");
       })
       .catch();
   };
