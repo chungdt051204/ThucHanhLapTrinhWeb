@@ -5,16 +5,21 @@ import Category from "./Category";
 import UserNavbar from "./UserNavbar";
 import CategoryFilter from "./CategoryFilter";
 import Footer from "./Footer";
-export default function Home({ component, button }) {
+import GetProductWithQueryString from "./GetProductsWithQueryString";
+import { useSearchParams } from "react-router-dom";
+import PaginationButton from "./PaginationButton";
+export default function Home({ component }) {
+  const [searchParams] = useSearchParams();
+  const id = searchParams.get("category_id");
   const { user, isLogin } = useContext(AppContext);
   return (
     <>
-      <UserNavbar/>
+      <UserNavbar />
       {isLogin && <h2>Xin chào {user.fullName}</h2>}
       <Category />
       <CategoryFilter />
       {component}
-      {button}
+      {id === null && <PaginationButton />}
       <Carousel />
       <Footer />
     </>

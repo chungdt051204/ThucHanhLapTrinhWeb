@@ -2,7 +2,7 @@ import { useSearchParams } from "react-router-dom";
 import { useEffect, useRef, useState, useContext } from "react";
 import AppContext from "./AppContext";
 import Footer from "./Footer";
-import UserNavbar from "./UserNavbar";
+import UserNavBar from "./UserNavbar";
 import "./Detail.css";
 
 export default function Detail() {
@@ -13,7 +13,9 @@ export default function Detail() {
   const [quantity, setQuantity] = useState(1);
   const quantityRef = useRef();
   useEffect(() => {
-    fetch(`http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/product/getDetailProduct.php?id=${id}`)
+    fetch(
+      `http://localhost:3000/server/product/getProducts.php?product_id=${id}`
+    )
       .then((res) => res.json())
       .then((data) => {
         setProduct(data);
@@ -33,10 +35,13 @@ export default function Detail() {
     formData.append("product_image", product.image_url);
     formData.append("product_price", product.price);
     formData.append("quantity", quantityRef.current.value);
-    fetch("http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/cart/cart_add.php", {
-      method: "POST",
-      body: formData,
-    })
+    fetch(
+      "http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/cart/cart_add.php",
+      {
+        method: "POST",
+        body: formData,
+      }
+    )
       .then((res) => {
         if (res.ok) return res.json();
         throw res;

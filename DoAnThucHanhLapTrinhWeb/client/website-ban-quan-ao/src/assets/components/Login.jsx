@@ -6,7 +6,7 @@ import AppContext from "./AppContext";
 import "./Auth.css";
 
 export default function Login() {
-  const {setIsLogin} = useContext(AppContext);
+  const { setIsLogin, setUser } = useContext(AppContext);
   const navigate = useNavigate();
   const [loginNotValid, setLoginNotValid] = useState("");
   const email = useRef();
@@ -20,22 +20,23 @@ export default function Login() {
     const formData = new FormData();
     formData.append("email", email.current.value);
     formData.append("password", password.current.value);
-    fetch("http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/user/login.php", {
-      method: "POST",
-      body: formData,
-      credentials: "include",
-    })
+    fetch(
+      "http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/user/login.php",
+      {
+        method: "POST",
+        body: formData,
+        credentials: "include",
+      }
+    )
       .then((res) => {
         if (res.ok) return res.json();
         throw res;
       })
       .then(({ message, user }) => {
+        setUser(user);
         alert(message);
         setIsLogin(true);
-        if (user.role === "admin")
-          navigate("/admin");
-        else
-          navigate("/");
+        navigate(user.role === "admin" ? "/admin" : "/");
       })
       .catch((error) => {
         setLoginNotValid("Sai thông tin đăng nhập.", error);

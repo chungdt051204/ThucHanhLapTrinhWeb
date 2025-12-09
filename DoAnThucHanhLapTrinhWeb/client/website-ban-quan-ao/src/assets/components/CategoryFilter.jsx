@@ -1,6 +1,9 @@
 import { Link } from "react-router-dom";
+import { useContext } from "react";
+import AppContext from "./AppContext";
 import "./CategoryFilter.css";
 export default function CategoryFilter() {
+  const { categories } = useContext(AppContext);
   return (
     <>
       <section class="new-product-section">
@@ -15,7 +18,17 @@ export default function CategoryFilter() {
                 <p>All</p>
               </Link>
             </li>
-            <li>
+            {categories.length > 0 &&
+              categories.map((value, index) => {
+                return (
+                  <li key={index}>
+                    <Link to={`/?category_id=${value.category_id}`}>
+                      <p>{value.category_name}</p>
+                    </Link>
+                  </li>
+                );
+              })}
+            {/* <li>
               <Link to="/women-product">
                 <p>Women's</p>
               </Link>
@@ -39,7 +52,7 @@ export default function CategoryFilter() {
               <Link to="/cosmetics-product">
                 <p>Cosmetics</p>
               </Link>
-            </li>
+            </li> */}
           </ul>
         </div>
       </section>
