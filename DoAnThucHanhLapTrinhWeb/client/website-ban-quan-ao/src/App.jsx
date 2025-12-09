@@ -10,6 +10,7 @@ import GetProductsPage2 from "./assets/components/GetProductsPage2";
 import Cart from "./assets/components/Cart";
 import UserInfo from "./assets/components/UserInfo";
 import QuanLyLoai from "./assets/components/QuanLyLoai";
+import QuanLyNguoiDung from "./assets/components/QuanLyNguoiDung";
 import GetProductsWithQueryString from "./assets/components/GetProductsWithQueryString";
 function App() {
   const [user, setUser] = useState({});
@@ -93,6 +94,7 @@ function App() {
           />
           <Route path="/admin" element={<HomeAdmin></HomeAdmin>} />
           <Route path="/admin/category" element={<QuanLyLoai></QuanLyLoai>} />
+          <Route path="/admin/user" element={<QuanLyNguoiDung></QuanLyNguoiDung>} />
           <Route path="/Cart" element={<Cart component={<Cart />}></Cart>} />
           <Route path="/user-info" element={<UserInfo />} />
           <Route path="/login" element={<Login />} />

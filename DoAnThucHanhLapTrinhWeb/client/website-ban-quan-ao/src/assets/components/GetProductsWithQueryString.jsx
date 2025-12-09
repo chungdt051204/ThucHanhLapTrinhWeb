@@ -9,7 +9,7 @@ export default function GetProductsWithQueryString() {
   const [productsWithCategory_Id, setProductsWithCategory_Id] = useState([]);
   useEffect(() => {
     fetch(
-      `http://localhost:3000/server/product/getProducts.php?category_id=${id}`
+      `http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/product/getProducts.php?category_id=${id}`
     )
       .then((res) => {
         if (res.ok) return res.json();

@@ -76,7 +76,7 @@ export default function NavBar() {
             </Link>
           </li>
           <li>
-            <Link to="/kidProduct-page">
+            <Link to="/admin/user">
               <p>QUẢN LÝ NGƯỜI DÙNG</p>
             </Link>
           </li>

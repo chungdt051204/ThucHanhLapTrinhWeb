@@ -13,7 +13,7 @@ export default function QuanLyLoai() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    fetch("http://localhost:3000/server/admin/quanLyLoai.php", {
+    fetch("http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/admin/quanLyLoai.php", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -36,7 +36,7 @@ export default function QuanLyLoai() {
   };
   const handleDelete = (id) => {
     fetch(
-      `http://localhost:3000/server/admin/quanLyLoai.php?category_id=${id}`,
+      `http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/admin/quanLyLoai.php?category_id=${id}`,
       {
         method: "DELETE",
       }
@@ -64,7 +64,7 @@ export default function QuanLyLoai() {
   const handleUpdate = (e) => {
     e.preventDefault();
     fetch(
-      `http://localhost:3000/server/admin/quanLyLoai.php?category_id=${editId.current}`,
+      `http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/admin/quanLyLoai.php?category_id=${editId.current}`,
       {
         method: "PUT",
         headers: {
