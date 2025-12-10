@@ -1,213 +1,209 @@
 import AdminNavBar from "./AdminNavBar";
 import Footer from "./Footer";
 import { useEffect, useRef, useState } from "react";
+
 export default function QuanLyNguoiDung() {
-  const [refresh, setRefresh] = useState(0); // State dùng để kích hoạt tải lại dữ liệu khi giá trị thay đổi.
-  const [users, setUsers] = useState([]); // State lưu trữ danh sách tất cả người dùng (users).
-  const [usersWithRole, setUsersWithRole] = useState([]); // State lưu trữ danh sách người dùng đã được lọc theo vai trò
-  const [roleSelected, setRoleSelected] = useState(""); // State lưu trữ giá trị vai trò đang được chọn/lọc.
-  const roleSelectedRef = useRef(); // Tham chiếu đến phần tử DOM để lấy giá trị vai trò được chọn
+  const [refresh, setRefresh] = useState(0);
+  const [users, setUsers] = useState([]);
+  const [roleSelected, setRoleSelected] = useState("");
+  const roleSelectedRef = useRef();
+
+  const API_URL =
+    "http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/admin/quanLyNguoiDung.php";
+
+  // Load users (thêm anti-cache param để tránh caching)
   useEffect(() => {
-    fetch("http://localhost:3000/users")
+    let url = API_URL + "?_=" + Date.now();
+    if (roleSelected) url += `&role=${roleSelected}`;
+
+    fetch(url)
       .then((res) => {
-        if (res.ok) return res.json();
-        throw res;
+        if (!res.ok) throw res;
+        return res.json();
       })
-      .then((data) => {
-        setUsers(data);
-      })
-      .catch();
-  }, [refresh]);
+      .then((data) => setUsers(data))
+      .catch(async (err) => {
+        try {
+          const errBody = await err.json();
+          console.error("GET error body:", errBody);
+        } catch (e) {
+          console.error("GET error:", err);
+        }
+        setUsers([]);
+      });
+  }, [refresh, roleSelected]);
+
   const handleRoleSelected = () => {
-    if (roleSelectedRef.current.value != "") {
-      setRoleSelected(roleSelectedRef.current.value);
-      fetch(
-        `http://localhost:3000/users/role?role=${roleSelectedRef.current.value}`
-      )
-        .then((res) => {
-          if (res.ok) return res.json();
-          throw res;
-        })
-        .then((data) => {
-          console.log(data);
-          setUsersWithRole(data);
-          setRefresh((prev) => prev + 1);
-        })
-        .catch();
-    } else {
-      setRoleSelected("");
-    }
+    setRoleSelected(roleSelectedRef.current.value);
   };
+
+  // Cập nhật trạng thái active <-> inactive
   const handleSetStatusUser = (user) => {
-    //Xác định trạng thái mới: Đảo ngược trạng thái hiện tại (active <-> banned)
-    const status = user.status === "active" ? "banned" : "active";
-    //Gửi yêu cầu PUT để cập nhật trạng thái người dùng
-    fetch(`http://localhost:3000/admin/user/${user._id}`, {
+    if (user.role === "admin") {
+      alert("Không thể thay đổi trạng thái của Admin.");
+      return;
+    }
+
+    const newStatus = user.status === "active" ? "inactive" : "active";
+    const confirmMsg =
+      newStatus === "inactive"
+        ? `Bạn có chắc muốn vô hiệu hóa người dùng ${user.username}?`
+        : `Bạn có chắc muốn kích hoạt người dùng ${user.username}?`;
+
+    if (!window.confirm(confirmMsg)) return;
+
+    // Gửi cả query string và body để chắc chắn PHP nhận được
+    fetch(`${API_URL}?user_id=${encodeURIComponent(user.user_id ?? user._id)}`, {
       method: "PUT",
-      headers: {
-        "Content-Type": "application/json", //Báo hiệu dữ liệu gửi đi là JSON
-      },
-      body: JSON.stringify({ status: status }), //Gửi trạng thái mới trong body
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        user_id: user.user_id ?? user._id,
+        status: newStatus,
+      }),
     })
       .then((res) => {
-        if (res.ok) return res.json(); // Nếu status 2xx, parse JSON
-        throw res; // Nếu lỗi (4xx, 5xx), ném Response object
+        if (!res.ok) throw res;
+        return res.json();
       })
-      .then(({ message }) => {
-        //Xử lý Thành công
-        console.log(message); // Log thông báo thành công
-        setRefresh((prev) => prev + 1); // Kích hoạt tải lại dữ liệu danh sách
+      .then((json) => {
+        alert(json.message || "Cập nhật thành công");
+        // cập nhật nhanh UI
+        setUsers((prev) =>
+          prev.map((u) =>
+            (u.user_id ?? u._id) === (user.user_id ?? user._id)
+              ? { ...u, status: newStatus }
+              : u
+          )
+        );
+        setRefresh((p) => p + 1);
       })
       .catch(async (err) => {
-        // 4. Xử lý Lỗi
-        const { message } = await err.json(); //Lấy thông báo lỗi chi tiết từ body response
-        console.log(message); // Hiển thị thông báo lỗi
+        try {
+          const errBody = await err.json();
+          alert("Lỗi: " + (errBody.message || JSON.stringify(errBody)));
+        } catch {
+          alert("Lỗi khi cập nhật trạng thái (check console).");
+        }
       });
   };
-  const handleDelete = (id) => {
-    //Gửi yêu cầu DELETE đến API, sử dụng ID người dùng trong URL path
-    fetch(`http://localhost:3000/admin/user/${id}`, {
+
+  // Xóa user
+  const handleDelete = (user) => {
+    const id = user.user_id ?? user._id;
+    if (!window.confirm(`Bạn có chắc muốn xóa người dùng ${user.username}?`)) return;
+
+    fetch(`${API_URL}?user_id=${encodeURIComponent(id)}`, {
       method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ user_id: id }),
     })
       .then((res) => {
-        // Kiểm tra Response: Nếu thành công (status 2xx), parse JSON
-        if (res.ok) return res.json();
-        // Nếu lỗi (status 4xx, 5xx), ném Response object để xử lý lỗi
-        throw res;
+        if (!res.ok) throw res;
+        return res.json();
       })
-      .then(({ message }) => {
-        //  Xử lý thành công: Hiển thị thông báo
-        alert(message);
-        // Kích hoạt tải lại dữ liệu danh sách người dùng
-        setRefresh((prev) => prev + 1);
+      .then((json) => {
+        alert(json.message || "Xóa thành công");
+        setUsers((prev) => prev.filter((u) => (u.user_id ?? u._id) !== id));
+        setRefresh((p) => p + 1);
       })
       .catch(async (err) => {
-        //Xử lý Lỗi: Lấy thông báo lỗi chi tiết từ body của Response object
-        const { message } = await err.json();
-        alert(message); // Hiển thị thông báo lỗi
+        try {
+          const errBody = await err.json();
+          alert("Lỗi: " + (errBody.message || JSON.stringify(errBody)));
+        } catch {
+          alert("Lỗi khi xóa (check console).");
+        }
       });
   };
+
   return (
     <>
       <AdminNavBar />
-      <section className="user-management" style={{ margin: "50px" }}>
-        <select
-          onChange={handleRoleSelected}
-          ref={roleSelectedRef}
-          className="role-select"
-          style={{ marginBottom: "20px" }}
-        >
-          <option value="">Chọn vai trò</option>
-          <option value="admin">Admin</option>
-          <option value="user">User</option>
-        </select>
-        <div className="table-responsive">
-          <table className="users-table">
-            <thead>
-              <tr>
-                <th className="table-header">Username</th>
-                <th className="table-header">Email</th>
-                <th className="table-header">Vai trò</th>
-                <th className="table-header">Trạng thái</th>
-                <th className="table-header action-column">Hành động</th>
-              </tr>
-            </thead>
-            <tbody>
-              {!roleSelected && users.length > 0
-                ? users.map((value, index) => {
-                    return (
-                      <tr key={index} className="table-row">
-                        <td>{value.username}</td>
-                        <td>{value.email}</td>
-                        <td>{value.role}</td>
-                        <td>
-                          {/* Dùng style inline cho trạng thái */}
-                          <p
-                            style={{
-                              color:
-                                value.status === "banned" ? "red" : "green",
-                            }}
-                          >
-                            {value.status}
-                          </p>
-                        </td>
-                        <td className="action-column">
-                          {value.role === "admin" ? (
-                            ""
-                          ) : (
-                            <button
-                              onClick={() => handleSetStatusUser(value)}
-                              className={`action-btn ${
-                                value.status === "banned"
-                                  ? "action-reactivate"
-                                  : "action-deactivate"
-                              }`}
-                            >
-                              {value.status === "banned"
-                                ? "Hủy vô hiệu hóa"
-                                : "Vô hiệu hóa"}
-                            </button>
-                          )}
-                          {value.role === "admin" ? (
-                            ""
-                          ) : (
-                            <button
-                              onClick={() => handleDelete(value._id)}
-                              className="action-btn action-delete"
-                            >
-                              Xóa
-                            </button>
-                          )}
-                        </td>
-                      </tr>
-                    );
-                  })
-                : usersWithRole.length > 0 &&
-                  usersWithRole.map((value, index) => {
-                    return (
-                      <tr key={index} className="table-row">
-                        <td>{value.username}</td>
-                        <td>{value.email}</td>
-                        <td>{value.role}</td>
-                        <td>
-                          {/* Dùng style inline cho trạng thái */}
-                          <p
-                            style={{
-                              color:
-                                value.status === "banned" ? "red" : "green",
-                            }}
-                          >
-                            {value.status}
-                          </p>
-                        </td>
-                        <td className="action-column">
-                          <button
-                            onClick={() => handleSetStatusUser(value)}
-                            // Giữ lại class cho nút Hành động
-                            className={`action-btn ${
-                              value.status == "banned"
-                                ? "action-reactivate"
-                                : "action-deactivate"
-                            }`}
-                          >
-                            {value.status == "banned"
-                              ? "Hủy vô hiệu hóa"
-                              : "Vô hiệu hóa"}
-                          </button>
-                          <button
-                            onClick={() => handleDelete(value._id)}
-                            className="action-btn action-delete"
-                          >
-                            Xóa
-                          </button>
-                        </td>
-                      </tr>
-                    );
-                  })}
-            </tbody>
-          </table>
-        </div>
-      </section>
+      <h2>Quản lý Người dùng</h2>
+
+      <select
+        onChange={handleRoleSelected}
+        ref={roleSelectedRef}
+        style={{ marginBottom: "20px" }}
+      >
+        <option value="">Tất cả vai trò</option>
+        <option value="admin">Admin</option>
+        <option value="user">User</option>
+      </select>
+
+      <table border="1" cellPadding="10" style={{ width: "100%" }}>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Vai trò</th>
+            <th>Trạng thái</th>
+            <th>Hành động</th>
+          </tr>
+        </thead>
+        <tbody>
+          {users.length > 0 ? (
+            users.map((value) => {
+              const id = value.user_id ?? value._id;
+              return (
+                <tr key={id}>
+                  <td>{id}</td>
+                  <td>{value.username}</td>
+                  <td>{value.email}</td>
+                  <td>{value.role}</td>
+                  <td>
+                    <p style={{ color: value.status === "inactive" ? "red" : "green", fontWeight: "bold" }}>
+                      {value.status}
+                    </p>
+                  </td>
+                  <td>
+                    {value.role !== "admin" && (
+                      <button
+                        onClick={() => handleSetStatusUser(value)}
+                        style={{
+                          marginRight: "10px",
+                          padding: "8px 12px",
+                          backgroundColor: value.status === "inactive" ? "#007bff" : "#ffc107",
+                          color: "white",
+                          border: "none",
+                          borderRadius: "4px",
+                          cursor: "pointer",
+                        }}
+                      >
+                        {value.status === "inactive" ? "KÍCH HOẠT" : "VÔ HIỆU HÓA"}
+                      </button>
+                    )}
+
+                    {value.role !== "admin" && (
+                      <button
+                        onClick={() => handleDelete(value)}
+                        style={{
+                          padding: "8px 12px",
+                          backgroundColor: "#f44336",
+                          color: "white",
+                          border: "none",
+                          borderRadius: "4px",
+                          cursor: "pointer",
+                        }}
+                      >
+                        XÓA
+                      </button>
+                    )}
+                  </td>
+                </tr>
+              );
+            })
+          ) : (
+            <tr>
+              <td colSpan="6" style={{ textAlign: "center" }}>
+                Không có người dùng nào.
+              </td>
+            </tr>
+          )}
+        </tbody>
+      </table>
+
       <Footer />
     </>
   );
