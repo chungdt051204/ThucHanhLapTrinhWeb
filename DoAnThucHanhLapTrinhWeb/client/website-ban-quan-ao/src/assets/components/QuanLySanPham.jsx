@@ -1,10 +1,11 @@
-import { Link, useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { useContext, useRef, useState } from "react";
 import AppContext from "./AppContext";
 import AdminNavBar from "./AdminNavBar";
 import Footer from "./Footer";
 
 export default function QuanLySanPham({ data }) {
+  const navigate = useNavigate();
   const { categories, setRefresh } = useContext(AppContext);
   const [searchParams] = useSearchParams();
   const id = searchParams.get("id");
@@ -20,27 +21,30 @@ export default function QuanLySanPham({ data }) {
   const [errCategory, setErrCategory] = useState("");
   const [errPrice, setErrPrice] = useState("");
   const [errFile, setErrImage] = useState("");
-  const [categoryId, setCategoryId] = useState("");
+  const [categoryId, setCategoryId] = useState(null);
   const [productsWithCategory_Id, setProductWithCategory_Id] = useState([]);
   const [productWithId, setProductWithId] = useState("");
 
   const handleCategorySelected = () => {
     if (categoryFilterRef.current.value != 0) {
+      navigate(`/admin/product?category_id=${categoryFilterRef.current.value}`);
       setCategoryId(categoryFilterRef.current.value);
       fetch(
-        `http://localhost:3000/courses?category_id=${categoryFilterRef.current.value}`
+        `http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/product/getProducts.php?category_id=${categoryFilterRef.current.value}`
       )
         .then((res) => {
           if (res.ok) return res.json();
           throw res;
         })
         .then((data) => {
+          console.log(data);
           setProductWithCategory_Id(data);
         })
         .catch((err) => {
           console.error(err);
         });
     } else {
+      navigate("/admin/product");
       setCategoryId("");
     }
   };
@@ -257,7 +261,7 @@ export default function QuanLySanPham({ data }) {
                           />
                           <span className="product-name">{value.name}</span>
                         </td>
-                        {/* <td>{value.categoryId.title}</td> */}
+                        <td>{value.category_name}</td>
                         <td className="price-cell">{value.price}000 VND</td>
                         <td className="action-cell">
                           <Link to={`/admin/product?id=${value.product_id}`}>
@@ -338,7 +342,7 @@ export default function QuanLySanPham({ data }) {
       </dialog>
       <dialog ref={updateDialog}>
         <form action="" method="dialog" onSubmit={handleUpdateSubmit}>
-          Tên khóa học:
+          Tên sản phẩm:
           <input
             type="text"
             onChange={(e) => {
@@ -356,9 +360,7 @@ export default function QuanLySanPham({ data }) {
               setErrCategory("");
             }}
           >
-            <option value={productWithId.category_id}>
-              {productWithId.category_name}
-            </option>
+            <option value="">{productWithId.category_name}</option>
             {categories.length > 0 &&
               categories.map((value, index) => {
                 return (

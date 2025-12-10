@@ -54,10 +54,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $id) {
     $stmt = $conn->prepare($sql);
     $stmt->execute([$id]);
     $productInDatabase = $stmt->fetch(PDO::FETCH_ASSOC);
-    $name = $_POST["name"] ?? $productInDatabase["name"];
-    $categoryId = $_POST["categoryId"] ?? $productInDatabase["category_id"];
-    $price = $_POST["price"] ?? $productInDatabase["price"];
-    $image = $_FILES["image"]["name"] ?? $productInDatabase["image_url"];
+    $name = $_POST["name"] !== "" ? $_POST["name"] : $productInDatabase["name"];
+    $categoryId = $_POST["categoryId"] !== "" ? $_POST["categoryId"] : $productInDatabase["category_id"];
+    $price = $_POST["price"] !== "" ? $_POST["price"] : $productInDatabase["price"];
+    $image = $_FILES["image"]["name"]  ?? $productInDatabase["image_url"];
     if($image != $productInDatabase["image_url"]){
         $fileTemp = $_FILES["image"]["tmp_name"];
         $fileSave = "../images/product/$image";

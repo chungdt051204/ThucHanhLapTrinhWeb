@@ -53,14 +53,17 @@ export default function QuanLyNguoiDung() {
     if (!window.confirm(confirmMsg)) return;
 
     // Gửi cả query string và body để chắc chắn PHP nhận được
-    fetch(`${API_URL}?user_id=${encodeURIComponent(user.user_id ?? user._id)}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        user_id: user.user_id ?? user._id,
-        status: newStatus,
-      }),
-    })
+    fetch(
+      `${API_URL}?user_id=${encodeURIComponent(user.user_id ?? user._id)}`,
+      {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          user_id: user.user_id ?? user._id,
+          status: newStatus,
+        }),
+      }
+    )
       .then((res) => {
         if (!res.ok) throw res;
         return res.json();
@@ -90,7 +93,8 @@ export default function QuanLyNguoiDung() {
   // Xóa user
   const handleDelete = (user) => {
     const id = user.user_id ?? user._id;
-    if (!window.confirm(`Bạn có chắc muốn xóa người dùng ${user.username}?`)) return;
+    if (!window.confirm(`Bạn có chắc muốn xóa người dùng ${user.username}?`))
+      return;
 
     fetch(`${API_URL}?user_id=${encodeURIComponent(id)}`, {
       method: "DELETE",
@@ -153,7 +157,12 @@ export default function QuanLyNguoiDung() {
                   <td>{value.email}</td>
                   <td>{value.role}</td>
                   <td>
-                    <p style={{ color: value.status === "inactive" ? "red" : "green", fontWeight: "bold" }}>
+                    <p
+                      style={{
+                        color: value.status === "inactive" ? "red" : "green",
+                        fontWeight: "bold",
+                      }}
+                    >
                       {value.status}
                     </p>
                   </td>
@@ -164,14 +173,17 @@ export default function QuanLyNguoiDung() {
                         style={{
                           marginRight: "10px",
                           padding: "8px 12px",
-                          backgroundColor: value.status === "inactive" ? "#007bff" : "#ffc107",
+                          backgroundColor:
+                            value.status === "inactive" ? "#007bff" : "#ffc107",
                           color: "white",
                           border: "none",
                           borderRadius: "4px",
                           cursor: "pointer",
                         }}
                       >
-                        {value.status === "inactive" ? "KÍCH HOẠT" : "VÔ HIỆU HÓA"}
+                        {value.status === "inactive"
+                          ? "KÍCH HOẠT"
+                          : "VÔ HIỆU HÓA"}
                       </button>
                     )}
 
