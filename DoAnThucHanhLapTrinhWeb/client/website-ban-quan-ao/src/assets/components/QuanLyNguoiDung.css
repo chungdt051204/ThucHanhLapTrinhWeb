@@ -1,0 +1,103 @@
+.ql-nguoi-dung-container table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.ql-nguoi-dung-container thead tr {
+  background: #007bff;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.ql-nguoi-dung-container th,
+.ql-nguoi-dung-container td {
+  padding: 14px 16px;
+}
+
+.ql-nguoi-dung-container tbody tr:nth-child(even) {
+  background: #f7f7f7;
+}
+
+.ql-nguoi-dung-container tbody tr:hover {
+  background: #eaf5ff;
+  transition: 0.25s;
+}
+
+.ql-nguoi-dung-container .status-active {
+  color: green;
+  font-weight: 600;
+}
+
+.ql-nguoi-dung-container .status-inactive {
+  color: red;
+  font-weight: 600;
+}
+
+.ql-nguoi-dung-container .action-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.ql-nguoi-dung-container .action-btn {
+  padding: 8px 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.25s;
+}
+
+.ql-nguoi-dung-container .btn-activate {
+  background: #007bff;
+  color: #fff;
+}
+.ql-nguoi-dung-container .btn-activate:hover {
+  background: #005fcc;
+}
+
+.ql-nguoi-dung-container .btn-disable {
+  background: #ffc107;
+  color: #000;
+}
+.ql-nguoi-dung-container .btn-disable:hover {
+  background: #e0a800;
+}
+
+.ql-nguoi-dung-container .btn-delete {
+  background: #f44336;
+  color: #fff;
+}
+.ql-nguoi-dung-container .btn-delete:hover {
+  background: #d32f2f;
+}
+
+.ql-nguoi-dung-container select {
+  padding: 8px 15px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  margin-bottom: 20px;
+  font-size: 15px;
+}
+.ql-nguoi-dung-container select:focus {
+  border-color: #007bff;
+}
+
+.ql-nguoi-dung-container h1,
+.ql-nguoi-dung-container h2,
+.ql-nguoi-dung-container .title,
+.ql-nguoi-dung-container .filter-container {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.ql-nguoi-dung-container .table-wrapper {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+}

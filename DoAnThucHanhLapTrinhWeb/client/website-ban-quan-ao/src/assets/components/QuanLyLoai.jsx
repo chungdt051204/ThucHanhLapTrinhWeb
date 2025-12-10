@@ -2,7 +2,7 @@ import AdminNavbar from "./AdminNavbar";
 import Footer from "./Footer";
 import { useContext, useRef } from "react";
 import AppContext from "./AppContext";
-
+import "./QuanLyLoai.css";
 export default function QuanLyLoai() {
   const { categories, setRefresh } = useContext(AppContext);
   const dialogAdd = useRef();
@@ -91,15 +91,16 @@ export default function QuanLyLoai() {
   };
 
   return (
-    <>
-      <AdminNavbar />
-      <h2>Quản lý loại</h2>
+  <div className="ql-loai-container">
+    <AdminNavbar />
+    <h2 className="title">Quản lý loại</h2>
 
-      <button className="them" onClick={() => dialogAdd.current.showModal()}>
-        Thêm loại
-      </button>
+    <button className="btn-them" onClick={() => dialogAdd.current.showModal()}>
+      Thêm loại
+    </button>
 
-      <table border="1" cellPadding="10">
+    <div className="table-wrapper">
+      <table>
         <thead>
           <tr>
             <th>Tên loại</th>
@@ -112,69 +113,49 @@ export default function QuanLyLoai() {
               <tr key={value.category_id}>
                 <td>{value.category_name}</td>
                 <td>
-                  <button
-                    onClick={() =>
-                      openEdit(value.category_id, value.category_name)
-                    }
-                    style={{
-                      marginRight: "10px",
-                      padding: "8px 12px",
-                      backgroundColor: "#4CAF50",
-                      color: "white",
-                      border: "none",
-                      borderRadius: "4px",
-                      cursor: "pointer",
-                    }}
-                  >
-                    EDIT
-                  </button>
-
-                  <button
-                    onClick={() => handleDelete(value.category_id)}
-                    style={{
-                      padding: "8px 12px",
-                      backgroundColor: "#f44336",
-                      color: "white",
-                      border: "none",
-                      borderRadius: "4px",
-                      cursor: "pointer",
-                    }}
-                  >
-                    DELETE
-                  </button>
+                  <div className="action-buttons">
+                    <button onClick={() => openEdit(value.category_id, value.category_name)} className="action-btn btn-edit">
+                      EDIT
+                    </button>
+                    <button onClick={() => handleDelete(value.category_id)} className="action-btn btn-delete">
+                      DELETE
+                    </button>
+                  </div>
                 </td>
               </tr>
             ))}
         </tbody>
       </table>
+    </div>
 
-      <dialog ref={dialogAdd}>
-        <form onSubmit={handleSubmit}>
-          <h3>Thêm loại</h3>
-          <input type="text" ref={category_name} required />
-          <br />
-          <br />
-          <button type="submit">Thêm</button>
-          <button type="button" onClick={() => dialogAdd.current.close()}>
+    <dialog ref={dialogAdd} className="modal">
+      <form onSubmit={handleSubmit}>
+        <h3>Thêm loại</h3>
+        <input type="text" ref={category_name} required />
+        <div className="modal-actions">
+          <button type="submit" className="modal-btn confirm">Thêm</button>
+          <button type="button" className="modal-btn cancel" onClick={() => dialogAdd.current.close()}>
             Hủy
           </button>
-        </form>
-      </dialog>
+        </div>
+      </form>
+    </dialog>
 
-      <dialog ref={dialogEdit}>
-        <form onSubmit={handleUpdate}>
-          <h3>Sửa loại</h3>
-          <input type="text" ref={editName} required />
-          <br />
-          <br />
-          <button type="submit">Cập nhật</button>
-          <button type="button" onClick={() => dialogEdit.current.close()}>
+    <dialog ref={dialogEdit} className="modal">
+      <form onSubmit={handleUpdate}>
+        <h3>Sửa loại</h3>
+        <input type="text" ref={editName} required />
+        <div className="modal-actions">
+          <button type="submit" className="modal-btn confirm">Cập nhật</button>
+          <button type="button" className="modal-btn cancel" onClick={() => dialogEdit.current.close()}>
             Hủy
           </button>
-        </form>
-      </dialog>
+        </div>
+      </form>
+    </dialog>
 
-      <Footer />
-    </>
-  );
+    <Footer />
+  </div>
+);
+
 }

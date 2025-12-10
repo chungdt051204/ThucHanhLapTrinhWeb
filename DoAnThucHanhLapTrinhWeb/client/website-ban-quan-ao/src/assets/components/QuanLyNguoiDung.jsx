@@ -1,6 +1,7 @@
 import AdminNavBar from "./AdminNavBar";
 import Footer from "./Footer";
 import { useEffect, useRef, useState } from "react";
+import "./QuanLyNguoiDung.css";
 
 export default function QuanLyNguoiDung() {
   const [refresh, setRefresh] = useState(0);
@@ -11,7 +12,6 @@ export default function QuanLyNguoiDung() {
   const API_URL =
     "http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/admin/quanLyNguoiDung.php";
 
-  // Load users (thêm anti-cache param để tránh caching)
   useEffect(() => {
     let url = API_URL + "?_=" + Date.now();
     if (roleSelected) url += `&role=${roleSelected}`;
@@ -37,7 +37,6 @@ export default function QuanLyNguoiDung() {
     setRoleSelected(roleSelectedRef.current.value);
   };
 
-  // Cập nhật trạng thái active <-> inactive
   const handleSetStatusUser = (user) => {
     if (user.role === "admin") {
       alert("Không thể thay đổi trạng thái của Admin.");
@@ -52,7 +51,6 @@ export default function QuanLyNguoiDung() {
 
     if (!window.confirm(confirmMsg)) return;
 
-    // Gửi cả query string và body để chắc chắn PHP nhận được
     fetch(
       `${API_URL}?user_id=${encodeURIComponent(user.user_id ?? user._id)}`,
       {
@@ -70,7 +68,6 @@ export default function QuanLyNguoiDung() {
       })
       .then((json) => {
         alert(json.message || "Cập nhật thành công");
-        // cập nhật nhanh UI
         setUsers((prev) =>
           prev.map((u) =>
             (u.user_id ?? u._id) === (user.user_id ?? user._id)
@@ -90,7 +87,6 @@ export default function QuanLyNguoiDung() {
       });
   };
 
-  // Xóa user
   const handleDelete = (user) => {
     const id = user.user_id ?? user._id;
     if (!window.confirm(`Bạn có chắc muốn xóa người dùng ${user.username}?`))
@@ -121,102 +117,98 @@ export default function QuanLyNguoiDung() {
   };
 
   return (
-    <>
+    <div className="ql-nguoi-dung-container">
       <AdminNavBar />
-      <h2>Quản lý Người dùng</h2>
 
-      <select
-        onChange={handleRoleSelected}
-        ref={roleSelectedRef}
-        style={{ marginBottom: "20px" }}
-      >
-        <option value="">Tất cả vai trò</option>
-        <option value="admin">Admin</option>
-        <option value="user">User</option>
-      </select>
+      {/* Tiêu đề */}
+      <h2 className="title">Quản lý Người dùng</h2>
 
-      <table border="1" cellPadding="10" style={{ width: "100%" }}>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Username</th>
-            <th>Email</th>
-            <th>Vai trò</th>
-            <th>Trạng thái</th>
-            <th>Hành động</th>
-          </tr>
-        </thead>
-        <tbody>
-          {users.length > 0 ? (
-            users.map((value) => {
-              const id = value.user_id ?? value._id;
-              return (
-                <tr key={id}>
-                  <td>{id}</td>
-                  <td>{value.username}</td>
-                  <td>{value.email}</td>
-                  <td>{value.role}</td>
-                  <td>
-                    <p
-                      style={{
-                        color: value.status === "inactive" ? "red" : "green",
-                        fontWeight: "bold",
-                      }}
-                    >
-                      {value.status}
-                    </p>
-                  </td>
-                  <td>
-                    {value.role !== "admin" && (
-                      <button
-                        onClick={() => handleSetStatusUser(value)}
-                        style={{
-                          marginRight: "10px",
-                          padding: "8px 12px",
-                          backgroundColor:
-                            value.status === "inactive" ? "#007bff" : "#ffc107",
-                          color: "white",
-                          border: "none",
-                          borderRadius: "4px",
-                          cursor: "pointer",
-                        }}
-                      >
-                        {value.status === "inactive"
-                          ? "KÍCH HOẠT"
-                          : "VÔ HIỆU HÓA"}
-                      </button>
-                    )}
+      {/* Khung combobox */}
+      <div className="filter-container">
+        <select onChange={handleRoleSelected} ref={roleSelectedRef}>
+          <option value="">Tất cả vai trò</option>
+          <option value="admin">Admin</option>
+          <option value="user">User</option>
+        </select>
+      </div>
 
-                    {value.role !== "admin" && (
-                      <button
-                        onClick={() => handleDelete(value)}
-                        style={{
-                          padding: "8px 12px",
-                          backgroundColor: "#f44336",
-                          color: "white",
-                          border: "none",
-                          borderRadius: "4px",
-                          cursor: "pointer",
-                        }}
-                      >
-                        XÓA
-                      </button>
-                    )}
-                  </td>
-                </tr>
-              );
-            })
-          ) : (
+      {/* Khung bao bảng để tạo khoảng trống */}
+      <div className="table-wrapper">
+        <table>
+          <thead>
             <tr>
-              <td colSpan="6" style={{ textAlign: "center" }}>
-                Không có người dùng nào.
-              </td>
+              <th>ID</th>
+              <th>Username</th>
+              <th>Email</th>
+              <th>Vai trò</th>
+              <th>Trạng thái</th>
+              <th>Hành động</th>
             </tr>
-          )}
-        </tbody>
-      </table>
+          </thead>
+
+          <tbody>
+            {users.length > 0 ? (
+              users.map((value) => {
+                const id = value.user_id ?? value._id;
+                return (
+                  <tr key={id}>
+                    <td>{id}</td>
+                    <td>{value.username}</td>
+                    <td>{value.email}</td>
+                    <td>{value.role}</td>
+                    <td>
+                      <p
+                        className={
+                          value.status === "inactive"
+                            ? "status-inactive"
+                            : "status-active"
+                        }
+                      >
+                        {value.status}
+                      </p>
+                    </td>
+                    <td>
+                      <div className="action-buttons">
+                        {value.role !== "admin" && (
+                          <button
+                            className={
+                              value.status === "inactive"
+                                ? "action-btn btn-activate"
+                                : "action-btn btn-disable"
+                            }
+                            onClick={() => handleSetStatusUser(value)}
+                          >
+                            {value.status === "inactive"
+                              ? "KÍCH HOẠT"
+                              : "VÔ HIỆU HÓA"}
+                          </button>
+                        )}
+
+                        {value.role !== "admin" && (
+                          <button
+                            className="action-btn btn-delete"
+                            onClick={() => handleDelete(value)}
+                          >
+                            XÓA
+                          </button>
+                        )}
+                      </div>
+                    </td>
+                  </tr>
+                );
+              })
+            ) : (
+              <tr>
+                <td colSpan="6" style={{ textAlign: "center" }}>
+                  Không có người dùng nào.
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
 
       <Footer />
-    </>
+    </div>
   );
 }

@@ -3,6 +3,7 @@ import { useContext, useRef, useState } from "react";
 import AppContext from "./AppContext";
 import AdminNavBar from "./AdminNavBar";
 import Footer from "./Footer";
+import "./QuanLySanPham.css";
 
 export default function QuanLySanPham({ data }) {
   const navigate = useNavigate();
@@ -160,41 +161,43 @@ export default function QuanLySanPham({ data }) {
       });
   };
   return (
-    <>
-      <AdminNavBar />
+  <>
+    <AdminNavBar />
+
+    {/* LỚP BAO NGOÀI */}
+    <div className="product-page">
       <div>
-        <div class="product-controls">
+        <div className="product-controls">
           <button
-            class="add-product-btn"
+            className="add-product-btn"
             onClick={() => {
               addDialog.current.showModal();
             }}
           >
             Thêm sản phẩm
           </button>
+
           <input
             type="text"
-            class="product-search-input"
-            name=""
-            id=""
+            className="product-search-input"
             placeholder="Tìm sản phẩm"
           />
+
           <select
-            class="product-filter-select"
+            className="product-filter-select"
             ref={categoryFilterRef}
             onChange={handleCategorySelected}
           >
             <option value="">Chọn loại sản phẩm</option>
             {categories.length > 0 &&
-              categories.map((value, index) => {
-                return (
-                  <option key={index} value={value.category_id}>
-                    {value.category_name}
-                  </option>
-                );
-              })}
+              categories.map((value, index) => (
+                <option key={index} value={value.category_id}>
+                  {value.category_name}
+                </option>
+              ))}
           </select>
         </div>
+
         <div className="product-table-container">
           <table>
             <thead>
@@ -205,13 +208,16 @@ export default function QuanLySanPham({ data }) {
                 <th className="action-col">Hành động</th>
               </tr>
             </thead>
+
             <tbody>
               {!categoryId && data.length > 0
                 ? data.map((value, index) => {
                     const image = value.image_url.includes("https")
                       ? value.image_url
                       : `http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/images/product/${value.image_url}`;
+
                     const isSelected = index === 0 ? "selected" : "";
+
                     return (
                       <tr key={index} className={isSelected}>
                         <td className="product-title-cell">
@@ -224,8 +230,10 @@ export default function QuanLySanPham({ data }) {
                           />
                           <span className="product-name">{value.name}</span>
                         </td>
+
                         <td>{value.category_name}</td>
                         <td className="price-cell">{value.price}000 VND</td>
+
                         <td className="action-cell">
                           <Link to={`/admin/product?id=${value.product_id}`}>
                             <i
@@ -235,6 +243,7 @@ export default function QuanLySanPham({ data }) {
                               className="fa-solid fa-pen"
                             ></i>
                           </Link>
+
                           <i
                             onClick={() => handleDelete(value.product_id)}
                             className="fa-solid fa-trash"
@@ -248,7 +257,9 @@ export default function QuanLySanPham({ data }) {
                     const image1 = value.image_url.includes("https")
                       ? value.image_url
                       : `http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/images/product/${value.image_url}`;
+
                     const isSelected = index === 0 ? "selected" : "";
+
                     return (
                       <tr key={index} className={isSelected}>
                         <td className="product-title-cell">
@@ -261,8 +272,10 @@ export default function QuanLySanPham({ data }) {
                           />
                           <span className="product-name">{value.name}</span>
                         </td>
+
                         <td>{value.category_name}</td>
                         <td className="price-cell">{value.price}000 VND</td>
+
                         <td className="action-cell">
                           <Link to={`/admin/product?id=${value.product_id}`}>
                             <i
@@ -272,6 +285,7 @@ export default function QuanLySanPham({ data }) {
                               className="fa-solid fa-pen"
                             ></i>
                           </Link>
+
                           <i
                             onClick={() => handleDelete(value.product_id)}
                             className="fa-solid fa-trash"
@@ -284,6 +298,7 @@ export default function QuanLySanPham({ data }) {
           </table>
         </div>
       </div>
+
       <dialog ref={addDialog}>
         <form action="" method="dialog" onSubmit={handleAddSubmit}>
           Tên sản phẩm:
@@ -297,6 +312,7 @@ export default function QuanLySanPham({ data }) {
           />
           {errName && <span>{errName}</span>}
           <br />
+
           Loại sản phẩm:
           <select
             onChange={(e) => {
@@ -305,54 +321,53 @@ export default function QuanLySanPham({ data }) {
             }}
           >
             <option value="0">Chọn loại sản phẩm</option>
-            {categories.length > 0 &&
-              categories.map((value, index) => {
-                return (
-                  <option key={index} value={value.category_id}>
-                    {value.category_name}
-                  </option>
-                );
-              })}
+            {categories.map((value, index) => (
+              <option key={index} value={value.category_id}>
+                {value.category_name}
+              </option>
+            ))}
           </select>
-          <br />
           {errCategory && <span>{errCategory}</span>}
           <br />
+
           Giá:
           <input
+            type="text"
             onChange={(e) => {
               setPrice(e.target.value);
               setErrPrice("");
             }}
-            type="text"
             placeholder="Nhập giá"
           />
           {errPrice && <span>{errPrice}</span>}
           <br />
+
           Image:
           <input
             type="file"
-            onChange={() => {
-              setErrImage("");
-            }}
+            onChange={() => setErrImage("")}
             ref={addImage}
           />
           <br />
+
           <button>Thêm</button>
         </form>
       </dialog>
+
       <dialog ref={updateDialog}>
         <form action="" method="dialog" onSubmit={handleUpdateSubmit}>
           Tên sản phẩm:
           <input
             type="text"
+            defaultValue={productWithId.name}
             onChange={(e) => {
               setName(e.target.value);
               setErrName("");
             }}
-            defaultValue={productWithId.name}
           />
           {errName && <span>{errName}</span>}
           <br />
+
           Loại sản phẩm:
           <select
             onChange={(e) => {
@@ -361,52 +376,48 @@ export default function QuanLySanPham({ data }) {
             }}
           >
             <option value="">{productWithId.category_name}</option>
-            {categories.length > 0 &&
-              categories.map((value, index) => {
-                return (
-                  <option key={index} value={value.category_id}>
-                    {value.category_name}
-                  </option>
-                );
-              })}
+            {categories.map((value, index) => (
+              <option key={index} value={value.category_id}>
+                {value.category_name}
+              </option>
+            ))}
           </select>
-          <br />
           {errCategory && <span>{errCategory}</span>}
           <br />
+
           Giá:
           <input
+            type="text"
+            defaultValue={productWithId.price}
             onChange={(e) => {
               setPrice(e.target.value);
               setErrPrice("");
             }}
-            type="text"
-            defaultValue={productWithId.price}
           />
           {errPrice && <span>{errPrice}</span>}
           <br />
+
           Image:
           <input
             type="file"
-            onChange={() => {
-              setErrImage("");
-            }}
+            onChange={() => setErrImage("")}
             ref={updateImage}
           />
-          <br />
           {errFile && <span>{errFile}</span>}
           <br />
+
           <button>Cập nhật</button>
         </form>
       </dialog>
+
       <div style={{ display: "flex" }}>
-        <Link to="/admin/product">
-          <button>Trước</button>
-        </Link>
-        <Link to="/admin/product-page2">
-          <button>Sau</button>
-        </Link>
+        <Link to="/admin/product"><button>Trước</button></Link>
+        <Link to="/admin/product-page2"><button>Sau</button></Link>
       </div>
-      <Footer />
-    </>
-  );
+    </div>
+
+    <Footer />
+  </>
+);
+
 }
