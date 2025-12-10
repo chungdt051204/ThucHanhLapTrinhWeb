@@ -11,7 +11,7 @@ export default function NavBar() {
   const avatar =
     user.avatar && user.avatar.includes("https")
       ? user.avatar
-      : `http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/images/${user.avatar}`;
+      : `http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/images/user/${user.avatar}`;
 
   const inputRef = useRef();
   const [searchValue, setSearchValue] = useState("");

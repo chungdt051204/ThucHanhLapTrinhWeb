@@ -11,9 +11,9 @@ export default function UserInfo() {
         <h2>Thông tin tài khoản</h2>
         <img
           src={
-            user.avatar.includes("https")
+            user.avatar && user.avatar.includes("https")
               ? user.avatar
-              : `http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/images/${user.avatar}`
+              : `http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/images/user/${user.avatar}`
           }
           alt="avatar"
           className="userInfo-avatar"

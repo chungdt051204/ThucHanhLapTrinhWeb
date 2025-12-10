@@ -30,7 +30,7 @@
         // }
         //Lưu file về thư mục images của server
         $fileTemp = $_FILES["avatar"]["tmp_name"];
-        $fileSave = "../images/$avatar";
+        $fileSave = "../images/user/$avatar";
         move_uploaded_file($fileTemp, $fileSave);
         $sql = "SELECT email FROM users WHERE email = ?";
         $stmt = $conn->prepare($sql);

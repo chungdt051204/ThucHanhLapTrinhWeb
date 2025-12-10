@@ -3,7 +3,7 @@ import { useContext, useEffect, useState } from "react";
 import AppContext from "./AppContext";
 import "./Product.css";
 export default function GetProductsWithQueryString() {
-  const { products, refresh } = useContext(AppContext);
+  const { productsPage1, refresh } = useContext(AppContext);
   const [searchParams] = useSearchParams("category_id");
   const id = searchParams.get("category_id");
   const [productsWithCategory_Id, setProductsWithCategory_Id] = useState([]);
@@ -37,8 +37,8 @@ export default function GetProductsWithQueryString() {
               </div>
             );
           })
-        ) : products.length > 0 && productsWithCategory_Id.length > 0 ? (
-          products.map((value, index) => {
+        ) : productsPage1.length > 0 && productsWithCategory_Id.length > 0 ? (
+          productsPage1.map((value, index) => {
             return (
               <div key={index} className="product-item">
                 <Link to={`/product/detail?id=${value.product_id}`}>

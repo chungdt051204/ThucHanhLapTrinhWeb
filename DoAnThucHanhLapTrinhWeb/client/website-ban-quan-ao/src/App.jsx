@@ -12,10 +12,11 @@ import UserInfo from "./assets/components/UserInfo";
 import QuanLyLoai from "./assets/components/QuanLyLoai";
 import QuanLyNguoiDung from "./assets/components/QuanLyNguoiDung";
 import GetProductsWithQueryString from "./assets/components/GetProductsWithQueryString";
+import QuanLySanPham from "./assets/components/QuanLySanPham";
 function App() {
   const [user, setUser] = useState({});
   const [isLogin, setIsLogin] = useState(false);
-  const [products, setProducts] = useState([]);
+  const [productsPage1, setProductsPage1] = useState([]);
   const [productsPage2, setProductsPage2] = useState([]);
   const [categories, setCategories] = useState([]);
   const [refresh, setRefresh] = useState(0);
@@ -47,15 +48,20 @@ function App() {
         setCategories(data);
       });
   }, [refresh]);
+
   useEffect(() => {
-    fetch("http://localhost:3000/server/product/getProducts.php")
+    fetch(
+      "http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/product/getProducts.php"
+    )
       .then((res) => {
-        return res.json();
+        if (res.ok) return res.json();
+        throw res;
       })
       .then((data) => {
-        setProducts(data);
-      });
-  }, []);
+        setProductsPage1(data);
+      })
+      .catch();
+  }, [refresh]);
   useEffect(() => {
     fetch(
       "http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/product/getProductsPage2.php"
@@ -68,7 +74,7 @@ function App() {
         setProductsPage2(data);
       })
       .catch();
-  }, []);
+  }, [refresh]);
   return (
     <>
       <AppContext.Provider
@@ -77,7 +83,7 @@ function App() {
           setUser,
           isLogin,
           setIsLogin,
-          products,
+          productsPage1,
           productsPage2,
           categories,
           setRefresh,
@@ -94,7 +100,18 @@ function App() {
           />
           <Route path="/admin" element={<HomeAdmin></HomeAdmin>} />
           <Route path="/admin/category" element={<QuanLyLoai></QuanLyLoai>} />
-          <Route path="/admin/user" element={<QuanLyNguoiDung></QuanLyNguoiDung>} />
+          <Route
+            path="/admin/product"
+            element={<QuanLySanPham data={productsPage1}></QuanLySanPham>}
+          />
+          <Route
+            path="/admin/product-page2"
+            element={<QuanLySanPham data={productsPage2}></QuanLySanPham>}
+          />
+          <Route
+            path="/admin/user"
+            element={<QuanLyNguoiDung></QuanLyNguoiDung>}
+          />
           <Route path="/Cart" element={<Cart component={<Cart />}></Cart>} />
           <Route path="/user-info" element={<UserInfo />} />
           <Route path="/login" element={<Login />} />
