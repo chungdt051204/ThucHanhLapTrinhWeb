@@ -13,13 +13,16 @@ export default function QuanLyLoai() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    fetch("http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/admin/quanLyLoai.php", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ category_name: category_name.current.value }),
-    })
+    fetch(
+      "http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/admin/quanLyLoai.php",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ category_name: category_name.current.value }),
+      }
+    )
       .then((res) => {
         if (res.ok) return res.json();
         throw res;
@@ -91,71 +94,93 @@ export default function QuanLyLoai() {
   };
 
   return (
-  <div className="ql-loai-container">
-    <AdminNavbar />
-    <h2 className="title">Quản lý loại</h2>
+    <div className="ql-loai-container">
+      <AdminNavbar />
+      <h2 className="title">Quản lý loại</h2>
 
-    <button className="btn-them" onClick={() => dialogAdd.current.showModal()}>
-      Thêm loại
-    </button>
+      <button
+        className="btn-them"
+        onClick={() => dialogAdd.current.showModal()}
+      >
+        Thêm loại
+      </button>
 
-    <div className="table-wrapper">
-      <table>
-        <thead>
-          <tr>
-            <th>Tên loại</th>
-            <th>Hành động</th>
-          </tr>
-        </thead>
-        <tbody>
-          {categories.length > 0 &&
-            categories.map((value) => (
-              <tr key={value.category_id}>
-                <td>{value.category_name}</td>
-                <td>
-                  <div className="action-buttons">
-                    <button onClick={() => openEdit(value.category_id, value.category_name)} className="action-btn btn-edit">
-                      EDIT
-                    </button>
-                    <button onClick={() => handleDelete(value.category_id)} className="action-btn btn-delete">
-                      DELETE
-                    </button>
-                  </div>
-                </td>
-              </tr>
-            ))}
-        </tbody>
-      </table>
+      <div className="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Tên loại</th>
+              <th>Hành động</th>
+            </tr>
+          </thead>
+          <tbody>
+            {categories.length > 0 &&
+              categories.map((value) => (
+                <tr key={value.category_id}>
+                  <td>{value.category_name}</td>
+                  <td>
+                    <div className="action-buttons">
+                      <button
+                        onClick={() =>
+                          openEdit(value.category_id, value.category_name)
+                        }
+                        className="action-btn btn-edit"
+                      >
+                        EDIT
+                      </button>
+                      <button
+                        onClick={() => handleDelete(value.category_id)}
+                        className="action-btn btn-delete"
+                      >
+                        DELETE
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+          </tbody>
+        </table>
+      </div>
+
+      <dialog ref={dialogAdd} className="modal">
+        <form onSubmit={handleSubmit}>
+          <h3>Thêm loại</h3>
+          <input type="text" ref={category_name} required />
+          <div className="modal-actions">
+            <button type="submit" className="modal-btn confirm">
+              Thêm
+            </button>
+            <button
+              type="button"
+              className="modal-btn cancel"
+              onClick={() => dialogAdd.current.close()}
+            >
+              Hủy
+            </button>
+          </div>
+        </form>
+      </dialog>
+
+      <dialog ref={dialogEdit} className="modal">
+        <form onSubmit={handleUpdate}>
+          <h3>Sửa loại</h3>
+          <input type="text" ref={editName} required />
+          <div className="modal-actions">
+            <button type="submit" className="modal-btn confirm">
+              Cập nhật
+            </button>
+            <button
+              type="button"
+              className="modal-btn cancel"
+              onClick={() => dialogEdit.current.close()}
+            >
+              Hủy
+            </button>
+          </div>
+        </form>
+      </dialog>
+
+      <Footer />
     </div>
-
-    <dialog ref={dialogAdd} className="modal">
-      <form onSubmit={handleSubmit}>
-        <h3>Thêm loại</h3>
-        <input type="text" ref={category_name} required />
-        <div className="modal-actions">
-          <button type="submit" className="modal-btn confirm">Thêm</button>
-          <button type="button" className="modal-btn cancel" onClick={() => dialogAdd.current.close()}>
-            Hủy
-          </button>
-        </div>
-      </form>
-    </dialog>
-
-    <dialog ref={dialogEdit} className="modal">
-      <form onSubmit={handleUpdate}>
-        <h3>Sửa loại</h3>
-        <input type="text" ref={editName} required />
-        <div className="modal-actions">
-          <button type="submit" className="modal-btn confirm">Cập nhật</button>
-          <button type="button" className="modal-btn cancel" onClick={() => dialogEdit.current.close()}>
-            Hủy
-          </button>
-        </div>
-      </form>
-    </dialog>
-
-    <Footer />
-  </div>
-);
-
+  );
 }

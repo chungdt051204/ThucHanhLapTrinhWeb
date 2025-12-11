@@ -8,6 +8,7 @@
     p.name, 
     p.image_url, 
     p.price, 
+    ot.order_item_id,
     ot.quantity,
     p.price * ot.quantity AS total
 FROM 

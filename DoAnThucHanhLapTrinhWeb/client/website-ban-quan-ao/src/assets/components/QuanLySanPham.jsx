@@ -27,7 +27,7 @@ export default function QuanLySanPham({ data }) {
   const [productWithId, setProductWithId] = useState("");
 
   const handleCategorySelected = () => {
-    if (categoryFilterRef.current.value != 0) {
+    if (categoryFilterRef.current.value != "") {
       navigate(`/admin/product?category_id=${categoryFilterRef.current.value}`);
       setCategoryId(categoryFilterRef.current.value);
       fetch(
@@ -161,263 +161,257 @@ export default function QuanLySanPham({ data }) {
       });
   };
   return (
-  <>
-    <AdminNavBar />
+    <>
+      <AdminNavBar />
 
-    {/* LỚP BAO NGOÀI */}
-    <div className="product-page">
-      <div>
-        <div className="product-controls">
-          <button
-            className="add-product-btn"
-            onClick={() => {
-              addDialog.current.showModal();
-            }}
-          >
-            Thêm sản phẩm
-          </button>
+      {/* LỚP BAO NGOÀI */}
+      <div className="product-page">
+        <div>
+          <div className="product-controls">
+            <button
+              className="add-product-btn"
+              onClick={() => {
+                addDialog.current.showModal();
+              }}
+            >
+              Thêm sản phẩm
+            </button>
 
-          <input
-            type="text"
-            className="product-search-input"
-            placeholder="Tìm sản phẩm"
-          />
+            <input
+              type="text"
+              className="product-search-input"
+              placeholder="Tìm sản phẩm"
+            />
 
-          <select
-            className="product-filter-select"
-            ref={categoryFilterRef}
-            onChange={handleCategorySelected}
-          >
-            <option value="">Chọn loại sản phẩm</option>
-            {categories.length > 0 &&
-              categories.map((value, index) => (
+            <select
+              className="product-filter-select"
+              ref={categoryFilterRef}
+              onChange={handleCategorySelected}
+            >
+              <option value="">Chọn loại sản phẩm</option>
+              {categories.length > 0 &&
+                categories.map((value, index) => (
+                  <option key={index} value={value.category_id}>
+                    {value.category_name}
+                  </option>
+                ))}
+            </select>
+          </div>
+
+          <div className="product-table-container">
+            <table>
+              <thead>
+                <tr>
+                  <th className="product-col">Sản phẩm</th>
+                  <th>Loại sản phẩm</th>
+                  <th>Giá</th>
+                  <th className="action-col">Hành động</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {!categoryId && data.length > 0
+                  ? data.map((value, index) => {
+                      const image = value.image_url.includes("https")
+                        ? value.image_url
+                        : `http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/images/product/${value.image_url}`;
+
+                      const isSelected = index === 0 ? "selected" : "";
+
+                      return (
+                        <tr key={index} className={isSelected}>
+                          <td className="product-title-cell">
+                            <img
+                              src={image}
+                              alt=""
+                              className="product-image"
+                              width={50}
+                              height={50}
+                            />
+                            <span className="product-name">{value.name}</span>
+                          </td>
+                          <td>{value.category_name}</td>
+                          <td className="price-cell">{value.price}000 VND</td>
+
+                          <td className="action-cell">
+                            <Link to={`/admin/product?id=${value.product_id}`}>
+                              <i
+                                onClick={() =>
+                                  handleClickUpdate(value.product_id)
+                                }
+                                className="fa-solid fa-pen"
+                              ></i>
+                            </Link>
+
+                            <i
+                              onClick={() => handleDelete(value.product_id)}
+                              className="fa-solid fa-trash"
+                            ></i>
+                          </td>
+                        </tr>
+                      );
+                    })
+                  : productsWithCategory_Id.length > 0 &&
+                    productsWithCategory_Id.map((value, index) => {
+                      const image1 = value.image_url.includes("https")
+                        ? value.image_url
+                        : `http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/images/product/${value.image_url}`;
+
+                      const isSelected = index === 0 ? "selected" : "";
+
+                      return (
+                        <tr key={index} className={isSelected}>
+                          <td className="product-title-cell">
+                            <img
+                              src={image1}
+                              alt=""
+                              className="product-image"
+                              width={50}
+                              height={50}
+                            />
+                            <span className="product-name">{value.name}</span>
+                          </td>
+
+                          <td>{value.category_name}</td>
+                          <td className="price-cell">{value.price}000 VND</td>
+
+                          <td className="action-cell">
+                            <Link to={`/admin/product?id=${value.product_id}`}>
+                              <i
+                                onClick={() =>
+                                  handleClickUpdate(value.product_id)
+                                }
+                                className="fa-solid fa-pen"
+                              ></i>
+                            </Link>
+
+                            <i
+                              onClick={() => handleDelete(value.product_id)}
+                              className="fa-solid fa-trash"
+                            ></i>
+                          </td>
+                        </tr>
+                      );
+                    })}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <dialog ref={addDialog}>
+          <form action="" method="dialog" onSubmit={handleAddSubmit}>
+            Tên sản phẩm:
+            <input
+              type="text"
+              onChange={(e) => {
+                setName(e.target.value);
+                setErrName("");
+              }}
+              placeholder="Nhập tên sản phẩm"
+            />
+            {errName && <span>{errName}</span>}
+            <br />
+            Loại sản phẩm:
+            <select
+              onChange={(e) => {
+                setCategorySelected(e.target.value);
+                setErrCategory("");
+              }}
+            >
+              <option value="0">Chọn loại sản phẩm</option>
+              {categories.map((value, index) => (
                 <option key={index} value={value.category_id}>
                   {value.category_name}
                 </option>
               ))}
-          </select>
-        </div>
+            </select>
+            {errCategory && <span>{errCategory}</span>}
+            <br />
+            Giá:
+            <input
+              type="text"
+              onChange={(e) => {
+                setPrice(e.target.value);
+                setErrPrice("");
+              }}
+              placeholder="Nhập giá"
+            />
+            {errPrice && <span>{errPrice}</span>}
+            <br />
+            Image:
+            <input
+              type="file"
+              onChange={() => setErrImage("")}
+              ref={addImage}
+            />
+            <br />
+            <button>Thêm</button>
+          </form>
+        </dialog>
 
-        <div className="product-table-container">
-          <table>
-            <thead>
-              <tr>
-                <th className="product-col">Sản phẩm</th>
-                <th>Loại sản phẩm</th>
-                <th>Giá</th>
-                <th className="action-col">Hành động</th>
-              </tr>
-            </thead>
+        <dialog ref={updateDialog}>
+          <form action="" method="dialog" onSubmit={handleUpdateSubmit}>
+            Tên sản phẩm:
+            <input
+              type="text"
+              defaultValue={productWithId.name}
+              onChange={(e) => {
+                setName(e.target.value);
+                setErrName("");
+              }}
+            />
+            {errName && <span>{errName}</span>}
+            <br />
+            Loại sản phẩm:
+            <select
+              onChange={(e) => {
+                setCategorySelected(e.target.value);
+                setErrCategory("");
+              }}
+            >
+              <option value="">{productWithId.category_name}</option>
+              {categories.map((value, index) => (
+                <option key={index} value={value.category_id}>
+                  {value.category_name}
+                </option>
+              ))}
+            </select>
+            {errCategory && <span>{errCategory}</span>}
+            <br />
+            Giá:
+            <input
+              type="text"
+              defaultValue={productWithId.price}
+              onChange={(e) => {
+                setPrice(e.target.value);
+                setErrPrice("");
+              }}
+            />
+            {errPrice && <span>{errPrice}</span>}
+            <br />
+            Image:
+            <input
+              type="file"
+              onChange={() => setErrImage("")}
+              ref={updateImage}
+            />
+            {errFile && <span>{errFile}</span>}
+            <br />
+            <button>Cập nhật</button>
+          </form>
+        </dialog>
 
-            <tbody>
-              {!categoryId && data.length > 0
-                ? data.map((value, index) => {
-                    const image = value.image_url.includes("https")
-                      ? value.image_url
-                      : `http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/images/product/${value.image_url}`;
-
-                    const isSelected = index === 0 ? "selected" : "";
-
-                    return (
-                      <tr key={index} className={isSelected}>
-                        <td className="product-title-cell">
-                          <img
-                            src={image}
-                            alt=""
-                            className="product-image"
-                            width={50}
-                            height={50}
-                          />
-                          <span className="product-name">{value.name}</span>
-                        </td>
-
-                        <td>{value.category_name}</td>
-                        <td className="price-cell">{value.price}000 VND</td>
-
-                        <td className="action-cell">
-                          <Link to={`/admin/product?id=${value.product_id}`}>
-                            <i
-                              onClick={() =>
-                                handleClickUpdate(value.product_id)
-                              }
-                              className="fa-solid fa-pen"
-                            ></i>
-                          </Link>
-
-                          <i
-                            onClick={() => handleDelete(value.product_id)}
-                            className="fa-solid fa-trash"
-                          ></i>
-                        </td>
-                      </tr>
-                    );
-                  })
-                : productsWithCategory_Id.length > 0 &&
-                  productsWithCategory_Id.map((value, index) => {
-                    const image1 = value.image_url.includes("https")
-                      ? value.image_url
-                      : `http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/images/product/${value.image_url}`;
-
-                    const isSelected = index === 0 ? "selected" : "";
-
-                    return (
-                      <tr key={index} className={isSelected}>
-                        <td className="product-title-cell">
-                          <img
-                            src={image1}
-                            alt=""
-                            className="product-image"
-                            width={50}
-                            height={50}
-                          />
-                          <span className="product-name">{value.name}</span>
-                        </td>
-
-                        <td>{value.category_name}</td>
-                        <td className="price-cell">{value.price}000 VND</td>
-
-                        <td className="action-cell">
-                          <Link to={`/admin/product?id=${value.product_id}`}>
-                            <i
-                              onClick={() =>
-                                handleClickUpdate(value.product_id)
-                              }
-                              className="fa-solid fa-pen"
-                            ></i>
-                          </Link>
-
-                          <i
-                            onClick={() => handleDelete(value.product_id)}
-                            className="fa-solid fa-trash"
-                          ></i>
-                        </td>
-                      </tr>
-                    );
-                  })}
-            </tbody>
-          </table>
+        <div style={{ display: "flex" }}>
+          <Link to="/admin/product">
+            <button>Trước</button>
+          </Link>
+          <Link to="/admin/product-page2">
+            <button>Sau</button>
+          </Link>
         </div>
       </div>
 
-      <dialog ref={addDialog}>
-        <form action="" method="dialog" onSubmit={handleAddSubmit}>
-          Tên sản phẩm:
-          <input
-            type="text"
-            onChange={(e) => {
-              setName(e.target.value);
-              setErrName("");
-            }}
-            placeholder="Nhập tên sản phẩm"
-          />
-          {errName && <span>{errName}</span>}
-          <br />
-
-          Loại sản phẩm:
-          <select
-            onChange={(e) => {
-              setCategorySelected(e.target.value);
-              setErrCategory("");
-            }}
-          >
-            <option value="0">Chọn loại sản phẩm</option>
-            {categories.map((value, index) => (
-              <option key={index} value={value.category_id}>
-                {value.category_name}
-              </option>
-            ))}
-          </select>
-          {errCategory && <span>{errCategory}</span>}
-          <br />
-
-          Giá:
-          <input
-            type="text"
-            onChange={(e) => {
-              setPrice(e.target.value);
-              setErrPrice("");
-            }}
-            placeholder="Nhập giá"
-          />
-          {errPrice && <span>{errPrice}</span>}
-          <br />
-
-          Image:
-          <input
-            type="file"
-            onChange={() => setErrImage("")}
-            ref={addImage}
-          />
-          <br />
-
-          <button>Thêm</button>
-        </form>
-      </dialog>
-
-      <dialog ref={updateDialog}>
-        <form action="" method="dialog" onSubmit={handleUpdateSubmit}>
-          Tên sản phẩm:
-          <input
-            type="text"
-            defaultValue={productWithId.name}
-            onChange={(e) => {
-              setName(e.target.value);
-              setErrName("");
-            }}
-          />
-          {errName && <span>{errName}</span>}
-          <br />
-
-          Loại sản phẩm:
-          <select
-            onChange={(e) => {
-              setCategorySelected(e.target.value);
-              setErrCategory("");
-            }}
-          >
-            <option value="">{productWithId.category_name}</option>
-            {categories.map((value, index) => (
-              <option key={index} value={value.category_id}>
-                {value.category_name}
-              </option>
-            ))}
-          </select>
-          {errCategory && <span>{errCategory}</span>}
-          <br />
-
-          Giá:
-          <input
-            type="text"
-            defaultValue={productWithId.price}
-            onChange={(e) => {
-              setPrice(e.target.value);
-              setErrPrice("");
-            }}
-          />
-          {errPrice && <span>{errPrice}</span>}
-          <br />
-
-          Image:
-          <input
-            type="file"
-            onChange={() => setErrImage("")}
-            ref={updateImage}
-          />
-          {errFile && <span>{errFile}</span>}
-          <br />
-
-          <button>Cập nhật</button>
-        </form>
-      </dialog>
-
-      <div style={{ display: "flex" }}>
-        <Link to="/admin/product"><button>Trước</button></Link>
-        <Link to="/admin/product-page2"><button>Sau</button></Link>
-      </div>
-    </div>
-
-    <Footer />
-  </>
-);
-
+      <Footer />
+    </>
+  );
 }

@@ -86,6 +86,7 @@ function App() {
           productsPage1,
           productsPage2,
           categories,
+          refresh,
           setRefresh,
         }}
       >

@@ -35,13 +35,10 @@ export default function Detail() {
     formData.append("product_image", product.image_url);
     formData.append("product_price", product.price);
     formData.append("quantity", quantityRef.current.value);
-    fetch(
-      "http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/cart/cart_add.php",
-      {
-        method: "POST",
-        body: formData,
-      }
-    )
+    fetch("http://localhost:3000/server/cart/quanLyGioHang.php", {
+      method: "POST",
+      body: formData,
+    })
       .then((res) => {
         if (res.ok) return res.json();
         throw res;
