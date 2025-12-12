@@ -14,7 +14,7 @@ export default function Detail() {
   const quantityRef = useRef();
   useEffect(() => {
     fetch(
-      `http://localhost:3000/server/product/getProducts.php?product_id=${id}`
+      `http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/product/getProducts.php?product_id=${id}`
     )
       .then((res) => res.json())
       .then((data) => {
@@ -35,7 +35,7 @@ export default function Detail() {
     formData.append("product_image", product.image_url);
     formData.append("product_price", product.price);
     formData.append("quantity", quantityRef.current.value);
-    fetch("http://localhost:3000/server/cart/quanLyGioHang.php", {
+    fetch("http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/cart/quanLyGioHang.php", {
       method: "POST",
       body: formData,
     })
