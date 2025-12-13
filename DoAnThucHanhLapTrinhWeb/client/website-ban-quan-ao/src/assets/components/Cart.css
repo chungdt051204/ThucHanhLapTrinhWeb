@@ -183,137 +183,190 @@
   opacity: 0.9;
 }
 
+/* ======================================= */
+/* 1. CSS Cho Dialog Chính (Modal) */
+/* ======================================= */
 #checkout-dialog {
-    border: none;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
-    width: 90%;
-    max-width: 500px;
-    position: fixed;
-    top: 50%;
-    left: 570px;
-    transform: translate(-50%, -50%);
-    background-color: white;
-    z-index: 1000;
+  position: fixed;
+  top: 10%;
+  border: none;
+  padding: 0;
+  margin: auto;
+  width: 90%; /* Chiếm 90% chiều rộng màn hình */
+  max-width: 800px; /* Giới hạn chiều rộng tối đa */
+  max-height: 500px;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
-#checkout-dialog::backdrop {
-    background: rgba(0, 0, 0, 0.5);
+.dialog-content {
+  padding: 20px 30px;
+  background-color: #ffffff;
+  border-radius: 8px;
 }
 
 .dialog-content h2 {
-    text-align: center;
-    color: #333;
-    margin-bottom: 20px;
+  text-align: center;
+  color: #333;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #eee;
+  padding-bottom: 10px;
 }
 
+/* ======================================= */
+/* 2. CSS Cho Form và Fieldset */
+/* ======================================= */
 .checkout-form fieldset {
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    padding: 15px;
-    margin-bottom: 20px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 15px;
+  margin-bottom: 25px;
 }
 
 .checkout-form legend {
-    font-weight: bold;
-    color: #007bff;
-    padding: 0 10px;
+  font-size: 1.1em;
+  font-weight: bold;
+  color: #007bff; /* Màu chủ đạo */
+  padding: 0 10px;
 }
 
 .form-group {
-    margin-bottom: 15px;
+  margin-bottom: 15px;
 }
 
 .form-group label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: 500;
+  display: block; /* Đưa label lên trên input */
+  margin-bottom: 5px;
+  font-weight: 500;
+  color: #555;
 }
 
 .form-group input[type="text"],
 .form-group input[type="tel"],
 .form-group textarea {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box; /* Quan trọng để padding không làm tăng chiều rộng */
+  font-size: 1em;
 }
 
 .form-group textarea {
-    resize: vertical;
+  resize: vertical;
 }
 
-.radio-group {
-    display: flex;
-    align-items: center;
-}
-
+/* Ẩn radio button mặc định và tạo style riêng */
 .radio-group input[type="radio"] {
-    margin-right: 10px;
+  margin-right: 5px;
+}
+.radio-group label {
+  display: inline-block;
+  margin-right: 20px;
+  font-weight: normal;
 }
 
-.summary {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
+/* ======================================= */
+/* 3. CSS Cho Bảng Tóm tắt Sản phẩm */
+/* ======================================= */
+.checkout-form table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+  font-size: 0.95em;
 }
 
-.summary label {
-    font-weight: normal;
-    flex-grow: 1;
+.checkout-form table th {
+  background-color: #f8f9fa;
+  text-align: left;
+  padding: 10px;
+  border-bottom: 2px solid #ddd;
 }
 
-.summary input[type="text"] {
-    width: 150px;
-    text-align: right;
-    border: none;
-    background-color: transparent;
-    font-weight: 600;
+.checkout-form table tr {
+  border-bottom: 1px solid #eee;
 }
 
-.summary.total input[type="text"] {
-    color: #d0011b; /* Màu đỏ cho tổng thanh toán */
-    font-size: 1.1em;
+.checkout-form table tr:last-child {
+  border-bottom: none;
+}
+
+.checkout-form table tr td {
+  padding: 10px;
+  vertical-align: middle;
+}
+
+.checkout-form table tr td:first-child {
+  width: 60px; /* Cố định chiều rộng cột ảnh */
+}
+
+/* Style cho cột Tên sản phẩm */
+.checkout-form table tr td:nth-child(2) {
+  font-weight: 500;
+  color: #333;
+}
+
+/* Style cho ảnh sản phẩm */
+.checkout-form table tr img {
+  border-radius: 4px;
+  object-fit: cover;
+}
+
+/* ======================================= */
+/* 4. CSS Cho Tổng thanh toán và Actions */
+/* ======================================= */
+
+.form-group.summary.total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+  padding-top: 10px;
+  border-top: 2px solid #007bff; /* Điểm nhấn cho tổng tiền */
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+.form-group.summary.total input {
+  width: auto;
+  text-align: right;
+  border: none; /* Bỏ border vì nó là output */
+  font-weight: bold;
+  color: #dc3545; /* Màu đỏ cho tổng tiền */
 }
 
 .dialog-actions {
-    display: flex;
-    justify-content: space-between;
-    gap: 10px;
-    margin-top: 20px;
+  text-align: right;
+  margin-top: 30px;
 }
 
-.dialog-actions button {
-    flex-grow: 1;
-}
-
-.submit-btn, .cancel-btn {
-    padding: 10px 15px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: background-color 0.2s;
+.submit-btn,
+.cancel-btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  margin-left: 10px;
+  transition: background-color 0.2s;
 }
 
 .submit-btn {
-    background-color: #28a745;
-    color: white;
+  background-color: #28a745; /* Màu xanh lá cây */
+  color: white;
 }
 
 .submit-btn:hover {
-    background-color: #218838;
+  background-color: #218838;
 }
 
 .cancel-btn {
-    background-color: #f8f9fa;
-    color: #343a40;
-    border: 1px solid #ccc;
+  background-color: #6c757d; /* Màu xám */
+  color: white;
 }
 
 .cancel-btn:hover {
-    background-color: #e2e6ea;
+  background-color: #5a6268;
 }

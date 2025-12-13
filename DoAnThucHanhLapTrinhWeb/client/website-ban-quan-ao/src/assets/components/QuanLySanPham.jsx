@@ -162,9 +162,7 @@ export default function QuanLySanPham({ data }) {
   };
   return (
     <>
-      <AdminNavBar />
-
-      {/* LỚP BAO NGOÀI */}
+      <h2>Quản lý sản phẩm</h2>
       <div className="product-page">
         <div>
           <div className="product-controls">
@@ -212,27 +210,72 @@ export default function QuanLySanPham({ data }) {
               <tbody>
                 {!categoryId && data.length > 0
                   ? data.map((value, index) => {
-                    const image = value.image_url.includes("https")
-                      ? value.image_url
-                      : `http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/images/product/${value.image_url}`;
+                      const image = value.image_url.includes("https")
+                        ? value.image_url
+                        : `http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/images/product/${value.image_url}`;
 
-                    const isSelected = index === 0 ? "selected" : "";
+                      const isSelected = index === 0 ? "selected" : "";
 
-                    return (
-                      <tr key={index} className={isSelected}>
-                        <td className="product-title-cell">
-                          <img
-                            src={image}
-                            alt=""
-                            className="product-image"
-                            width={50}
-                            height={50}
-                          />
-                          <span className="product-name">{value.name}</span>
-                        </td>
-                        <td>{value.category_name}</td>
-                        <td className="price-cell">{value.price}000 VND</td>
-                        <div className="edit-delete">
+                      return (
+                        <tr key={index} className={isSelected}>
+                          <td className="product-title-cell">
+                            <img
+                              src={image}
+                              alt=""
+                              className="product-image"
+                              width={50}
+                              height={50}
+                            />
+                            <span className="product-name">{value.name}</span>
+                          </td>
+                          <td>{value.category_name}</td>
+                          <td className="price-cell">{value.price}000 VND</td>
+                          <div className="edit-delete">
+                            <td className="action-cell">
+                              <Link
+                                to={`/admin/product?id=${value.product_id}`}
+                              >
+                                <i
+                                  onClick={() =>
+                                    handleClickUpdate(value.product_id)
+                                  }
+                                  className="fa-solid fa-pen"
+                                ></i>
+                              </Link>
+
+                              <i
+                                onClick={() => handleDelete(value.product_id)}
+                                className="fa-solid fa-trash"
+                              ></i>
+                            </td>
+                          </div>
+                        </tr>
+                      );
+                    })
+                  : productsWithCategory_Id.length > 0 &&
+                    productsWithCategory_Id.map((value, index) => {
+                      const image1 = value.image_url.includes("https")
+                        ? value.image_url
+                        : `http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/images/product/${value.image_url}`;
+
+                      const isSelected = index === 0 ? "selected" : "";
+
+                      return (
+                        <tr key={index} className={isSelected}>
+                          <td className="product-title-cell">
+                            <img
+                              src={image1}
+                              alt=""
+                              className="product-image"
+                              width={50}
+                              height={50}
+                            />
+                            <span className="product-name">{value.name}</span>
+                          </td>
+
+                          <td>{value.category_name}</td>
+                          <td className="price-cell">{value.price}000 VND</td>
+
                           <td className="action-cell">
                             <Link to={`/admin/product?id=${value.product_id}`}>
                               <i
@@ -248,52 +291,9 @@ export default function QuanLySanPham({ data }) {
                               className="fa-solid fa-trash"
                             ></i>
                           </td>
-                        </div>
-                      </tr>
-                    );
-                  })
-                  : productsWithCategory_Id.length > 0 &&
-                  productsWithCategory_Id.map((value, index) => {
-                    const image1 = value.image_url.includes("https")
-                      ? value.image_url
-                      : `http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/images/product/${value.image_url}`;
-
-                    const isSelected = index === 0 ? "selected" : "";
-
-                    return (
-                      <tr key={index} className={isSelected}>
-                        <td className="product-title-cell">
-                          <img
-                            src={image1}
-                            alt=""
-                            className="product-image"
-                            width={50}
-                            height={50}
-                          />
-                          <span className="product-name">{value.name}</span>
-                        </td>
-
-                        <td>{value.category_name}</td>
-                        <td className="price-cell">{value.price}000 VND</td>
-
-                        <td className="action-cell">
-                          <Link to={`/admin/product?id=${value.product_id}`}>
-                            <i
-                              onClick={() =>
-                                handleClickUpdate(value.product_id)
-                              }
-                              className="fa-solid fa-pen"
-                            ></i>
-                          </Link>
-
-                          <i
-                            onClick={() => handleDelete(value.product_id)}
-                            className="fa-solid fa-trash"
-                          ></i>
-                        </td>
-                      </tr>
-                    );
-                  })}
+                        </tr>
+                      );
+                    })}
               </tbody>
             </table>
           </div>
@@ -411,8 +411,6 @@ export default function QuanLySanPham({ data }) {
           </Link>
         </div>
       </div>
-
-      <Footer />
     </>
   );
 }

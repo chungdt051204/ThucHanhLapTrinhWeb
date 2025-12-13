@@ -12,20 +12,22 @@
     //Lấy tất cả sản phẩm trong đơn hàng của 1 user
     if($user_id){
         $sql = "SELECT 
+    p.product_id,
     p.name, 
     p.image_url, 
     p.price, 
-    ot.order_item_id,
-    ot.quantity,
-    p.price * ot.quantity AS total
+    p.stock_quantity,
+    ci.cart_item_id,
+    ci.quantity,
+    p.price * ci.quantity AS total
 FROM 
-    orders o 
+    cart c
 INNER JOIN 
-    order_items ot ON o.order_id = ot.order_id
+    cart_item ci ON c.cart_id = ci.cart_id
 INNER JOIN 
-    products p ON ot.product_id = p.product_id 
+    products p ON ci.product_id = p.product_id 
 WHERE 
-    o.user_id = ?";
+    c.user_id = ?";
     $stmt = $conn -> prepare($sql);
     $stmt -> execute([$user_id]);
     $cartItems = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -46,47 +48,47 @@ WHERE
         $product_price = $_POST["product_price"] ?? "";
         $quantity = $_POST["quantity"] ?? "";
         $total_amount = $product_price * $quantity;
-        $sql = "SELECT * FROM orders WHERE user_id = ? AND status = ?";
+        $sql = "SELECT * FROM cart WHERE user_id = ?";
         $stmt = $conn -> prepare($sql);
-        $stmt -> execute([$user_id, "Cart"]);
-        //Nếu người dùng chưa có đơn hàng
-        $orderInDatabase = $stmt -> fetch();
-        if(!$orderInDatabase){
-            //Thêm mới đơn hàng
-            $sql1 = "INSERT INTO orders(user_id, status, total_amount) VALUES(?,?,?)";
+        $stmt -> execute([$user_id]);
+        //Nếu người dùng chưa có giỏ hàng
+        $cartInDatabase = $stmt -> fetch();
+        if(!$cartInDatabase){
+            //Tạo giỏ hàng mới
+            $sql1 = "INSERT INTO cart(user_id, total_amount) VALUES(?,?)";
             $stmt = $conn ->prepare($sql1);
-            $stmt -> execute([$user_id, "Cart", $total_amount]);
-            $current_order_id = $conn->lastInsertId();//Lấy order_id vừa mới thêm
-            //Thêm mới chi tiết đơn hàng
-            $sql2 = "INSERT INTO order_items(order_id, product_id, quantity, price) VALUES(?,?,?,?)";
+            $stmt -> execute([$user_id, $total_amount]);
+            $current_cart_id = $conn->lastInsertId();//Lấy cart_id vừa mới thêm
+            //Thêm mới chi tiết giỏ hàng
+            $sql2 = "INSERT INTO cart_item(cart_id, product_id, quantity, price) VALUES(?,?,?,?)";
             $stmt = $conn -> prepare($sql2);
-            $stmt -> execute([$current_order_id, $product_id, $quantity, $product_price]);
+            $stmt -> execute([$current_cart_id, $product_id, $quantity, $product_price]);
             http_response_code(200);
             echo json_encode("Thêm mới".$product_name."vào giỏ hàng thành công");
         }
-        //Nếu người dùng đã có đơn hàng
+        //Nếu người dùng đã có giỏ hàng
         else{
-            $current_order_id = $orderInDatabase["order_id"];//Lấy order_id trong database;
-            $sql3 = "SELECT * FROM order_items WHERE order_id = ? AND product_id = ?";
+            $current_cart_id = $cartInDatabase["cart_id"];//Lấy cart_id trong database;
+            $sql3 = "SELECT * FROM cart_item WHERE cart_id = ? AND product_id = ?";
             $stmt = $conn -> prepare($sql3);
-            $stmt -> execute([$current_order_id, $product_id]);
-            $productInOrderItem = $stmt->fetch();
-            //Nếu chưa có sản phẩm trong chi tiết đơn hàng thì thêm mới sản phẩm vào chi tiết đơn hàng
-            //và cập nhật tổng tiền cho đơn hàng
-            if(!$productInOrderItem){
-                $sql4 = "INSERT INTO order_items(order_id, product_id, quantity, price) VALUES(?,?,?,?)";
+            $stmt -> execute([$current_cart_id, $product_id]);
+            $productInCart = $stmt->fetch();
+            //Nếu chưa có sản phẩm trong giỏ hàng thì thêm mới sản phẩm vào giỏ hàng
+            //và cập nhật tổng tiền cho giỏ hàng
+            if(!$productInCart){
+                $sql4 = "INSERT INTO cart_item(cart_id, product_id, quantity, price) VALUES(?,?,?,?)";
                 $stmt = $conn -> prepare($sql4);
-                $stmt -> execute([$current_order_id, $product_id, $quantity, $product_price]);
-                //Kích hoạt Trigger cập nhật lại tổng tiền đơn hàng sau khi thêm 1 sản phẩm vào giỏ hàng
+                $stmt -> execute([$current_cart_id, $product_id, $quantity, $product_price]);
+                //Kích hoạt Trigger cập nhật lại tổng tiền giỏ hàng sau khi thêm 1 sản phẩm vào giỏ hàng
                 http_response_code(200);
                 echo json_encode("Thêm mới".$product_name."vào giỏ hàng thành công");
             }
-            //Có rồi thì cập nhật số lượng cho chi tiết đơn hàng và cập nhật tổng tiền cho đơn hàng
+            //Có rồi thì cập nhật số lượng cho chi tiết giỏ hàng và cập nhật tổng tiền cho giỏ hàng
             else{
-                $sql6 = "UPDATE order_items SET quantity = quantity + ? WHERE order_id = ? AND product_id = ? ";
+                $sql6 = "UPDATE cart_item SET quantity = quantity + ? WHERE cart_id = ? AND product_id = ? ";
                 $stmt = $conn -> prepare($sql6);
-                $stmt -> execute([$quantity, $current_order_id, $product_id]);
-                 //Kích hoạt Trigger cập nhật lại tổng tiền đơn hàng sau khi cập nhật số lượng 1 sản phẩm
+                $stmt -> execute([$quantity, $current_cart_id, $product_id]);
+                 //Kích hoạt Trigger cập nhật lại tổng tiền giỏ hàng sau khi cập nhật số lượng 1 sản phẩm
                 http_response_code(200);
                 echo json_encode("Bạn đã thêm số lượng cho".$product_name);
             }
@@ -99,7 +101,7 @@ WHERE
             $input = file_get_contents("php://input");
             $data = json_decode($input, true);
             $newQuantity = $data["newQuantity"] ?? "";
-            $sql = "UPDATE order_items SET quantity = ? WHERE order_item_id = ?";
+            $sql = "UPDATE cart_item SET quantity = ? WHERE cart_item_id = ?";
             $stmt = $conn->prepare($sql);
             $stmt->execute([$newQuantity, $id]);
             $row = $stmt->rowCount();
@@ -117,7 +119,7 @@ WHERE
     //Xóa 1 sản phẩm
     $id = $_GET["id"] ?? "";
     if($_SERVER["REQUEST_METHOD"] === "DELETE" && $id){
-        $sql = "DELETE FROM order_items WHERE order_item_id = ?";
+        $sql = "DELETE FROM cart_item WHERE cart_item_id = ?";
         $stmt = $conn->prepare($sql);
         $stmt->execute([$id]);
         $row = $stmt->rowCount();
@@ -137,7 +139,7 @@ WHERE
         $data = json_decode($input, true);
         $arrId = $data['arrId'] ?? [];
         $arrIdString = implode(",", $arrId);//Tách mảng thành chuỗi
-        $sql = "DELETE FROM order_items WHERE order_item_id IN ($arrIdString)";
+        $sql = "DELETE FROM cart_item WHERE cart_item_id IN ($arrIdString)";
         $stmt = $conn->prepare($sql);
         $stmt->execute();
         $row = $stmt->rowCount();

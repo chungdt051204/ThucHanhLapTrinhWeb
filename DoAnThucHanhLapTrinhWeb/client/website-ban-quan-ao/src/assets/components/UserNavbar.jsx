@@ -45,6 +45,7 @@ export default function NavBar() {
       })
       .then(({ message }) => {
         alert(message);
+        navigate("/");
       })
       .catch();
   };
@@ -142,6 +143,9 @@ export default function NavBar() {
                   <div className="user-dropdown-menu">
                     <Link to="/user-info">
                       <p>USER INFO</p>
+                    </Link>
+                    <Link to="/my-orders">
+                      <p>MY ORDERS</p>
                     </Link>
                     <p onClick={handleLogout}>LOGOUT</p>
                   </div>

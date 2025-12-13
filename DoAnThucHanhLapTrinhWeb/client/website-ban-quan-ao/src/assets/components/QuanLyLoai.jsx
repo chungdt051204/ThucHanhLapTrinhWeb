@@ -95,7 +95,6 @@ export default function QuanLyLoai() {
 
   return (
     <div className="ql-loai-container">
-      <AdminNavbar />
       <h2 className="title">Quản lý loại</h2>
 
       <button
@@ -179,8 +178,6 @@ export default function QuanLyLoai() {
           </div>
         </form>
       </dialog>
-
-      <Footer />
     </div>
   );
 }

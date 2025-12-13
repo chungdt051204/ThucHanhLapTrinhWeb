@@ -35,10 +35,13 @@ export default function Detail() {
     formData.append("product_image", product.image_url);
     formData.append("product_price", product.price);
     formData.append("quantity", quantityRef.current.value);
-    fetch("http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/cart/quanLyGioHang.php", {
-      method: "POST",
-      body: formData,
-    })
+    fetch(
+      "http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/cart/quanLyGioHang.php",
+      {
+        method: "POST",
+        body: formData,
+      }
+    )
       .then((res) => {
         if (res.ok) return res.json();
         throw res;
@@ -67,7 +70,14 @@ export default function Detail() {
               >
                 -
               </button>
-              <input type="text" ref={quantityRef} value={quantity} readOnly />
+              <input
+                type="text"
+                ref={quantityRef}
+                onChange={(e) => {
+                  setQuantity(e.target.value);
+                }}
+                value={quantity}
+              />
               <button onClick={() => setQuantity(quantity + 1)}>+</button>
             </div>
             <button onClick={() => handleClick(product)}>ADD TO CART</button>

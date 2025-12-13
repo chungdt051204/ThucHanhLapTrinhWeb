@@ -54,15 +54,15 @@ export default function NavBar() {
       <nav>
         <ul>
           <li>
-            <Link to="/">
+            <Link to="/admin">
               <img src={logo} alt="" />
             </Link>
           </li>
         </ul>
         <ul>
           <li>
-            <Link to="/">
-              <p>DASKBOARD</p>
+            <Link to="/admin">
+              <p>DASHBOARD</p>
             </Link>
           </li>
           <li>
@@ -81,7 +81,7 @@ export default function NavBar() {
             </Link>
           </li>
           <li>
-            <Link to="/accessoryProduct-page">
+            <Link to="/admin/order">
               <p>QUẢN LÝ ĐƠN HÀNG</p>
             </Link>
           </li>

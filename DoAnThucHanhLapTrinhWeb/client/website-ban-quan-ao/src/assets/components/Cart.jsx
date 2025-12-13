@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useRef } from "react";
 import AppContext from "./AppContext";
 import React, { useState } from "react";
 import Footer from "./Footer";
@@ -9,12 +9,16 @@ export default function Cart_page() {
   const { user, refresh, setRefresh } = useContext(AppContext);
   const [cartItems, setCartItems] = useState([]);
   const [arrIdItemSelected, setArrIdItemSelected] = useState([]);
-  // 1. Thêm state để điều khiển dialog
-  const [showCheckoutDialog, setShowCheckoutDialog] = useState(false);
+  const dialog = useRef();
+  const fullNameRef = useRef();
+  const phoneRef = useRef();
+  const addressRef = useRef();
+  const [paymentMethod, setPaymentMethod] = useState("COD");
 
   let tong = 0;
   cartItems.forEach((value) => {
-    tong = tong + parseFloat(value.total);
+    if (arrIdItemSelected.includes(value.cart_item_id))
+      tong = tong + parseFloat(value.price * value.quantity);
   });
   useEffect(() => {
     fetch(
@@ -32,9 +36,12 @@ export default function Cart_page() {
       .catch();
   }, [user.user_id, refresh]);
   const handleDelete = (id) => {
-    fetch(`http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/cart/quanLyGioHang.php?id=${id}`, {
-      method: "DELETE",
-    })
+    fetch(
+      `http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/cart/quanLyGioHang.php?id=${id}`,
+      {
+        method: "DELETE",
+      }
+    )
       .then((res) => {
         if (res.ok) return res.json();
         throw res;
@@ -54,13 +61,16 @@ export default function Cart_page() {
     }
   };
   const handleDeleteItemsSelected = () => {
-    fetch(`http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/cart/quanLyGioHang.php`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ arrId: arrIdItemSelected }),
-    })
+    fetch(
+      `http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/cart/quanLyGioHang.php`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ arrId: arrIdItemSelected }),
+      }
+    )
       .then((res) => {
         if (res.ok) return res.json();
         throw res;
@@ -77,13 +87,16 @@ export default function Cart_page() {
   };
   const handleIncrementQuantity = (quantity, id) => {
     const newQuantity = quantity + 1;
-    fetch(`http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/cart/quanLyGioHang.php?id=${id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ newQuantity: newQuantity }),
-    })
+    fetch(
+      `http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/cart/quanLyGioHang.php?id=${id}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ newQuantity: newQuantity }),
+      }
+    )
       .then((res) => {
         if (res.ok) return res.json();
         throw res;
@@ -101,13 +114,16 @@ export default function Cart_page() {
     if (quantity <= 1) return;
     else {
       const newQuantity = quantity - 1;
-      fetch(`http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/cart/quanLyGioHang.php?id=${id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ newQuantity: newQuantity }),
-      })
+      fetch(
+        `http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/cart/quanLyGioHang.php?id=${id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ newQuantity: newQuantity }),
+        }
+      )
         .then((res) => {
           if (res.ok) return res.json();
           throw res;
@@ -125,25 +141,48 @@ export default function Cart_page() {
 
   // 2. Thêm hàm để mở dialog
   const handleCheckout = () => {
-    // Chỉ cho phép thanh toán khi có sản phẩm trong giỏ hàng
-    if (cartItems.length > 0) {
-        setShowCheckoutDialog(true);
+    if (tong == 0) {
+      alert("Bạn chưa chọn sản phẩm cần mua");
+      return;
     } else {
-        alert("Giỏ hàng của bạn đang trống.");
+      dialog.current.showModal();
     }
   };
-
-  const handleCloseDialog = () => {
-    setShowCheckoutDialog(false);
-  }
-
-  // Hàm xử lý khi submit form (chưa cần xử lý logic backend ở đây)
-  const handleSubmitOrder = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    alert("Xác nhận Đặt Hàng (Chức năng này sẽ được phát triển tiếp)");
-    handleCloseDialog();
-  }
-
+    const newArr = cartItems.filter((value) =>
+      arrIdItemSelected.includes(value.cart_item_id)
+    );
+    const orderData = {
+      fullName: fullNameRef.current.value,
+      phone: phoneRef.current.value,
+      address: addressRef.current.value,
+      paymentMethod: paymentMethod,
+      user_id: user.user_id,
+      tong: tong,
+      arrItem: newArr,
+    };
+    fetch("http://localhost:3000/server/order/order.php", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(orderData),
+    })
+      .then((res) => {
+        if (res.ok) return res.json();
+        throw res;
+      })
+      .then(({ message }) => {
+        alert(message);
+        dialog.current.close();
+        setRefresh((prev) => prev + 1);
+      })
+      .catch(async (err) => {
+        const { message } = await err.json();
+        console.log(message);
+      });
+  };
   return (
     <section className="cart">
       <UserNavbar />
@@ -165,12 +204,16 @@ export default function Cart_page() {
                   <td className="cart-product">
                     <input
                       type="checkbox"
-                      checked={arrIdItemSelected.includes(value.order_item_id)}
-                      onChange={() => handleItemChecked(value.order_item_id)}
+                      checked={arrIdItemSelected.includes(value.cart_item_id)}
+                      onChange={() => handleItemChecked(value.cart_item_id)}
                       className="cart-checkbox"
                     />
                     {/* Giả định image_url là đường dẫn hợp lệ */}
-                    <img src={value.image_url} className="cart-image" alt={value.name} />
+                    <img
+                      src={value.image_url}
+                      className="cart-image"
+                      alt={value.name}
+                    />
                     <div className="cart-info">
                       <h4 className="cart-name">{value.name}</h4>
                     </div>
@@ -181,7 +224,7 @@ export default function Cart_page() {
                       onClick={() => {
                         handleDecrementQuantity(
                           value.quantity,
-                          value.order_item_id
+                          value.cart_item_id
                         );
                       }}
                     >
@@ -192,7 +235,7 @@ export default function Cart_page() {
                       onClick={() => {
                         handleIncrementQuantity(
                           value.quantity,
-                          value.order_item_id
+                          value.cart_item_id
                         );
                       }}
                     >
@@ -202,7 +245,7 @@ export default function Cart_page() {
                   <td className="cart-total">{value.total}000 VND</td>
                   <td className="cart-action">
                     <button
-                      onClick={() => handleDelete(value.order_item_id)}
+                      onClick={() => handleDelete(value.cart_item_id)}
                       className="remove-btn"
                     >
                       Xóa
@@ -226,7 +269,9 @@ export default function Cart_page() {
 
         <div className="right">
           <span className="total-label">Tổng cộng sản phẩm:</span>
-          <span className="total-price">{tong}000 VND</span>
+          <span className="total-price">
+            {tong > 0 ? tong + "000 VND" : "0 VND"}
+          </span>
           {/* Thêm sự kiện onClick để mở dialog */}
           <button className="checkout-btn" onClick={handleCheckout}>
             Mua Hàng
@@ -234,72 +279,118 @@ export default function Cart_page() {
         </div>
       </div>
 
+      <dialog ref={dialog}>
+        <div className="dialog-content">
+          <h2>Xác nhận Thanh toán</h2>
+          <form
+            className="checkout-form"
+            method="dialog"
+            onSubmit={handleSubmit}
+          >
+            {/* 1. Thông tin Người nhận (Bắt buộc) */}
+            <fieldset>
+              <legend>1. Thông tin Người nhận</legend>
+              <div className="form-group">
+                <label htmlFor="hoTen">Họ và Tên (*):</label>
+                <input type="text" ref={fullNameRef} required />
+              </div>
+              <div className="form-group">
+                <label htmlFor="sdt">Số Điện Thoại (*):</label>
+                <input ref={phoneRef} type="tel" required />
+              </div>
+              <div className="form-group">
+                <label htmlFor="diaChi">Địa Chỉ Giao Hàng (*):</label>
+                <textarea ref={addressRef} required rows="3"></textarea>
+              </div>
+            </fieldset>
+
+            {/* 2. Phương thức Thanh toán */}
+            <fieldset>
+              <legend>2. Phương thức Thanh toán</legend>
+              <div className="form-group radio-group">
+                <input
+                  type="radio"
+                  checked={paymentMethod === "COD"}
+                  onChange={(e) => {
+                    setPaymentMethod(e.target.value);
+                  }}
+                  value="COD"
+                />
+                <label htmlFor="cod">COD (Thanh toán khi nhận hàng)</label>
+                <input
+                  type="radio"
+                  checked={paymentMethod === "Online"}
+                  onChange={(e) => {
+                    setPaymentMethod(e.target.value);
+                  }}
+                  value="Online"
+                />
+                <label htmlFor="cod">Thanh toán trực tuyến</label>
+              </div>
+              {/* Có thể thêm các phương thức khác */}
+            </fieldset>
+
+            {/* 3. Tóm tắt & Xác nhận */}
+            <fieldset>
+              <p>{tong}</p>
+              <legend>3. Xác nhận</legend>
+              <table border={1}>
+                <tr>
+                  <th colSpan={2}>Sản phẩm</th>
+                  <th>Giá</th>
+                  <th>Số lượng</th>
+                  <th>Tổng</th>
+                </tr>
+                {cartItems.length > 0 &&
+                  cartItems.map((value, index) => {
+                    if (arrIdItemSelected.includes(value.cart_item_id)) {
+                      return (
+                        <tr key={index}>
+                          <td>
+                            <img
+                              src={value.image_url}
+                              alt=""
+                              width={50}
+                              height={50}
+                            />
+                          </td>
+                          <td>{value.name}</td>
+                          <td>{value.price}000 VND</td>
+                          <td>{value.quantity}</td>
+                          <td>{value.total}000VND</td>
+                        </tr>
+                      );
+                    }
+                  })}
+              </table>
+              <div className="form-group summary total">
+                <label>Tổng thanh toán:</label>
+                {/* Lấy giá trị biến tong, thêm readOnly */}
+                <input
+                  type="text"
+                  name="tongThanhToan"
+                  value={tong + "000 VND"}
+                  readOnly
+                />
+              </div>
+
+              <div className="dialog-actions">
+                <button className="submit-btn">Đặt hàng / Xác nhận</button>
+                {/* Thêm nút Hủy để đóng dialog */}
+                <button
+                  onClick={() => {
+                    dialog.current.close();
+                  }}
+                  className="cancel-btn"
+                >
+                  Hủy
+                </button>
+              </div>
+            </fieldset>
+          </form>
+        </div>
+      </dialog>
       {/* 3. Thêm dialog thanh toán */}
-      {showCheckoutDialog && (
-        <dialog open id="checkout-dialog">
-          <div className="dialog-content">
-            <h2>Xác nhận Thanh toán</h2>
-            <form className="checkout-form" onSubmit={handleSubmitOrder}>
-              {/* 1. Thông tin Người nhận (Bắt buộc) */}
-              <fieldset>
-                <legend>1. Thông tin Người nhận</legend>
-                <div className="form-group">
-                  <label htmlFor="hoTen">Họ và Tên (*):</label>
-                  <input type="text" id="hoTen" name="hoTen" required />
-                </div>
-                <div className="form-group">
-                  <label htmlFor="sdt">Số Điện Thoại (*):</label>
-                  <input type="tel" id="sdt" name="sdt" required />
-                </div>
-                <div className="form-group">
-                  <label htmlFor="diaChi">Địa Chỉ Giao Hàng (*):</label>
-                  <textarea id="diaChi" name="diaChi" required rows="3"></textarea>
-                </div>
-              </fieldset>
-
-              {/* 2. Phương thức Thanh toán */}
-              <fieldset>
-                <legend>2. Phương thức Thanh toán</legend>
-                <div className="form-group radio-group">
-                  <input type="radio" id="cod" name="paymentMethod" value="COD" defaultChecked />
-                  <label htmlFor="cod">COD (Thanh toán khi nhận hàng)</label>
-                </div>
-                {/* Có thể thêm các phương thức khác */}
-              </fieldset>
-
-              {/* 3. Tóm tắt & Xác nhận */}
-              <fieldset>
-                <legend>3. Tóm tắt & Xác nhận</legend>
-                <div className="form-group summary">
-                  <label>Tổng tiền hàng:</label>
-                  {/* Lấy giá trị biến tong, thêm readOnly */}
-                  <input type="text" name="tongTienHang" defaultValue={`${tong}000 VND`} readOnly />
-                </div>
-                <div className="form-group summary">
-                  <label>Phí vận chuyển:</label>
-                  {/* Phí vận chuyển đặt là 0 VND */}
-                  <input type="text" name="phiVanChuyen" defaultValue="0 VND" readOnly />
-                </div>
-                <div className="form-group summary total">
-                  <label>Tổng thanh toán:</label>
-                  {/* Lấy giá trị biến tong, thêm readOnly */}
-                  <input type="text" name="tongThanhToan" defaultValue={`${tong}000 VND`} readOnly />
-                </div>
-
-                <div className="dialog-actions">
-                    <button type="submit" className="submit-btn">
-                        Đặt hàng / Xác nhận
-                    </button>
-                    {/* Thêm nút Hủy để đóng dialog */}
-                    <button type="button" onClick={handleCloseDialog} className="cancel-btn">
-                        Hủy
-                    </button>
-                </div>
-              </fieldset>
-            </form>
-          </div>
-        </dialog>
-      )}
 
       <Footer />
     </section>

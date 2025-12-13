@@ -118,8 +118,6 @@ export default function QuanLyNguoiDung() {
 
   return (
     <div className="ql-nguoi-dung-container">
-      <AdminNavBar />
-
       {/* Tiêu đề */}
       <h2 className="title">Quản lý Người dùng</h2>
 
@@ -207,8 +205,6 @@ export default function QuanLyNguoiDung() {
           </tbody>
         </table>
       </div>
-
-      <Footer />
     </div>
   );
 }
