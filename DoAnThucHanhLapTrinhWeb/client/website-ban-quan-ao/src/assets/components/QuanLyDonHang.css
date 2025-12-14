@@ -1,0 +1,141 @@
+.order-admin-page {
+  padding: 20px 24px;
+  background: #f4f6fb;
+  font-family: "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+
+.order-admin-page h2 {
+  margin-bottom: 16px;
+  font-size: 24px;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.order-admin-page table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #ffffff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+.order-admin-page thead tr,
+.order-admin-page table tr:first-child {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+}
+
+.order-admin-page th {
+  padding: 14px 12px;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: left;
+  white-space: nowrap;
+  border: none;
+}
+
+.order-admin-page td {
+  padding: 12px;
+  font-size: 14px;
+  color: #374151;
+  border-bottom: 1px solid #e5e7eb;
+  vertical-align: middle;
+}
+
+.order-admin-page tr:hover td {
+  background: #f1f5ff;
+  transition: 0.2s ease;
+}
+
+.order-admin-page td:nth-child(7) {
+  font-weight: 600;
+}
+
+.order-admin-page td:nth-child(7):contains("PENDING") {
+  color: #f59e0b;
+}
+
+.order-admin-page td:nth-child(7):contains("PROCESSING") {
+  color: #3b82f6;
+}
+
+.order-admin-page td:nth-child(7):contains("SHIPPING") {
+  color: #6366f1;
+}
+
+.order-admin-page td:nth-child(7):contains("COMPLETED") {
+  color: #10b981;
+}
+
+.order-admin-page td:nth-child(7):contains("CANCELLED") {
+  color: #ef4444;
+}
+
+/* ====== ACTION BUTTONS ====== */
+.order-admin-page td button {
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: none;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  margin: 3px 4px;
+  transition: all 0.2s ease;
+}
+
+/* confirm */
+.order-admin-page button:first-child {
+  background: #3b82f6;
+  color: #fff;
+}
+.order-admin-page button:first-child:hover {
+  background: #2563eb;
+}
+
+/* cancel */
+.order-admin-page button:last-child {
+  background: #ef4444;
+  color: #fff;
+}
+.order-admin-page button:last-child:hover {
+  background: #dc2626;
+}
+
+/* shipping */
+.order-admin-page button:contains("Bàn giao") {
+  background: #8b5cf6;
+}
+.order-admin-page button:contains("Bàn giao"):hover {
+  background: #7c3aed;
+}
+
+/* completed */
+.order-admin-page button:contains("Đã giao") {
+  background: #10b981;
+}
+.order-admin-page button:contains("Đã giao"):hover {
+  background: #059669;
+}
+
+/* ====== DETAIL BUTTON ====== */
+.order-admin-page td a button {
+  background: #0ea5e9;
+  color: #fff;
+}
+.order-admin-page td a button:hover {
+  background: #0284c7;
+}
+
+/* ====== RESPONSIVE ====== */
+@media (max-width: 1200px) {
+  .order-admin-page table {
+    font-size: 13px;
+  }
+
+  .order-admin-page th,
+  .order-admin-page td {
+    padding: 10px;
+  }
+}

@@ -1,11 +1,12 @@
 import { useEffect, useContext, useState } from "react";
 import AppContext from "./AppContext";
 import { Link } from "react-router-dom";
+import "./QuanLyDonHang.css";
 export default function QuanLyDonHang() {
   const { refresh, setRefresh } = useContext(AppContext);
   const [orders, setOrders] = useState([]);
   useEffect(() => {
-    fetch("http://localhost:3000/server/order/order.php")
+    fetch("http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/order/order.php")
       .then((res) => {
         if (res.ok) return res.json();
         throw res;
@@ -16,7 +17,7 @@ export default function QuanLyDonHang() {
       });
   }, [refresh]);
   const handleConfirmOrder = (id) => {
-    fetch(`http://localhost:3000/server/order/order.php?order_id=${id}`, {
+    fetch(`http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/order/order.php?order_id=${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -38,7 +39,7 @@ export default function QuanLyDonHang() {
       });
   };
   const handleCancelOrder = (id) => {
-    fetch(`http://localhost:3000/server/order/order.php?order_id=${id}`, {
+    fetch(`http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/order/order.php?order_id=${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -59,7 +60,7 @@ export default function QuanLyDonHang() {
       });
   };
   const handleShipping = (id) => {
-    fetch(`http://localhost:3000/server/order/order.php?order_id=${id}`, {
+    fetch(`http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/order/order.php?order_id=${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -80,7 +81,7 @@ export default function QuanLyDonHang() {
       });
   };
   const handleCompleted = (id) => {
-    fetch(`http://localhost:3000/server/order/order.php?order_id=${id}`, {
+    fetch(`http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/order/order.php?order_id=${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -102,86 +103,88 @@ export default function QuanLyDonHang() {
   };
   return (
     <>
-      <h2>Quản lý đơn hàng</h2>
-      <table border={1}>
-        <tr>
-          <th>Mã đơn hàng</th>
-          <th>Người đặt hàng</th>
-          <th>Số điện thoại</th>
-          <th>Địa chỉ giao hàng</th>
-          <th>Tổng tiền đơn hàng</th>
-          <th>Phương thức thanh toán</th>
-          <th>Trạng thái</th>
-          <th>Ngày tạo đơn</th>
-          <th>Ngày cập nhật đơn</th>
-          <th>Hành động</th>
-          <th>Chi tiết</th>
-        </tr>
-        {orders.length > 0 &&
-          orders.map((value, index) => {
-            return (
-              <tr key={index}>
-                <td>{value.order_id}</td>
-                <td>{value.fullName}</td>
-                <td>{value.phone}</td>
-                <td>{value.shipping_address}</td>
-                <td>{value.total_amount}000 VND</td>
-                <td>{value.paymentMethod}</td>
-                <td>{value.status}</td>
-                <td>{value.created_at}</td>
-                <td>{value.updated_at}</td>
-                <td>
-                  {value.status === "PENDING" && (
-                    <div>
-                      <button
-                        onClick={() => {
-                          handleConfirmOrder(value.order_id);
-                        }}
-                      >
-                        Xác nhận đơn hàng
-                      </button>
+      <div className="order-admin-page">
+        <h2>Quản lý đơn hàng</h2>
+        <table border={1}>
+          <tr>
+            <th>Mã đơn hàng</th>
+            <th>Người đặt hàng</th>
+            <th>Số điện thoại</th>
+            <th>Địa chỉ giao hàng</th>
+            <th>Tổng tiền đơn hàng</th>
+            <th>Phương thức thanh toán</th>
+            <th>Trạng thái</th>
+            <th>Ngày tạo đơn</th>
+            <th>Ngày cập nhật đơn</th>
+            <th>Hành động</th>
+            <th>Chi tiết</th>
+          </tr>
+          {orders.length > 0 &&
+            orders.map((value, index) => {
+              return (
+                <tr key={index}>
+                  <td>{value.order_id}</td>
+                  <td>{value.fullName}</td>
+                  <td>{value.phone}</td>
+                  <td>{value.shipping_address}</td>
+                  <td>{value.total_amount}000 VND</td>
+                  <td>{value.paymentMethod}</td>
+                  <td>{value.status}</td>
+                  <td>{value.created_at}</td>
+                  <td>{value.updated_at}</td>
+                  <td>
+                    {value.status === "PENDING" && (
+                      <div>
+                        <button
+                          onClick={() => {
+                            handleConfirmOrder(value.order_id);
+                          }}
+                        >
+                          Xác nhận đơn hàng
+                        </button>
+                        <button onClick={() => handleCancelOrder(value.order_id)}>
+                          Hủy đơn hàng
+                        </button>
+                      </div>
+                    )}
+                    {value.status === "OUT_OF_STOCK" && (
                       <button onClick={() => handleCancelOrder(value.order_id)}>
                         Hủy đơn hàng
                       </button>
-                    </div>
-                  )}
-                  {value.status === "OUT_OF_STOCK" && (
-                    <button onClick={() => handleCancelOrder(value.order_id)}>
-                      Hủy đơn hàng
-                    </button>
-                  )}
-                  {value.status === "PROCESSING" && (
-                    <div>
-                      <button onClick={() => handleShipping(value.order_id)}>
-                        Bàn giao cho đơn vị vận chuyển
-                      </button>
-                      <button onClick={() => handleCancelOrder(value.order_id)}>
-                        Hủy đơn hàng
-                      </button>
-                    </div>
-                  )}
-                  {value.status === "SHIPPING" && (
-                    <div>
-                      <button onClick={() => handleCompleted(value.order_id)}>
-                        Đã giao thành công
-                      </button>
-                      <button onClick={() => handleCancelOrder(value.order_id)}>
-                        Hủy đơn hàng
-                      </button>
-                    </div>
-                  )}
-                </td>
-                <td>
-                  <Link
-                    to={`/admin/order/order-item?order_id=${value.order_id}`}
-                  >
-                    <button>Xem chi tiết</button>
-                  </Link>
-                </td>
-              </tr>
-            );
-          })}
-      </table>
+                    )}
+                    {value.status === "PROCESSING" && (
+                      <div>
+                        <button onClick={() => handleShipping(value.order_id)}>
+                          Bàn giao cho đơn vị vận chuyển
+                        </button>
+                        <button onClick={() => handleCancelOrder(value.order_id)}>
+                          Hủy đơn hàng
+                        </button>
+                      </div>
+                    )}
+                    {value.status === "SHIPPING" && (
+                      <div>
+                        <button onClick={() => handleCompleted(value.order_id)}>
+                          Đã giao thành công
+                        </button>
+                        <button onClick={() => handleCancelOrder(value.order_id)}>
+                          Hủy đơn hàng
+                        </button>
+                      </div>
+                    )}
+                  </td>
+                  <td>
+                    <Link
+                      to={`/admin/order/order-item?order_id=${value.order_id}`}
+                    >
+                      <button>Xem chi tiết</button>
+                    </Link>
+                  </td>
+                </tr>
+              );
+            })}
+        </table>
+      </div>
     </>
   );
 }
