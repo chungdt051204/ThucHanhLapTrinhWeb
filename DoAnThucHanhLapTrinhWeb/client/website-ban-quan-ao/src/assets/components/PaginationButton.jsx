@@ -4,9 +4,7 @@ import "./PaginationButton.css";
 export default function PaginationButton() {
   const location = useLocation();
   const navigate = useNavigate();
-
   const currentPage = location.pathname === "/page2" ? 2 : 1;
-
   return (
     <>
       <div className="pagination-container">
@@ -34,7 +32,6 @@ export default function PaginationButton() {
         >
           →
         </button>
-
       </div>
     </>
   );

@@ -6,7 +6,6 @@
   justify-content: center;
   align-items: flex-start;
 }
-
 .userInfo-container {
   width: 100%;
   max-width: 520px;
@@ -16,11 +15,9 @@
   box-shadow: 0px 8px 30px rgba(0, 0, 0, 0.06);
   transition: 0.25s ease;
 }
-
 .userInfo-container:hover {
   box-shadow: 0px 12px 40px rgba(0, 0, 0, 0.12);
 }
-
 .userInfo-container h2 {
   text-align: center;
   font-size: 26px;
@@ -28,7 +25,6 @@
   color: #111;
   margin-bottom: 28px;
 }
-
 .userInfo-avatar {
   width: 110px;
   height: 110px;
@@ -39,18 +35,15 @@
   border: 4px solid #f0f0f0;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
 }
-
 .userInfo-container .info-group {
   margin-bottom: 18px;
 }
-
 .userInfo-container.info-group label {
   display: block;
   font-size: 14px;
   color: #555;
   margin-bottom: 6px;
 }
-
 .info-group p {
   font-size: 16px;
   background: #f7f7f9;
@@ -60,7 +53,6 @@
   color: #222;
   font-weight: 500;
 }
-
 .update-btn {
   width: 100%;
   padding: 14px 0;
@@ -73,11 +65,9 @@
   cursor: pointer;
   transition: 0.2s;
 }
-
 .update-btn:hover {
   background: #6bb5ff;
 }
-
 .update-panel {
   margin-top: 28px;
   padding: 24px;
@@ -86,20 +76,17 @@
   border: 1px solid #eee;
   box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.05);
 }
-
 .update-panel h3 {
   font-size: 20px;
   margin-bottom: 20px;
   font-weight: 600;
   color: #222;
 }
-
 .update-panel form {
   display: flex;
   flex-direction: column;
   gap: 14px;
 }
-
 .update-panel input[type="text"],
 .update-panel input[type="password"] {
   padding: 14px;
@@ -109,14 +96,12 @@
   font-size: 15px;
   transition: 0.2s;
 }
-
 .update-panel input[type="text"]:focus,
 .update-panel input[type="password"]:focus {
   border-color: #111;
   outline: none;
   box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.08);
 }
-
 .update-panel input[type="file"] {
   padding: 8px;
   background: #fff;
@@ -131,7 +116,6 @@
 input[type="file"] {
   margin-left: 0px;
 }
-
 .save-btn {
   margin-top: 6px;
   width: 100%;
@@ -144,7 +128,6 @@ input[type="file"] {
   cursor: pointer;
   transition: 0.2s;
 }
-
 .save-btn:hover {
   background: #6bb5ff;
 }

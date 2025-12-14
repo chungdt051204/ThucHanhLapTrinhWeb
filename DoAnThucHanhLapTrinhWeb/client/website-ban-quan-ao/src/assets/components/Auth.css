@@ -6,7 +6,6 @@
   font-family: "Poppins", sans-serif;
   background: #f5f7fa;
 }
-
 .auth-container {
   display: flex;
   flex-direction: column;
@@ -18,18 +17,15 @@
   text-align: center;
   color: #333;
 }
-
 .auth-container > h2 {
   font-size: 1.8rem;
   font-weight: 600;
   color: #222;
 }
-
 .input-group {
   position: relative;
   text-align: left;
 }
-
 .input-field {
   width: 340px;
   padding: 8px 10px;
@@ -42,7 +38,6 @@
   font-size: 1rem;
   transition: all 0.3s ease;
 }
-
 .input-label {
   position: absolute;
   top: 12px;
@@ -53,13 +48,11 @@
   background: transparent;
   font-size: 0.8rem;
 }
-
 .input-field:focus {
   background: #fff;
   border-color: #00c6ff;
   box-shadow: 0 0 6px rgba(0, 198, 255, 0.3);
 }
-
 .input-field:focus + .input-label,
 .input-field:not(:placeholder-shown) + .input-label {
   top: -10px;
@@ -70,7 +63,6 @@
   padding: 0 5px;
   border-radius: 5px;
 }
-
 .auth-button {
   width: 100%;
   padding: 12px;
@@ -84,53 +76,43 @@
   cursor: pointer;
   transition: transform 0.2s, box-shadow 0.2s;
 }
-
 .auth-button.register {
   margin-top: 20px;
 }
-
 .auth-button:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(0, 198, 255, 0.5);
 }
-
 .auth-container > p {
   margin-top: 20px;
   font-size: 0.9rem;
   color: #555;
 }
-
 .auth-container > p > a {
   color: #0072ff;
   text-decoration: none;
   font-weight: 500;
 }
-
 .auth-container > p > a:hover {
   text-decoration: underline;
 }
-
 .input-label.input-label-verifyPassword {
   width: 102px;
 }
-
 .error-message {
   color: red;
   font-size: 14px;
 }
-
 .gender-group {
   display: flex;
   gap: 12px;
   margin-bottom: 15px;
   margin-left: 10px;
 }
-
 .gender-options {
   display: flex;
   gap: 12px;
 }
-
 input[type="file"] {
   margin-left: -100px;
 }

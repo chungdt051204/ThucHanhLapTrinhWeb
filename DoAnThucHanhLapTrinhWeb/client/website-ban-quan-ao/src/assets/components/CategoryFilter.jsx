@@ -28,31 +28,6 @@ export default function CategoryFilter() {
                   </li>
                 );
               })}
-            {/* <li>
-              <Link to="/women-product">
-                <p>Women's</p>
-              </Link>
-            </li>
-            <li>
-              <Link to="/men-product">
-                <p>Men's</p>
-              </Link>
-            </li>
-            <li>
-              <Link to="/kid-product">
-                <p>Kid's</p>
-              </Link>
-            </li>
-            <li>
-              <Link to="/accessories-product">
-                <p>Accessories</p>
-              </Link>
-            </li>
-            <li>
-              <Link to="/cosmetics-product">
-                <p>Cosmetics</p>
-              </Link>
-            </li> */}
           </ul>
         </div>
       </section>

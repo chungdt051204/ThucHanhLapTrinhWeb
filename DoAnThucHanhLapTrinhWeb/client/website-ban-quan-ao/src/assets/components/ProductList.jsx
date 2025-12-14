@@ -1,14 +1,11 @@
-import { useContext } from "react";
-import AppContext from "./AppContext";
 import { Link } from "react-router-dom";
-import "./Product.css";
-export default function GetProductsPage2() {
-  const { productsPage2 } = useContext(AppContext);
+import PaginationButton from "./PaginationButton";
+export default function ProductList({ data }) {
   return (
     <>
       <div className="product-track">
-        {productsPage2.length > 0 &&
-          productsPage2.map((value, index) => {
+        {data.length > 0 ? (
+          data.map((value, index) => {
             return (
               <div key={index} className="product-item">
                 <Link to={`/product/detail?id=${value.product_id}`}>
@@ -17,10 +14,15 @@ export default function GetProductsPage2() {
                 <Link to={`/product/detail?id=${value.product_id}`}>
                   <p>{value.name}</p>
                 </Link>
+                <p style={{ color: "red" }}>{value.price}000 VND</p>
               </div>
             );
-          })}
+          })
+        ) : (
+          <p>Không có sản phẩm để hiển thị</p>
+        )}
       </div>
+      {data.length > 10 && <PaginationButton />}
     </>
   );
 }

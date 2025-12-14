@@ -8,7 +8,6 @@ import "./MyOrders.css";
 export default function MyOrders() {
   const { user, refresh, setRefresh } = useContext(AppContext);
   const [ordersWithUserId, setOrdersWithUserId] = useState([]);
-
   useEffect(() => {
     fetch(
       `http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/order/order.php?user_id=${user.user_id}`
@@ -22,7 +21,6 @@ export default function MyOrders() {
       })
       .catch();
   }, [refresh, user.user_id]);
-
   const handleCancelOrder = (id) => {
     fetch(
       `http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/order/order.php?order_id=${id}`,
@@ -44,14 +42,11 @@ export default function MyOrders() {
         alert(message);
       });
   };
-
   return (
     <>
       <UserNavBar />
-
       <div className="my-orders-page">
         <h2>Đơn hàng của tôi</h2>
-
         <table className="my-orders-table">
           <tr>
             <th>Mã đơn hàng</th>
@@ -60,7 +55,6 @@ export default function MyOrders() {
             <th>Trạng thái</th>
             <th>Thao tác</th>
           </tr>
-
           {ordersWithUserId.length > 0 &&
             ordersWithUserId.map((value, index) => (
               <tr key={index}>
@@ -74,14 +68,11 @@ export default function MyOrders() {
                   <Link to={`/my-order?order_id=${value.order_id}`}>
                     <button className="btn-detail">Xem chi tiết</button>
                   </Link>
-
                   {(value.status === "PENDING" ||
                     value.status === "OUT_OF_STOCK") && (
                     <button
                       className="btn-cancel"
-                      onClick={() =>
-                        handleCancelOrder(value.order_id)
-                      }
+                      onClick={() => handleCancelOrder(value.order_id)}
                     >
                       Hủy
                     </button>
@@ -91,7 +82,6 @@ export default function MyOrders() {
             ))}
         </table>
       </div>
-
       <Footer />
     </>
   );

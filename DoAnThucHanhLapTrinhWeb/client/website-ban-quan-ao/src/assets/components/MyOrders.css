@@ -4,14 +4,12 @@
   background: #f4f6fb;
   font-family: "Segoe UI", Roboto, Arial, sans-serif;
 }
-
 .my-orders-page h2 {
   margin-bottom: 20px;
   font-size: 24px;
   font-weight: 700;
   color: #1f2937;
 }
-
 .my-orders-table {
   width: 100%;
   border-collapse: collapse;
@@ -20,11 +18,9 @@
   overflow: hidden;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
 }
-
 .my-orders-table tr:first-child {
   background: linear-gradient(135deg, #667eea, #764ba2);
 }
-
 .my-orders-table th {
   padding: 14px 12px;
   font-size: 14px;
@@ -32,57 +28,45 @@
   color: #ffffff;
   text-align: left;
 }
-
 .my-orders-table td {
   padding: 14px 12px;
   font-size: 14px;
   color: #374151;
   border-bottom: 1px solid #e5e7eb;
 }
-
 .my-orders-table tr:hover td {
   background: #f1f5ff;
 }
-
 .my-orders-table td:nth-child(3) {
   font-weight: 700;
   color: #16a34a;
 }
-
 .order-status {
   font-weight: 700;
   text-transform: uppercase;
 }
-
 .order-status.PENDING {
   color: #f59e0b;
 }
-
 .order-status.PROCESSING {
   color: #2563eb;
 }
-
 .order-status.SHIPPING {
   color: #0ea5e9;
 }
-
 .order-status.COMPLETED {
   color: #16a34a;
 }
-
 .order-status.OUT_OF_STOCK {
   color: #dc2626;
 }
-
 .order-status.CANCELLED {
   color: #6b7280;
 }
-
 .order-actions {
   display: flex;
   gap: 10px;
 }
-
 .order-actions button {
   padding: 6px 12px;
   font-size: 13px;
@@ -91,21 +75,17 @@
   cursor: pointer;
   font-weight: 600;
 }
-
 .btn-detail {
   background: #6366f1;
   color: #ffffff;
 }
-
 .btn-detail:hover {
   background: #4f46e5;
 }
-
 .btn-cancel {
   background: #ef4444;
   color: #ffffff;
 }
-
 .btn-cancel:hover {
   background: #dc2626;
 }

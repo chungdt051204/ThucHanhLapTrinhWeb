@@ -62,7 +62,6 @@ export default function Login() {
                 Email
               </label>
             </div>
-
             <div className="input-group">
               <input
                 type="password"
@@ -76,7 +75,6 @@ export default function Login() {
                 Password
               </label>
             </div>
-
             {loginNotValid && (
               <span className="error-message">{loginNotValid}</span>
             )}

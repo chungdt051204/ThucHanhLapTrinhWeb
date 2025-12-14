@@ -1,17 +1,15 @@
 import { useSearchParams } from "react-router-dom";
-import { useEffect, useRef, useState, useContext } from "react";
+import { useEffect, useState, useContext } from "react";
 import AppContext from "./AppContext";
 import Footer from "./Footer";
 import UserNavBar from "./UserNavbar";
 import "./Detail.css";
-
 export default function Detail() {
   const { user, isLogin } = useContext(AppContext);
   const [searchParams] = useSearchParams();
   const id = searchParams.get("id");
   const [product, setProduct] = useState("");
   const [quantity, setQuantity] = useState(1);
-  const quantityRef = useRef();
   useEffect(() => {
     fetch(
       `http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/product/getProducts.php?product_id=${id}`
@@ -34,7 +32,7 @@ export default function Detail() {
     formData.append("product_name", product.name);
     formData.append("product_image", product.image_url);
     formData.append("product_price", product.price);
-    formData.append("quantity", quantityRef.current.value);
+    formData.append("quantity", quantity);
     fetch(
       "http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/cart/quanLyGioHang.php",
       {
@@ -64,15 +62,13 @@ export default function Detail() {
             <div className="qty">
               <button
                 onClick={() => {
-                  if (quantity >= 1) setQuantity(quantity - 1);
-                  setQuantity(1);
+                  if (quantity > 1) setQuantity(quantity - 1);
                 }}
               >
                 -
               </button>
               <input
                 type="text"
-                ref={quantityRef}
                 onChange={(e) => {
                   setQuantity(e.target.value);
                 }}
@@ -83,8 +79,8 @@ export default function Detail() {
             <button onClick={() => handleClick(product)}>ADD TO CART</button>
           </div>
           <div className="availability">
-            <strong>Availability:</strong>
-            <p>{product.stock_quantity}</p>
+            <strong>Status:</strong>
+            <p>{product.stock_quantity > 0 ? "Còn hàng" : "Hết hàng"}</p>
           </div>
           <div className="description">
             <h3>Description</h3>

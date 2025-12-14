@@ -10,7 +10,6 @@ export default function QuanLyLoai() {
   const category_name = useRef();
   const editId = useRef(null);
   const editName = useRef();
-
   const handleSubmit = (e) => {
     e.preventDefault();
     fetch(
@@ -57,13 +56,11 @@ export default function QuanLyLoai() {
         alert(message);
       });
   };
-
   const openEdit = (id, name) => {
     editId.current = id;
     editName.current.value = name;
     dialogEdit.current.showModal();
   };
-
   const handleUpdate = (e) => {
     e.preventDefault();
     fetch(
@@ -92,7 +89,6 @@ export default function QuanLyLoai() {
         alert(message);
       });
   };
-
   return (
     <div className="ql-loai-container">
       <h2 className="title">Quản lý loại</h2>

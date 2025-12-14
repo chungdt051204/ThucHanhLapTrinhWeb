@@ -4,7 +4,6 @@ import React, { useState } from "react";
 import Footer from "./Footer";
 import UserNavbar from "./UserNavbar";
 import "./Cart.css";
-
 export default function Cart_page() {
   const { user, refresh, setRefresh } = useContext(AppContext);
   const [cartItems, setCartItems] = useState([]);
@@ -14,7 +13,6 @@ export default function Cart_page() {
   const phoneRef = useRef();
   const addressRef = useRef();
   const [paymentMethod, setPaymentMethod] = useState("COD");
-
   let tong = 0;
   cartItems.forEach((value) => {
     if (arrIdItemSelected.includes(value.cart_item_id))
@@ -22,7 +20,6 @@ export default function Cart_page() {
   });
   useEffect(() => {
     fetch(
-      // Chú ý: Bạn nên sử dụng biến môi trường cho URL này
       `http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/cart/quanLyGioHang.php?user_id=${user.user_id}`
     )
       .then((res) => {
@@ -138,8 +135,6 @@ export default function Cart_page() {
         });
     }
   };
-
-  // 2. Thêm hàm để mở dialog
   const handleCheckout = () => {
     if (tong == 0) {
       alert("Bạn chưa chọn sản phẩm cần mua");
@@ -208,7 +203,6 @@ export default function Cart_page() {
                       onChange={() => handleItemChecked(value.cart_item_id)}
                       className="cart-checkbox"
                     />
-                    {/* Giả định image_url là đường dẫn hợp lệ */}
                     <img
                       src={value.image_url}
                       className="cart-image"
@@ -256,29 +250,24 @@ export default function Cart_page() {
             })}
         </tbody>
       </table>
-
       <div className="cart-footer">
         <div className="left">
-          {/* Cập nhật lại logic chọn tất cả nếu cần */}
           <input type="checkbox" />
           <span>Chọn tất cả</span>
           <button onClick={handleDeleteItemsSelected} className="delete-all">
             Xóa
           </button>
         </div>
-
         <div className="right">
           <span className="total-label">Tổng cộng sản phẩm:</span>
           <span className="total-price">
             {tong > 0 ? tong + "000 VND" : "0 VND"}
           </span>
-          {/* Thêm sự kiện onClick để mở dialog */}
           <button className="checkout-btn" onClick={handleCheckout}>
             Mua Hàng
           </button>
         </div>
       </div>
-
       <dialog ref={dialog}>
         <div className="dialog-content">
           <h2>Xác nhận Thanh toán</h2>
@@ -287,7 +276,6 @@ export default function Cart_page() {
             method="dialog"
             onSubmit={handleSubmit}
           >
-            {/* 1. Thông tin Người nhận (Bắt buộc) */}
             <fieldset>
               <legend>1. Thông tin Người nhận</legend>
               <div className="form-group">
@@ -303,8 +291,6 @@ export default function Cart_page() {
                 <textarea ref={addressRef} required rows="3"></textarea>
               </div>
             </fieldset>
-
-            {/* 2. Phương thức Thanh toán */}
             <fieldset>
               <legend>2. Phương thức Thanh toán</legend>
               <div className="form-group radio-group">
@@ -327,10 +313,7 @@ export default function Cart_page() {
                 />
                 <label htmlFor="cod">Thanh toán trực tuyến</label>
               </div>
-              {/* Có thể thêm các phương thức khác */}
             </fieldset>
-
-            {/* 3. Tóm tắt & Xác nhận */}
             <fieldset>
               <p>{tong}</p>
               <legend>3. Xác nhận</legend>
@@ -365,7 +348,6 @@ export default function Cart_page() {
               </table>
               <div className="form-group summary total">
                 <label>Tổng thanh toán:</label>
-                {/* Lấy giá trị biến tong, thêm readOnly */}
                 <input
                   type="text"
                   name="tongThanhToan"
@@ -373,10 +355,8 @@ export default function Cart_page() {
                   readOnly
                 />
               </div>
-
               <div className="dialog-actions">
                 <button className="submit-btn">Đặt hàng / Xác nhận</button>
-                {/* Thêm nút Hủy để đóng dialog */}
                 <button
                   onClick={() => {
                     dialog.current.close();
@@ -390,8 +370,6 @@ export default function Cart_page() {
           </form>
         </div>
       </dialog>
-      {/* 3. Thêm dialog thanh toán */}
-
       <Footer />
     </section>
   );

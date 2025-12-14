@@ -14,7 +14,7 @@ export default function Carousel() {
           return prev + 1; //Nếu thỏa thì tăng index lên 1
         } else {
           carousel.current.scrollLeft -= 4000;
-          return 0; //Chạy đến cuối quay về đầu reset index vveef 0
+          return 0; //Chạy đến cuối quay về đầu reset index về 0
         }
       });
     }, 2000);

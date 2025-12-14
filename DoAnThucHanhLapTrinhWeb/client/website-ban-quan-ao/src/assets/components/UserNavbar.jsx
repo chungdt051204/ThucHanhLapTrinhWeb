@@ -4,7 +4,6 @@ import { Link, useNavigate } from "react-router-dom";
 import "./NavBar.css";
 import logo from "./logo.png";
 import { useRef } from "react";
-
 export default function NavBar() {
   const navigate = useNavigate();
   const { user, isLogin, setIsLogin } = useContext(AppContext);
@@ -12,7 +11,6 @@ export default function NavBar() {
     user.avatar && user.avatar.includes("https")
       ? user.avatar
       : `http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/images/user/${user.avatar}`;
-
   const inputRef = useRef();
   const [searchValue, setSearchValue] = useState("");
   const [searchSuggestion, setSearchSuggestion] = useState([]);
@@ -20,7 +18,7 @@ export default function NavBar() {
   const handleChange = () => {
     setSearchValue(inputRef.current.value);
     fetch(
-      `http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/product/getSearchSuggestions.php?name=${encodeURIComponent(
+      `http://localhost:3000/server/product/getProducts.php?name=${encodeURIComponent(
         inputRef.current.value
       )}`
     )
@@ -49,6 +47,10 @@ export default function NavBar() {
       })
       .catch();
   };
+  const handleSearch = () => {
+    navigate(`/search?name=${inputRef.current.value}`);
+    setSearchValue("");
+  };
   return (
     <>
       <nav>
@@ -66,58 +68,62 @@ export default function NavBar() {
             </Link>
           </li>
           <li>
-            <Link to="/womenProduct-page">
+            <Link to={`/product-page?category_id=1`}>
               <p>WOMEN'S</p>
             </Link>
           </li>
           <li>
-            <Link to="/menProduct-page">
+            <Link to={`/product-page?category_id=2`}>
               <p>MEN'S</p>
             </Link>
           </li>
           <li>
-            <Link to="/kidProduct-page">
+            <Link to={`/product-page?category_id=3`}>
               <p>KID'S</p>
             </Link>
           </li>
           <li>
-            <Link to="/accessoryProduct-page">
+            <Link to={`/product-page?category_id=4`}>
               <p>ACCESSORIES</p>
             </Link>
           </li>
           <li>
-            <Link to="/cosmeticsProduct-page">
+            <Link to={`/product-page?category_id=5`}>
               <p>COSMETIC</p>
             </Link>
           </li>
         </ul>
         <ul>
           <li>
-            <Link>
-              <div className="input">
-                <input type="text" ref={inputRef} onChange={handleChange} />
-                <div>
-                  {searchValue != "" && (
-                    <div className="searchSuggestion-track">
-                      {searchSuggestion.length > 0 &&
-                        searchSuggestion.map((value, index) => {
-                          return (
-                            <div key={index} className="searchSuggestion-item">
-                              <img
-                                src={value.image_url}
-                                alt=""
-                                width={80}
-                                height={100}
-                              />
-                              <p>{value.name}</p>
-                            </div>
-                          );
-                        })}
-                    </div>
-                  )}
-                </div>
+            <div className="input">
+              <input type="text" ref={inputRef} onChange={handleChange} />
+              <button onClick={handleSearch}>Tìm</button>
+              <div>
+                {searchValue != "" && (
+                  <div className="searchSuggestion-track">
+                    {searchSuggestion.length > 0 ? (
+                      searchSuggestion.map((value, index) => {
+                        return (
+                          <div key={index} className="searchSuggestion-item">
+                            <img
+                              src={value.image_url}
+                              alt=""
+                              width={80}
+                              height={100}
+                            />
+                            <p>{value.name}</p>
+                          </div>
+                        );
+                      })
+                    ) : (
+                      <p style={{ color: "red", fontSize: "14px" }}>
+                        Không tìm thấy sản phẩm
+                      </p>
+                    )}
+                  </div>
+                )}
               </div>
-            </Link>
+            </div>
           </li>
           <li>
             {isLogin ? (

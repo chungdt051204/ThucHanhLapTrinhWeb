@@ -3,8 +3,6 @@ import AppContext from "./AppContext";
 import { Link, useNavigate } from "react-router-dom";
 import "./NavBar.css";
 import logo from "./logo.png";
-import { useRef } from "react";
-
 export default function NavBar() {
   const navigate = useNavigate();
   const { user, isLogin, setIsLogin } = useContext(AppContext);
@@ -12,24 +10,7 @@ export default function NavBar() {
     user.avatar && user.avatar.includes("https")
       ? user.avatar
       : `http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/images/user/${user.avatar}`;
-
-  const inputRef = useRef();
-  const [searchValue, setSearchValue] = useState("");
-  const [searchSuggestion, setSearchSuggestion] = useState([]);
-  const [count, setCount] = useState(0);
-  const handleChange = () => {
-    setSearchValue(inputRef.current.value);
-    fetch(
-      `http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/product/getSearchSuggestions.php?name=${encodeURIComponent(
-        inputRef.current.value
-      )}`
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        setSearchSuggestion(data);
-      })
-      .catch();
-  };
+  const [isClicked, setIsClicked] = useState(false);
   const handleLogout = () => {
     setIsLogin(false);
     fetch(
@@ -92,14 +73,14 @@ export default function NavBar() {
               <div className="user-dropdown">
                 <div className="user-dropdown-item">
                   <img
-                    onClick={() => setCount(count + 1)}
+                    onClick={() => setIsClicked((prev) => !prev)}
                     src={avatar}
                     alt="avatar"
                     width={50}
                     height={50}
                     style={{ cursor: "pointer", borderRadius: "50%" }}
                   />
-                  {count % 2 == 0 ? (
+                  {isClicked ? (
                     <div>
                       <i class="fa-solid fa-angle-up"></i>
                     </div>
@@ -107,7 +88,7 @@ export default function NavBar() {
                     <i class="fa-solid fa-angle-down"></i>
                   )}
                 </div>
-                {count % 2 != 0 && (
+                {isClicked && (
                   <div className="user-dropdown-menu">
                     <Link to="/user-info">
                       <p>USER INFO</p>

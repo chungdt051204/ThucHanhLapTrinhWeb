@@ -1,18 +1,15 @@
 @import url("https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@400;500;600&display=swap");
-
 body {
   margin: 0;
   font-family: "Poppins", sans-serif;
   background: #fff;
 }
-
 .footer {
   padding: 60px 0 20px;
   color: #000;
   border-top: 1px solid #eee;
   overflow-x: hidden; /* Ngăn tràn ngang */
 }
-
 .footer-container {
   display: flex;
   justify-content: space-between;
@@ -24,25 +21,21 @@ body {
   padding: 0 20px;
   box-sizing: border-box;
 }
-
 .footer-col {
   flex: 1 1 250px;
   text-align: left;
   min-width: 200px;
 }
-
 .logo {
   font-family: "Great Vibes", cursive;
   font-size: 42px;
   margin-bottom: 15px;
 }
-
 .footer p {
   color: #555;
   font-size: 15px;
   line-height: 1.6;
 }
-
 .payment-icons img {
   width: 30px;
   height: 30px;
@@ -52,33 +45,27 @@ body {
   box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
   padding: 5px;
 }
-
 .footer-col h3 {
   font-size: 16px;
   margin-bottom: 15px;
   font-weight: 600;
 }
-
 .footer-col ul {
   list-style: none;
   padding: 0;
   margin: 0;
 }
-
 .footer-col ul li {
   margin-bottom: 8px;
 }
-
 .footer-col ul li a {
   text-decoration: none;
   color: #000;
   transition: 0.3s;
 }
-
 .footer-col ul li a:hover {
   color: #e74c3c;
 }
-
 .newsletter form {
   display: flex;
   align-items: center;
@@ -91,7 +78,6 @@ body {
   background: #fff;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
-
 .newsletter input {
   flex: 1;
   border: none;
@@ -101,11 +87,9 @@ body {
   color: #333;
   background: transparent;
 }
-
 .newsletter input::placeholder {
   color: #666;
 }
-
 .newsletter button {
   background-color: #d11a1a;
   color: #fff;
@@ -118,11 +102,9 @@ body {
   transition: 0.3s;
   letter-spacing: 1px;
 }
-
 .newsletter button:hover {
   background-color: #b50f0f;
 }
-
 .social-icons {
   margin-top: 25px;
   display: flex;
@@ -130,7 +112,6 @@ body {
   justify-content: flex-start;
   gap: 10px;
 }
-
 .social-icons a {
   display: flex;
   justify-content: center;
@@ -144,12 +125,10 @@ body {
   font-size: 18px;
   transition: 0.3s;
 }
-
 .social-icons a:hover {
   background-color: #d11a1a;
   color: #fff;
 }
-
 .footer-bottom {
   border-top: 1px solid #eee;
   margin-top: 40px;
@@ -162,7 +141,6 @@ body {
   gap: 30px;
   padding: 0 24px;
 }
-
 .newsletter form {
   display: flex;
   align-items: center;
@@ -177,7 +155,6 @@ body {
   padding-right: 6px;
   box-sizing: border-box;
 }
-
 .newsletter button {
   background-color: #d11a1a;
   color: #fff;
@@ -191,7 +168,6 @@ body {
   letter-spacing: 1px;
   box-shadow: 0 2px 6px rgba(209, 26, 26, 0.12);
 }
-
 .newsletter input {
   flex: 1 1 auto;
   min-width: 0;

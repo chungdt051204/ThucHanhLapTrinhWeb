@@ -23,7 +23,6 @@ export default function Category() {
           <div className="category-item item1">
             <div className="ct2">
               <h2>Men’s fashion</h2>
-              <p>10 items</p>
               <Link className="shop" to="/menProduct-page">
                 <p>SHOP NOW</p>
               </Link>
@@ -32,7 +31,6 @@ export default function Category() {
           <div className="category-item item2">
             <div className="ct3">
               <h2>Kid’s fashion</h2>
-              <p>10 items</p>
               <Link className="shop" to="/kidProduct-page">
                 <p className="shop">SHOP NOW</p>
               </Link>
@@ -41,7 +39,6 @@ export default function Category() {
           <div className="category-item item3">
             <div className="ct4">
               <h2>Cosmetics</h2>
-              <p>10 items</p>
               <Link className="shop" to="/cosmeticsProduct-page">
                 <p>SHOP NOW</p>
               </Link>
@@ -50,7 +47,6 @@ export default function Category() {
           <div className="category-item item4">
             <div className="ct5">
               <h2>Accessories</h2>
-              <p>10 items</p>
               <Link className="shop" to="/accessoryProduct-page">
                 <p>SHOP NOW</p>
               </Link>

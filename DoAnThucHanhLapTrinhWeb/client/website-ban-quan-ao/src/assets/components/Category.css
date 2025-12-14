@@ -44,7 +44,6 @@
   color: black;
   transition: 0.3s;
 }
-
 .category .shop:hover {
   transform: scale(1.2);
   color: brown;

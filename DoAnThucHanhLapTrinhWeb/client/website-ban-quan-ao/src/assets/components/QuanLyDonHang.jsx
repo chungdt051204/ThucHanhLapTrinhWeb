@@ -6,7 +6,9 @@ export default function QuanLyDonHang() {
   const { refresh, setRefresh } = useContext(AppContext);
   const [orders, setOrders] = useState([]);
   useEffect(() => {
-    fetch("http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/order/order.php")
+    fetch(
+      "http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/order/order.php"
+    )
       .then((res) => {
         if (res.ok) return res.json();
         throw res;
@@ -17,13 +19,16 @@ export default function QuanLyDonHang() {
       });
   }, [refresh]);
   const handleConfirmOrder = (id) => {
-    fetch(`http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/order/order.php?order_id=${id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ status: "PROCESSING" }),
-    })
+    fetch(
+      `http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/order/order.php?order_id=${id}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ status: "PROCESSING" }),
+      }
+    )
       .then((res) => {
         if (res.ok) return res.json();
         throw res;
@@ -39,13 +44,16 @@ export default function QuanLyDonHang() {
       });
   };
   const handleCancelOrder = (id) => {
-    fetch(`http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/order/order.php?order_id=${id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ status: "CANCELLED" }),
-    })
+    fetch(
+      `http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/order/order.php?order_id=${id}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ status: "CANCELLED" }),
+      }
+    )
       .then((res) => {
         if (res.ok) return res.json();
         throw res;
@@ -60,13 +68,16 @@ export default function QuanLyDonHang() {
       });
   };
   const handleShipping = (id) => {
-    fetch(`http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/order/order.php?order_id=${id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ status: "SHIPPING" }),
-    })
+    fetch(
+      `http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/order/order.php?order_id=${id}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ status: "SHIPPING" }),
+      }
+    )
       .then((res) => {
         if (res.ok) return res.json();
         throw res;
@@ -81,13 +92,16 @@ export default function QuanLyDonHang() {
       });
   };
   const handleCompleted = (id) => {
-    fetch(`http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/order/order.php?order_id=${id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ status: "COMPLETED" }),
-    })
+    fetch(
+      `http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/order/order.php?order_id=${id}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ status: "COMPLETED" }),
+      }
+    )
       .then((res) => {
         if (res.ok) return res.json();
         throw res;
@@ -115,7 +129,6 @@ export default function QuanLyDonHang() {
             <th>Phương thức thanh toán</th>
             <th>Trạng thái</th>
             <th>Ngày tạo đơn</th>
-            <th>Ngày cập nhật đơn</th>
             <th>Hành động</th>
             <th>Chi tiết</th>
           </tr>
@@ -123,15 +136,26 @@ export default function QuanLyDonHang() {
             orders.map((value, index) => {
               return (
                 <tr key={index}>
-                  <td>{value.order_id}</td>
+                  <td style={{ fontWeight: "bold" }}>{value.order_id}</td>
                   <td>{value.fullName}</td>
                   <td>{value.phone}</td>
                   <td>{value.shipping_address}</td>
-                  <td>{value.total_amount}000 VND</td>
-                  <td>{value.paymentMethod}</td>
-                  <td>{value.status}</td>
+                  <td style={{ color: "green" }}>
+                    {value.total_amount}000 VND
+                  </td>
+                  <td style={{ color: "green" }}>{value.paymentMethod}</td>
+                  <td
+                    style={{
+                      color:
+                        value.status === "CANCELLED" ||
+                        value.status === "OUT_OF_STOCK"
+                          ? "red"
+                          : "green",
+                    }}
+                  >
+                    {value.status}
+                  </td>
                   <td>{value.created_at}</td>
-                  <td>{value.updated_at}</td>
                   <td>
                     {value.status === "PENDING" && (
                       <div>
@@ -142,7 +166,9 @@ export default function QuanLyDonHang() {
                         >
                           Xác nhận đơn hàng
                         </button>
-                        <button onClick={() => handleCancelOrder(value.order_id)}>
+                        <button
+                          onClick={() => handleCancelOrder(value.order_id)}
+                        >
                           Hủy đơn hàng
                         </button>
                       </div>
@@ -157,7 +183,9 @@ export default function QuanLyDonHang() {
                         <button onClick={() => handleShipping(value.order_id)}>
                           Bàn giao cho đơn vị vận chuyển
                         </button>
-                        <button onClick={() => handleCancelOrder(value.order_id)}>
+                        <button
+                          onClick={() => handleCancelOrder(value.order_id)}
+                        >
                           Hủy đơn hàng
                         </button>
                       </div>
@@ -167,7 +195,9 @@ export default function QuanLyDonHang() {
                         <button onClick={() => handleCompleted(value.order_id)}>
                           Đã giao thành công
                         </button>
-                        <button onClick={() => handleCancelOrder(value.order_id)}>
+                        <button
+                          onClick={() => handleCancelOrder(value.order_id)}
+                        >
                           Hủy đơn hàng
                         </button>
                       </div>

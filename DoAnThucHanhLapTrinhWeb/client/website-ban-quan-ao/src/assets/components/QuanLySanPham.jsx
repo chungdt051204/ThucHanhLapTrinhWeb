@@ -1,8 +1,6 @@
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { useContext, useRef, useState } from "react";
 import AppContext from "./AppContext";
-import AdminNavBar from "./AdminNavBar";
-import Footer from "./Footer";
 import "./QuanLySanPham.css";
 
 export default function QuanLySanPham({ data }) {
@@ -25,7 +23,6 @@ export default function QuanLySanPham({ data }) {
   const [categoryId, setCategoryId] = useState(null);
   const [productsWithCategory_Id, setProductWithCategory_Id] = useState([]);
   const [productWithId, setProductWithId] = useState("");
-
   const handleCategorySelected = () => {
     if (categoryFilterRef.current.value != "") {
       navigate(`/admin/product?category_id=${categoryFilterRef.current.value}`);
@@ -75,7 +72,6 @@ export default function QuanLySanPham({ data }) {
     formData.append("categoryId", categorySelected); // Thêm ID loại sản phẩm
     formData.append("price", price); // Thêm giá
     formData.append("image", addImage.current.files[0]); // Thêm file hình ảnh (lấy từ Ref)
-
     // Gửi yêu cầu POST đến API để thêm sản phẩm
     fetch("http://localhost:3000/server/admin/quanLySanPham.php", {
       method: "POST",
@@ -174,13 +170,11 @@ export default function QuanLySanPham({ data }) {
             >
               Thêm sản phẩm
             </button>
-
             <input
               type="text"
               className="product-search-input"
               placeholder="Tìm sản phẩm"
             />
-
             <select
               className="product-filter-select"
               ref={categoryFilterRef}
@@ -195,7 +189,6 @@ export default function QuanLySanPham({ data }) {
                 ))}
             </select>
           </div>
-
           <div className="product-table-container">
             <table>
               <thead>
@@ -206,16 +199,13 @@ export default function QuanLySanPham({ data }) {
                   <th className="action-col">Hành động</th>
                 </tr>
               </thead>
-
               <tbody>
                 {!categoryId && data.length > 0
                   ? data.map((value, index) => {
                       const image = value.image_url.includes("https")
                         ? value.image_url
                         : `http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/images/product/${value.image_url}`;
-
                       const isSelected = index === 0 ? "selected" : "";
-
                       return (
                         <tr key={index} className={isSelected}>
                           <td className="product-title-cell">
@@ -230,25 +220,20 @@ export default function QuanLySanPham({ data }) {
                           </td>
                           <td>{value.category_name}</td>
                           <td className="price-cell">{value.price}000 VND</td>
-                          <div className="edit-delete">
-                            <td className="action-cell">
-                              <Link
-                                to={`/admin/product?id=${value.product_id}`}
-                              >
-                                <i
-                                  onClick={() =>
-                                    handleClickUpdate(value.product_id)
-                                  }
-                                  className="fa-solid fa-pen"
-                                ></i>
-                              </Link>
-
+                          <td className="action-cell">
+                            <Link to={`/admin/product?id=${value.product_id}`}>
                               <i
-                                onClick={() => handleDelete(value.product_id)}
-                                className="fa-solid fa-trash"
+                                onClick={() =>
+                                  handleClickUpdate(value.product_id)
+                                }
+                                className="fa-solid fa-pen"
                               ></i>
-                            </td>
-                          </div>
+                            </Link>
+                            <i
+                              onClick={() => handleDelete(value.product_id)}
+                              className="fa-solid fa-trash"
+                            ></i>
+                          </td>
                         </tr>
                       );
                     })
@@ -257,9 +242,7 @@ export default function QuanLySanPham({ data }) {
                       const image1 = value.image_url.includes("https")
                         ? value.image_url
                         : `http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/images/product/${value.image_url}`;
-
                       const isSelected = index === 0 ? "selected" : "";
-
                       return (
                         <tr key={index} className={isSelected}>
                           <td className="product-title-cell">
@@ -272,10 +255,8 @@ export default function QuanLySanPham({ data }) {
                             />
                             <span className="product-name">{value.name}</span>
                           </td>
-
                           <td>{value.category_name}</td>
                           <td className="price-cell">{value.price}000 VND</td>
-
                           <td className="action-cell">
                             <Link to={`/admin/product?id=${value.product_id}`}>
                               <i
@@ -285,7 +266,6 @@ export default function QuanLySanPham({ data }) {
                                 className="fa-solid fa-pen"
                               ></i>
                             </Link>
-
                             <i
                               onClick={() => handleDelete(value.product_id)}
                               className="fa-solid fa-trash"
@@ -298,7 +278,6 @@ export default function QuanLySanPham({ data }) {
             </table>
           </div>
         </div>
-
         <dialog ref={addDialog}>
           <form action="" method="dialog" onSubmit={handleAddSubmit}>
             Tên sản phẩm:
@@ -349,7 +328,6 @@ export default function QuanLySanPham({ data }) {
             <button>Thêm</button>
           </form>
         </dialog>
-
         <dialog ref={updateDialog}>
           <form action="" method="dialog" onSubmit={handleUpdateSubmit}>
             Tên sản phẩm:
@@ -401,15 +379,14 @@ export default function QuanLySanPham({ data }) {
             <button>Cập nhật</button>
           </form>
         </dialog>
-
-        <div style={{ display: "flex" }}>
+        {/* <div style={{ display: "flex" }}>
           <Link to="/admin/product">
             <button>Trước</button>
           </Link>
           <Link to="/admin/product-page2">
             <button>Sau</button>
           </Link>
-        </div>
+        </div> */}
       </div>
     </>
   );

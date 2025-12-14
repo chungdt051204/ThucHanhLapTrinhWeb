@@ -1,16 +1,11 @@
-/* ========= Scope toàn bộ container ========= */
 .ql-loai-container {
   padding: 20px;
   font-family: Arial, sans-serif;
   text-align: center;
 }
-
-/* ===== Tiêu đề ===== */
 .ql-loai-container .title {
   margin-bottom: 20px;
 }
-
-/* ===== Nút thêm ===== */
 .ql-loai-container .btn-them {
   padding: 10px 18px;
   background: #007bff;
@@ -23,20 +18,15 @@
   display: block;
   transition: 0.25s;
 }
-
 .ql-loai-container .btn-them:hover,
 .ql-loai-container .modal-btn.confirm:hover {
   background: #005fcc;
 }
-
-/* ===== Wrapper bảng ===== */
 .ql-loai-container .table-wrapper {
   margin: 0 auto;
   width: 90%;
   max-width: 800px;
 }
-
-/* ===== Bảng ===== */
 .ql-loai-container table {
   width: 100%;
   border-collapse: collapse;
@@ -46,34 +36,27 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   text-align: center;
 }
-
 .ql-loai-container th,
 .ql-loai-container td {
   padding: 14px;
 }
-
 .ql-loai-container thead tr {
   background: #007bff;
   color: #fff;
   text-transform: uppercase;
 }
-
 .ql-loai-container tbody tr:nth-child(even) {
   background: #f7f7f7;
 }
-
 .ql-loai-container tbody tr:hover {
   background: #eaf5ff;
   transition: 0.25s;
 }
-
-/* ===== Action buttons ===== */
 .ql-loai-container .action-buttons {
   display: flex;
   justify-content: center;
   gap: 10px;
 }
-
 .ql-loai-container .action-btn {
   padding: 8px 14px;
   border: none;
@@ -83,46 +66,36 @@
   font-weight: 600;
   transition: 0.25s;
 }
-
 .ql-loai-container .btn-edit {
   background: #4caf50;
 }
-
 .ql-loai-container .btn-edit:hover {
   background: #3e8e41;
 }
-
 .ql-loai-container .btn-delete {
   background: #f44336;
 }
-
 .ql-loai-container .btn-delete:hover {
   background: #d32f2f;
 }
-
-/* ===== Modal ===== */
 .ql-loai-container .modal {
   padding: 20px;
   border: none;
   border-radius: 10px;
 }
-
 .ql-loai-container .modal form {
   display: flex;
   flex-direction: column;
   gap: 15px;
 }
-
 .ql-loai-container .modal input {
   padding: 10px;
   font-size: 16px;
 }
-
 .ql-loai-container .modal-actions {
   display: flex;
   justify-content: space-between;
 }
-
 .ql-loai-container .modal-btn {
   padding: 8px 16px;
   border: none;
@@ -130,16 +103,13 @@
   cursor: pointer;
   font-weight: 600;
 }
-
 .ql-loai-container .modal-btn.confirm {
   background: #007bff;
   color: white;
 }
-
 .ql-loai-container .modal-btn.cancel {
   background: #ccc;
 }
-
 .ql-loai-container .modal-btn.cancel:hover {
   background: #b3b3b3;
 }

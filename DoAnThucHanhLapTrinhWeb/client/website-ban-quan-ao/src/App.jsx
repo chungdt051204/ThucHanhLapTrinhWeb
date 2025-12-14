@@ -6,7 +6,6 @@ import Login from "./assets/components/Login";
 import { useEffect, useState } from "react";
 import Detail from "./assets/components/Detail";
 import Register from "./assets/components/Register";
-import GetProductsPage2 from "./assets/components/GetProductsPage2";
 import Cart from "./assets/components/Cart";
 import UserInfo from "./assets/components/UserInfo";
 import QuanLyLoai from "./assets/components/QuanLyLoai";
@@ -15,8 +14,15 @@ import GetProductsWithQueryString from "./assets/components/GetProductsWithQuery
 import QuanLySanPham from "./assets/components/QuanLySanPham";
 import QuanLyDonHang from "./assets/components/QuanLyDonHang";
 import MyOrders from "./assets/components/MyOrders";
-import MyOrderItems from "./assets/components/MyOrderItems";
+import OrderItems from "./assets/components/OrderItems";
 import UserNavBar from "./assets/components/UserNavbar";
+import Footer from "./assets/components/Footer";
+import ProductList from "./assets/components/ProductList";
+import PriceFilter from "./assets/components/PriceFilter";
+import Category from "./assets/components/Category";
+import CategoryFilter from "./assets/components/CategoryFilter";
+import Carousel from "./assets/components/Carousel";
+import ProductWithSearchResult from "./assets/components/ProductWithSearchResult";
 function App() {
   const [user, setUser] = useState({});
   const [isLogin, setIsLogin] = useState(false);
@@ -97,11 +103,43 @@ function App() {
         <Routes>
           <Route
             path="/"
-            element={<Home component={<GetProductsWithQueryString />}></Home>}
+            element={
+              <Home
+                category={<Category />}
+                filter={<CategoryFilter />}
+                component={<GetProductsWithQueryString />}
+                carousel={<Carousel />}
+              ></Home>
+            }
           />
           <Route
             path="/page2"
-            element={<Home component={<GetProductsPage2 />}></Home>}
+            element={
+              <Home
+                category={<Category />}
+                filter={<CategoryFilter />}
+                component={<ProductList data={productsPage2} />}
+                carousel={<Carousel />}
+              ></Home>
+            }
+          />
+          <Route
+            path="/product-page"
+            element={<Home component={<GetProductsWithQueryString />} />}
+          />
+          <Route
+            path="/search"
+            element={<Home component={<ProductWithSearchResult />} />}
+          />
+          <Route path="/product/detail" element={<Detail />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/user-info" element={<UserInfo />} />
+          <Route path="/Cart" element={<Cart component={<Cart />}></Cart>} />
+          <Route path="/my-orders" element={<MyOrders />} />
+          <Route
+            path="/my-order"
+            element={<OrderItems component={<UserNavBar />} />}
           />
           <Route path="/admin" element={<HomeAdmin></HomeAdmin>} />
           <Route
@@ -145,19 +183,9 @@ function App() {
           <Route
             path="/admin/order/order-item"
             element={
-              <HomeAdmin component={<MyOrderItems></MyOrderItems>}></HomeAdmin>
+              <HomeAdmin component={<OrderItems></OrderItems>}></HomeAdmin>
             }
           />
-          <Route path="/Cart" element={<Cart component={<Cart />}></Cart>} />
-          <Route path="/user-info" element={<UserInfo />} />
-          <Route path="/my-orders" element={<MyOrders />} />
-          <Route
-            path="/my-order"
-            element={<MyOrderItems component={<UserNavBar />} />}
-          />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/product/detail" element={<Detail />} />
         </Routes>
       </AppContext.Provider>
     </>

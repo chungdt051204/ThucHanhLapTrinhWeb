@@ -4,7 +4,6 @@
   background: #f7f8fa;
   color: #222;
 }
-
 .product-page .product-controls {
   display: flex;
   align-items: center;
@@ -12,7 +11,6 @@
   margin-bottom: 20px;
   flex-wrap: wrap;
 }
-
 .product-page .product-search-input,
 .product-page .product-filter-select {
   padding: 8px 12px;
@@ -23,13 +21,11 @@
   background: #fff;
   transition: 0.18s;
 }
-
 .product-page .product-search-input:focus,
 .product-page .product-filter-select:focus {
   border-color: #4a8bff;
   box-shadow: 0 0 4px rgba(74, 139, 255, 0.18);
 }
-
 .product-page .add-product-btn {
   background: #4a8bff;
   color: #fff;
@@ -41,12 +37,10 @@
   transition: 0.12s;
   box-shadow: 0 4px 12px rgba(74, 139, 255, 0.12);
 }
-
 .product-page .add-product-btn:hover {
   transform: translateY(-2px);
   background: #2563eb;
 }
-
 .product-page .product-table-container {
   background: #fff;
   padding: 14px;
@@ -54,17 +48,14 @@
   box-shadow: 0 2px 14px rgba(18, 38, 63, 0.06);
   overflow-x: auto;
 }
-
 .product-page table {
   width: 100%;
   border-collapse: collapse;
   table-layout: fixed;
 }
-
 .product-page thead {
   background: #eef4fb;
 }
-
 .product-page th,
 .product-page td {
   padding: 12px 14px;
@@ -74,45 +65,36 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
-
 .product-page th.product-col,
 .product-page td.product-title-cell {
   width: 62%;
 }
-
 .product-page th:nth-child(2),
 .product-page td:nth-child(2) {
   width: 22%;
 }
-
 .product-page th:nth-child(3),
 .product-page td:nth-child(3) {
   width: 16%;
 }
-
 .product-page th.action-col,
 .product-page td.action-cell {
   width: 16%;
 }
-
-/* Header */
 .product-page th {
   font-weight: 700;
   color: #333;
   border-bottom: 2px solid #e1e8f2;
 }
-
 .product-page tbody tr:hover {
   background: #fbfbff;
 }
-
 .product-page .product-title-cell {
   display: flex;
   align-items: center;
   gap: 12px;
   padding-right: 10px;
 }
-
 .product-page .product-image,
 .product-page .product-image[width],
 .product-page .product-image[height],
@@ -130,7 +112,6 @@ div.product-page table td.product-title-cell img.product-image {
   background: #f0f0f0;
   box-shadow: 0 6px 18px rgba(17, 24, 39, 0.04);
 }
-
 .product-page .product-name {
   display: block;
   font-weight: 600;
@@ -140,12 +121,10 @@ div.product-page table td.product-title-cell img.product-image {
   max-width: calc(100% - 110px);
   word-break: break-word;
 }
-
 .product-page .price-cell {
   font-weight: 700;
   color: #2563eb;
 }
-
 .product-page .action-cell {
   display: flex;
   justify-content: center;
@@ -153,7 +132,6 @@ div.product-page table td.product-title-cell img.product-image {
   gap: 20px;
   font-size: 18px;
 }
-
 .product-page .action-cell i {
   cursor: pointer;
   transition: 0.12s;
@@ -161,20 +139,16 @@ div.product-page table td.product-title-cell img.product-image {
   align-items: center;
   justify-content: center;
 }
-
 .product-page .action-cell i.fa-pen {
   color: #4a8bff;
 }
-
 .product-page .action-cell i.fa-trash {
   color: #ff4d4f;
 }
-
 .product-page .action-cell i:hover {
   transform: scale(1.12);
   opacity: 0.95;
 }
-
 .edit-delete {
   display: flex;
   justify-content: center;
@@ -183,7 +157,6 @@ div.product-page table td.product-title-cell img.product-image {
   margin-bottom: 30px;
   align-items: center;
 }
-
 .product-page dialog {
   padding: 20px;
   border: none;
@@ -191,17 +164,15 @@ div.product-page table td.product-title-cell img.product-image {
   width: 380px;
   box-shadow: 0 8px 30px rgba(11, 22, 39, 0.18);
 }
-
 .product-page dialog form input,
 .product-page dialog form select {
   margin: 6px 0 12px;
   width: 100%;
-  padding: 9px 12px;
+  padding: 9px 0;
   border-radius: 8px;
   border: 1px solid #cfd6e2;
   outline: none;
 }
-
 .product-page dialog form button {
   padding: 10px 12px;
   width: 100%;
@@ -210,7 +181,6 @@ div.product-page table td.product-title-cell img.product-image {
   border: none;
   border-radius: 8px;
 }
-
 .product-page .pagination {
   margin-top: 18px;
   display: flex;
@@ -218,7 +188,6 @@ div.product-page table td.product-title-cell img.product-image {
   align-items: center;
   gap: 12px;
 }
-
 .product-page .pagination button {
   padding: 8px 12px;
   border-radius: 8px;
