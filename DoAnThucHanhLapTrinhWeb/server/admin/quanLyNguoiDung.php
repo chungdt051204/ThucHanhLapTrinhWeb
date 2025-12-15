@@ -25,7 +25,7 @@ function get_json_body() {
     return is_array($data) ? $data : [];
 }
 
-// === XỬ LÝ GET: Lấy danh sách người dùng (có lọc theo vai trò) ===
+// Lấy danh sách người dùng (có lọc theo vai trò)
 if ($_SERVER["REQUEST_METHOD"] === "GET"){
     $role = $_GET["role"] ?? "";
 
@@ -44,7 +44,7 @@ if ($_SERVER["REQUEST_METHOD"] === "GET"){
         $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         http_response_code(200);
-        echo json_encode($users);
+        echo json_encode(["data" => $users]);
     } catch (PDOException $e) {
         http_response_code(500);
         echo json_encode([
@@ -56,7 +56,7 @@ if ($_SERVER["REQUEST_METHOD"] === "GET"){
     exit;
 }
 
-// === XỬ LÝ PUT: cập nhật status (active <-> inactive) ===
+// cập nhật status (active <-> inactive)
 if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
     $body = get_json_body();
     // Lấy user_id ưu tiên từ query string, nếu không có thì lấy từ body
@@ -109,7 +109,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
     exit;
 }
 
-// === XỬ LÝ DELETE: xóa người dùng ===
+// Xóa người dùng
 if ($_SERVER["REQUEST_METHOD"] === "DELETE") {
     $body = get_json_body();
     $id = $_GET["user_id"] ?? ($body['user_id'] ?? "");

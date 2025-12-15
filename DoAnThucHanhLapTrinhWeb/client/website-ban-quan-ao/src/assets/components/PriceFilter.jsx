@@ -7,11 +7,9 @@ export default function PriceFilter() {
   const priceRangeRef = useRef();
   const handlePriceRangeSelected = () => {
     if (priceRangeRef.current.value !== "") {
-      navigate(
-        `/product-page?category_id=${id}&price=${priceRangeRef.current.value}`
-      );
+      navigate(`/admin/product?price=${priceRangeRef.current.value}`);
     } else {
-      navigate(`/product-page?category_id=${id}`);
+      navigate(`/admin/product`);
     }
   };
   return (

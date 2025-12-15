@@ -2,72 +2,78 @@
 header("Access-Control-Allow-Origin: http://localhost:5173"); 
 require_once("../model/connect.php");
 $conn = connectdb();
-$productId = $_GET["product_id"] ?? "";
-$categoryId = $_GET["category_id"] ?? "";
-$searchSuggestion = $_GET["name"] ?? "";
-$price = $_GET["price"] ?? "";
-$whereClause = "";
-//Lấy 1 sản phẩm theo product_id
-if($productId){
-    $sql = "SELECT p.*, c.category_id, c.category_name FROM products p INNER JOIN categories c ON p.category_id = c.category_id WHERE product_id = ?";
+
+// Lấy tham số từ URL
+$productId = $_GET["product_id"] ?? null; 
+$categoryId = $_GET["category_id"] ?? null;
+$searchSuggestion = $_GET["name"] ?? null;
+$priceFilter = $_GET["price"] ?? null; 
+
+// Khởi tạo các mảng cho mệnh đề WHERE và tham số Bind
+$conditions = [];
+$params = [];
+
+//Tìm sản phẩm theo ID
+if ($productId) {
+    $sql = "SELECT p.*, c.category_id, c.category_name 
+            FROM products p 
+            INNER JOIN categories c ON p.category_id = c.category_id 
+            WHERE product_id = ?";
     $stmt = $conn->prepare($sql);
     $stmt->execute([$productId]);
     $productWithId = $stmt->fetch(PDO::FETCH_ASSOC);
     http_response_code(200);
-    echo json_encode($productWithId); 
+    echo json_encode(["data" => $productWithId]);
+    exit(); 
 }
-// else if($price && $categoryId){
-//     if($price === "low"){
-//         $sql = "SELECT p.*, c.category_name FROM products p INNER JOIN categories c ON p.category_id = c.category_id WHERE p.category_id = ? AND p.price < 100";
-//         $stmt = $conn->prepare($sql);
-//         $stmt->execute([$categoryId]);
-//         $productsWithLowPrice = $stmt->fetchAll(PDO::FETCH_ASSOC);
-//         http_response_code(200);
-//         echo json_encode($productWithLowPrice); 
-//     }
-//     else if($price === "medium"){
-//         $sql = "SELECT p.*, c.category_name FROM products p INNER JOIN categories c ON p.category_id = c.category_id WHERE p.category_id = ? AND p.price BETWEEN 200 AND 400";
-//         $stmt = $conn->prepare($sql);
-//         $stmt->execute([$categoryId]);
-//         $productsWithMediumPrice = $stmt->fetchAll(PDO::FETCH_ASSOC);
-//         http_response_code(200);
-//         echo json_encode($productsWithMediumPrice); 
-//     }
-//     else if($price === "high"){
-//         $sql = "SELECT p.*, c.category_name FROM products p INNER JOIN categories c ON p.category_id = c.category_id WHERE p.category_id = ? AND p.price > 400";
-//         $stmt = $conn->prepare($sql);
-//         $stmt->execute([$categoryId]);
-//         $productsWithHighPrice = $stmt->fetchAll(PDO::FETCH_ASSOC);
-//         http_response_code(200);
-//         echo json_encode($productsWithHighPrice); 
-//     }
-// }
-//Lấy sản phẩm theo category_id
-else if($categoryId){
-    $sql = "SELECT p.*, c.category_name FROM products p INNER JOIN categories c ON p.category_id = c.category_id WHERE p.category_id = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->execute([$categoryId]);
-    $productsWithCategoryId = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    http_response_code(200);
-    echo json_encode($productsWithCategoryId); 
+
+//Xây dựng Mệnh đề WHERE Động (cho lọc và tìm kiếm)
+
+// Lọc theo Category ID
+if ($categoryId) {
+    $conditions[] = "p.category_id = ?";
+    $params[] = $categoryId;
 }
-//Tìm kiếm gần đúng và chính xác theo từ khóa tìm kiếm
-else if($searchSuggestion){
-    $sql = "SELECT name, price, image_url FROM products WHERE name LIKE ?"; 
-    $stmt = $conn->prepare($sql);
-    $searchParam = '%' . $searchSuggestion . '%'; 
-    $stmt->execute([$searchParam]);
-    $productsWithSearchSuggestion = $stmt->fetchAll(PDO::FETCH_ASSOC); 
-    http_response_code(200);
-    echo json_encode($productsWithSearchSuggestion);   
+
+// Lọc theo Giá (price)
+if ($priceFilter) {
+    if ($priceFilter === "low") {
+        $conditions[] = "p.price < ?";
+        $params[] = 200;
+    } elseif ($priceFilter === "medium") {
+        $conditions[] = "p.price BETWEEN ? AND ?";
+        $params[] = 200;
+        $params[] = 400;
+    } elseif ($priceFilter === "high") {
+        $conditions[] = "p.price > ?";
+        $params[] = 400;
+    }
+    
 }
-//Lấy tất cả sản phẩm
-else{
-    $sql = "SELECT p.*, c.category_id, c.category_name FROM products p INNER JOIN categories c ON p.category_id = c.category_id ORDER BY p.category_id asc LIMIT 0,25";
-    $stmt = $conn->prepare($sql);
-    $stmt->execute();
-    $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    http_response_code(200);
-    echo json_encode($products); 
+
+// Tìm kiếm theo tên (Search Suggestion)
+if ($searchSuggestion) {
+    $conditions[] = "p.name LIKE ?";
+    $params[] = '%' . $searchSuggestion . '%';
 }
+
+$sql = "SELECT p.*, c.category_id, c.category_name 
+        FROM products p 
+        INNER JOIN categories c ON p.category_id = c.category_id";
+
+// Nối các điều kiện lại bằng từ khóa AND
+if (!empty($conditions)) {
+    $sql .= " WHERE " . implode(" AND ", $conditions);
+}
+
+// Sắp xếp và Giới hạn (Pagination)
+$sql .= " ORDER BY p.category_id ASC LIMIT 0, 25";
+
+// Thực thi truy vấn 
+$stmt = $conn->prepare($sql);
+$stmt->execute($params); // Bind các tham số đã thu thập
+$products = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+http_response_code(200);
+echo json_encode(["data" => $products]);
 ?>

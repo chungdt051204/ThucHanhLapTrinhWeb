@@ -1,0 +1,107 @@
+.dashboard-container {
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 0 20px;
+  font-family: Arial, sans-serif;
+  background-color: #f4f7f6;
+  border-radius: 8px;
+}
+.dashboard-container h2 {
+  text-align: center;
+  color: #333;
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #ddd;
+}
+.dashboard-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px;
+}
+.stats-card {
+  background: white;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  text-align: center;
+  transition: transform 0.3s ease-in-out;
+}
+.stats-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+.card-title {
+  font-size: 1em;
+  color: #6c757d;
+  margin-bottom: 10px;
+}
+.card-value {
+  font-size: 28px;
+  font-weight: bold;
+}
+.product-card .card-value {
+  color: #007bff;
+}
+.user-card .card-value {
+  color: #28a745;
+}
+.order-card .card-value {
+  color: #ffc107;
+}
+.revenue-card .card-value {
+  color: #dc3545;
+}
+.dashboard-chart-area {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+.bestseller-table-container {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  margin-top: 30px;
+}
+.bestseller-table-container h3 {
+  font-size: 1.5em;
+  color: #333;
+  margin-bottom: 15px;
+  border-bottom: 2px solid #f0f0f0;
+  padding-bottom: 10px;
+}
+.bestseller-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95em;
+}
+.bestseller-table th {
+  background-color: #007bff;
+  color: white;
+  padding: 12px 15px;
+  text-align: left;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+.quantity-col,
+.quantity-cell {
+  width: 30%;
+  text-align: center !important;
+}
+.bestseller-table td {
+  padding: 12px 15px;
+  border-bottom: 1px solid #ddd;
+}
+.bestseller-table tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+.bestseller-table tbody tr:hover {
+  background-color: #eaf6ff;
+  cursor: pointer;
+}
+.product-cell.quantity-cell {
+  font-weight: bold;
+  color: #dc3545;
+}

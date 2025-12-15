@@ -1,58 +1,45 @@
-import AdminNavBar from "./AdminNavBar";
-import Footer from "./Footer";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import "./QuanLyNguoiDung.css";
+import { fetchApi } from "../services/api";
+import { useNavigate } from "react-router-dom";
 
 export default function QuanLyNguoiDung() {
+  const navigate = useNavigate();
   const [refresh, setRefresh] = useState(0);
   const [users, setUsers] = useState([]);
   const [roleSelected, setRoleSelected] = useState("");
-  const roleSelectedRef = useRef();
-
-  const API_URL =
-    "http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/admin/quanLyNguoiDung.php";
 
   useEffect(() => {
-    let url = API_URL + "?_=" + Date.now();
-    if (roleSelected) url += `&role=${roleSelected}`;
+    fetchApi({
+      url: "http://localhost:3000/server/admin/quanLyNguoiDung.php",
+      setData: setUsers,
+    });
+  }, [refresh]);
 
-    fetch(url)
-      .then((res) => {
-        if (!res.ok) throw res;
-        return res.json();
-      })
-      .then((data) => setUsers(data))
-      .catch(async (err) => {
-        try {
-          const errBody = await err.json();
-          console.error("GET error body:", errBody);
-        } catch (e) {
-          console.error("GET error:", err);
-        }
-        setUsers([]);
+  const handleRoleSelected = (value) => {
+    setRoleSelected(value);
+    if (value !== "") {
+      navigate(`/admin/user?role=${value}`);
+      fetchApi({
+        url: `http://localhost:3000/server/admin/quanLyNguoiDung.php?role=${value}`,
+        setData: setUsers,
       });
-  }, [refresh, roleSelected]);
-
-  const handleRoleSelected = () => {
-    setRoleSelected(roleSelectedRef.current.value);
+    } else {
+      navigate("/admin/user");
+      fetchApi({
+        url: "http://localhost:3000/server/admin/quanLyNguoiDung.php",
+        setData: setUsers,
+      });
+    }
   };
 
   const handleSetStatusUser = (user) => {
-    if (user.role === "admin") {
-      alert("Không thể thay đổi trạng thái của Admin.");
-      return;
-    }
-
     const newStatus = user.status === "active" ? "inactive" : "active";
-    const confirmMsg =
-      newStatus === "inactive"
-        ? `Bạn có chắc muốn vô hiệu hóa người dùng ${user.username}?`
-        : `Bạn có chắc muốn kích hoạt người dùng ${user.username}?`;
-
-    if (!window.confirm(confirmMsg)) return;
 
     fetch(
-      `${API_URL}?user_id=${encodeURIComponent(user.user_id ?? user._id)}`,
+      `http://localhost:3000/server/admin/quanLyNguoiDung.php?user_id=${encodeURIComponent(
+        user.user_id ?? user._id
+      )}`,
       {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
@@ -92,11 +79,16 @@ export default function QuanLyNguoiDung() {
     if (!window.confirm(`Bạn có chắc muốn xóa người dùng ${user.username}?`))
       return;
 
-    fetch(`${API_URL}?user_id=${encodeURIComponent(id)}`, {
-      method: "DELETE",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ user_id: id }),
-    })
+    fetch(
+      `http://localhost:3000/server/admin/quanLyNguoiDung.php?user_id=${encodeURIComponent(
+        id
+      )}`,
+      {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ user_id: id }),
+      }
+    )
       .then((res) => {
         if (!res.ok) throw res;
         return res.json();
@@ -123,8 +115,11 @@ export default function QuanLyNguoiDung() {
 
       {/* Khung combobox */}
       <div className="filter-container">
-        <select onChange={handleRoleSelected} ref={roleSelectedRef}>
-          <option value="">Tất cả vai trò</option>
+        <select
+          value={roleSelected}
+          onChange={(e) => handleRoleSelected(e.target.value)}
+        >
+          <option value="">Chọn vai trò</option>
           <option value="admin">Admin</option>
           <option value="user">User</option>
         </select>

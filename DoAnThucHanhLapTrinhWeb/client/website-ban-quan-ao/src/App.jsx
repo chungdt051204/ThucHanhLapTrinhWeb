@@ -1,5 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import AppContext from "./assets/components/AppContext";
+import { fetchApi } from "./assets/services/api";
 import Home from "./assets/components/Home";
 import HomeAdmin from "./assets/components/HomeAdmin";
 import Login from "./assets/components/Login";
@@ -23,6 +24,7 @@ import Category from "./assets/components/Category";
 import CategoryFilter from "./assets/components/CategoryFilter";
 import Carousel from "./assets/components/Carousel";
 import ProductWithSearchResult from "./assets/components/ProductWithSearchResult";
+import DashBoard from "./assets/components/DashBoard";
 function App() {
   const [user, setUser] = useState({});
   const [isLogin, setIsLogin] = useState(false);
@@ -47,28 +49,16 @@ function App() {
       .catch();
   }, []);
   useEffect(() => {
-    fetch(
-      "http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/product/getCategories.php"
-    )
-      .then((res) => {
-        return res.json();
-      })
-      .then((data) => {
-        console.log(data);
-        setCategories(data);
-      });
+    fetchApi({
+      url: "http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/product/getCategories.php",
+      setData: setCategories,
+    });
   }, [refresh]);
-
   useEffect(() => {
-    fetch("http://localhost:3000/server/product/getProducts.php")
-      .then((res) => {
-        if (res.ok) return res.json();
-        throw res;
-      })
-      .then((data) => {
-        setProductsPage1(data);
-      })
-      .catch();
+    fetchApi({
+      url: "http://localhost:3000/server/product/getProducts.php",
+      setData: setProductsPage1,
+    });
   }, [refresh]);
   useEffect(() => {
     fetch(
@@ -92,6 +82,7 @@ function App() {
           isLogin,
           setIsLogin,
           productsPage1,
+          setProductsPage1,
           productsPage2,
           categories,
           refresh,
@@ -139,7 +130,10 @@ function App() {
             path="/my-order"
             element={<OrderItems component={<UserNavBar />} />}
           />
-          <Route path="/admin" element={<HomeAdmin></HomeAdmin>} />
+          <Route
+            path="/admin"
+            element={<HomeAdmin component={<DashBoard />}></HomeAdmin>}
+          />
           <Route
             path="/admin/category"
             element={

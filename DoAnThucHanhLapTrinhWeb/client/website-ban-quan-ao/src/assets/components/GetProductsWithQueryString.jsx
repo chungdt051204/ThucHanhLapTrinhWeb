@@ -9,7 +9,8 @@ export default function GetProductsWithQueryString() {
   const categoryId = searchParams.get("category_id");
   const [products, setProducts] = useState([]);
   useEffect(() => {
-    let apiBackend = "http://localhost:3000/server/product/getProducts.php";
+    let apiBackend =
+      "http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/product/getProducts.php";
     if (categoryId) apiBackend = apiBackend + `?category_id=${categoryId}`;
     fetch(apiBackend)
       .then((res) => {

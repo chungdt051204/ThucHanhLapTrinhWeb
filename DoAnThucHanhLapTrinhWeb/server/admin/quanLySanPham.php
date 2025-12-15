@@ -13,6 +13,7 @@ if ($_SERVER["REQUEST_METHOD"] === "OPTIONS"){
     http_response_code(200);
     exit(0); 
 }
+//Thêm
 if($_SERVER["REQUEST_METHOD"] === "POST"){
     $name = $_POST["name"] ?? "";
     $categoryId = $_POST["categoryId"] ?? "";
@@ -47,7 +48,7 @@ if ($_SERVER["REQUEST_METHOD"] === "DELETE") {
         echo json_encode(["message" => "Xóa thất bại"]);
     }
 }
-$id = $_GET["id"] ?? "";
+$id = $_GET["product_id"] ?? "";
 //Giả lập method PUT
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && $id) {
     $sql = "SELECT * FROM products WHERE product_id = ?";

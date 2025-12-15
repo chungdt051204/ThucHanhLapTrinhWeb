@@ -2,48 +2,114 @@ import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { useContext, useRef, useState } from "react";
 import AppContext from "./AppContext";
 import "./QuanLySanPham.css";
+import { fetchApi } from "../services/api";
 
-export default function QuanLySanPham({ data }) {
+export default function QuanLySanPham() {
   const navigate = useNavigate();
-  const { categories, setRefresh } = useContext(AppContext);
+  const { categories, setRefresh, productsPage1, setProductsPage1 } =
+    useContext(AppContext);
   const [searchParams] = useSearchParams();
-  const id = searchParams.get("id");
+  const product_id = searchParams.get("product_id");
   const addDialog = useRef();
   const updateDialog = useRef();
-  const [name, setName] = useState("");
+  const [inputSearch, setInputSearch] = useState("");
   const [categorySelected, setCategorySelected] = useState("");
+  const [priceRange, setPriceRange] = useState("");
+  const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const addImage = useRef();
   const updateImage = useRef();
-  const categoryFilterRef = useRef();
   const [errName, setErrName] = useState("");
   const [errCategory, setErrCategory] = useState("");
   const [errPrice, setErrPrice] = useState("");
   const [errFile, setErrImage] = useState("");
-  const [categoryId, setCategoryId] = useState(null);
-  const [productsWithCategory_Id, setProductWithCategory_Id] = useState([]);
   const [productWithId, setProductWithId] = useState("");
-  const handleCategorySelected = () => {
-    if (categoryFilterRef.current.value != "") {
-      navigate(`/admin/product?category_id=${categoryFilterRef.current.value}`);
-      setCategoryId(categoryFilterRef.current.value);
-      fetch(
-        `http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/product/getProducts.php?category_id=${categoryFilterRef.current.value}`
-      )
-        .then((res) => {
-          if (res.ok) return res.json();
-          throw res;
-        })
-        .then((data) => {
-          console.log(data);
-          setProductWithCategory_Id(data);
-        })
-        .catch((err) => {
-          console.error(err);
-        });
+  const handleSearch = () => {
+    if (inputSearch !== "") {
+      navigate(`/admin/product?name=${inputSearch}`);
+      fetchApi({
+        url: `http://localhost:3000/server/product/getProducts.php?name=${encodeURIComponent(
+          inputSearch
+        )}`,
+        setData: setProductsPage1,
+      });
     } else {
       navigate("/admin/product");
-      setCategoryId("");
+      fetchApi({
+        url: "http://localhost:3000/server/product/getProducts.php",
+        setData: setProductsPage1,
+      });
+    }
+  };
+  const handleCategorySelected = (category_id) => {
+    setCategorySelected(category_id);
+    if (category_id && priceRange) {
+      navigate(`/admin/product?category_id=${category_id}&price=${priceRange}`);
+      fetchApi({
+        url: `http://localhost:3000/server/product/getProducts.php?category_id=${category_id}&price=${priceRange}`,
+        setData: setProductsPage1,
+      });
+    }
+    //Trường hợp 2: Chọn loại sản phẩm và bỏ chọn giá
+    else if (category_id && !priceRange) {
+      navigate(`/admin/product?category_id=${category_id}`);
+      fetchApi({
+        url: `http://localhost:3000/server/product/getProducts.php?category_id=${category_id}`,
+        setData: setProductsPage1,
+      });
+    }
+    //Trường hợp 3: Chọn giá không chọn loại sản phẩm
+    else if (priceRange && !category_id) {
+      navigate(`/admin/product?price=${priceRange}`);
+      fetchApi({
+        url: `http://localhost:3000/server/product/getProducts.php?price=${priceRange}`,
+        setData: setProductsPage1,
+      });
+    }
+    //Trường hợp 4: Lấy tất cả
+    else {
+      setPriceRange("");
+      navigate("/admin/product");
+      fetchApi({
+        url: `http://localhost:3000/server/product/getProducts.php`,
+        setData: setProductsPage1,
+      });
+    }
+  };
+  const handlePriceRangeSelected = (price) => {
+    setPriceRange(price);
+    //Trường hợp 1: Chọn giá và chọn loại sản phẩm
+    if (price && categorySelected) {
+      navigate(`/admin/product?category_id=${categorySelected}&price=${price}`);
+      fetchApi({
+        url: `http://localhost:3000/server/product/getProducts.php?category_id=${categorySelected}&price=${price}`,
+        setData: setProductsPage1,
+      });
+    }
+    //Trường hợp 2: Chọn loại sản phẩm và bỏ chọn giá
+    else if (!price && categorySelected) {
+      navigate(`/admin/product?category_id=${categorySelected}`);
+      fetchApi({
+        url: `http://localhost:3000/server/product/getProducts.php?category_id=${categorySelected}`,
+        setData: setProductsPage1,
+      });
+    }
+    //Trường hợp 3: Chọn giá không chọn loại sản phẩm
+    else if (price && !categorySelected) {
+      navigate(`/admin/product?price=${price}`);
+      fetchApi({
+        url: `http://localhost:3000/server/product/getProducts.php?price=${price}`,
+        setData: setProductsPage1,
+      });
+    }
+    //Trường hợp 4: Lấy tất cả
+    else {
+      setPriceRange("");
+      navigate("/admin/product");
+      fetchApi({
+        url: `http://localhost:3000/server/product/getProducts.php`,
+        setData: setProductsPage1,
+      });
     }
   };
   const handleAddSubmit = (e) => {
@@ -93,14 +159,11 @@ export default function QuanLySanPham({ data }) {
       });
   };
   const handleClickUpdate = (id) => {
-    fetch(
-      `http://localhost:3000/server/product/getProducts.php?product_id=${id}`
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        setProductWithId(data);
-        updateDialog.current.showModal();
-      });
+    fetchApi({
+      url: `http://localhost:3000/server/product/getProducts.php?product_id=${id}`,
+      setData: setProductWithId,
+    });
+    updateDialog.current.showModal();
   };
   const handleUpdateSubmit = (e) => {
     e.preventDefault(); // Ngăn chặn submit form mặc định
@@ -113,10 +176,13 @@ export default function QuanLySanPham({ data }) {
     // Thêm file hình ảnh mới (lấy từ Ref)
     formData.append("image", updateImage.current.files[0]);
     // Gửi yêu cầu PUT (Cập nhật) đến API, đính kèm ID sản phẩm vào query string
-    fetch(`http://localhost:3000/server/admin/quanLySanPham.php?id=${id}`, {
-      method: "POST",
-      body: formData, // Đính kèm FormData
-    })
+    fetch(
+      `http://localhost:3000/server/admin/quanLySanPham.php?product_id=${product_id}`,
+      {
+        method: "POST",
+        body: formData, // Đính kèm FormData
+      }
+    )
       .then((res) => {
         if (res.ok) return res.json(); // Nếu HTTP status 2xx, parse JSON
         throw res; // Nếu status lỗi (4xx, 5xx), ném Response object
@@ -172,13 +238,15 @@ export default function QuanLySanPham({ data }) {
             </button>
             <input
               type="text"
+              onChange={(e) => setInputSearch(e.target.value)}
               className="product-search-input"
               placeholder="Tìm sản phẩm"
             />
+            <button onClick={handleSearch}>Tìm</button>
             <select
               className="product-filter-select"
-              ref={categoryFilterRef}
-              onChange={handleCategorySelected}
+              value={categorySelected}
+              onChange={(e) => handleCategorySelected(e.target.value)}
             >
               <option value="">Chọn loại sản phẩm</option>
               {categories.length > 0 &&
@@ -188,7 +256,20 @@ export default function QuanLySanPham({ data }) {
                   </option>
                 ))}
             </select>
+            <select
+              className="product-filter-select"
+              value={priceRange}
+              onChange={(e) => handlePriceRangeSelected(e.target.value)}
+              name="price_range"
+              id="price-filter"
+            >
+              <option value="">Chọn giá</option>
+              <option value="low">Dưới 200.000 VND</option>
+              <option value="medium">Từ 200.000 - 400.000 VND</option>
+              <option value="high">Trên 400.000 VND</option>
+            </select>
           </div>
+          <h3>Tổng sản phẩm {productsPage1.length}</h3>
           <div className="product-table-container">
             <table>
               <thead>
@@ -200,80 +281,45 @@ export default function QuanLySanPham({ data }) {
                 </tr>
               </thead>
               <tbody>
-                {!categoryId && data.length > 0
-                  ? data.map((value, index) => {
-                      const image = value.image_url.includes("https")
-                        ? value.image_url
-                        : `http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/images/product/${value.image_url}`;
-                      const isSelected = index === 0 ? "selected" : "";
-                      return (
-                        <tr key={index} className={isSelected}>
-                          <td className="product-title-cell">
-                            <img
-                              src={image}
-                              alt=""
-                              className="product-image"
-                              width={50}
-                              height={50}
-                            />
-                            <span className="product-name">{value.name}</span>
-                          </td>
-                          <td>{value.category_name}</td>
-                          <td className="price-cell">{value.price}000 VND</td>
-                          <td className="action-cell">
-                            <Link to={`/admin/product?id=${value.product_id}`}>
-                              <i
-                                onClick={() =>
-                                  handleClickUpdate(value.product_id)
-                                }
-                                className="fa-solid fa-pen"
-                              ></i>
-                            </Link>
+                {productsPage1.length > 0 &&
+                  productsPage1.map((value, index) => {
+                    const image = value.image_url.includes("https")
+                      ? value.image_url
+                      : `http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/images/product/${value.image_url}`;
+                    const isSelected = index === 0 ? "selected" : "";
+                    return (
+                      <tr key={index} className={isSelected}>
+                        <td className="product-title-cell">
+                          <img
+                            src={image}
+                            alt=""
+                            className="product-image"
+                            width={50}
+                            height={50}
+                          />
+                          <span className="product-name">{value.name}</span>
+                        </td>
+                        <td>{value.category_name}</td>
+                        <td className="price-cell">{value.price}000 VND</td>
+                        <td className="action-cell">
+                          <Link
+                            to={`/admin/product?product_id=${value.product_id}`}
+                          >
                             <i
-                              onClick={() => handleDelete(value.product_id)}
-                              className="fa-solid fa-trash"
+                              onClick={() =>
+                                handleClickUpdate(value.product_id)
+                              }
+                              className="fa-solid fa-pen"
                             ></i>
-                          </td>
-                        </tr>
-                      );
-                    })
-                  : productsWithCategory_Id.length > 0 &&
-                    productsWithCategory_Id.map((value, index) => {
-                      const image1 = value.image_url.includes("https")
-                        ? value.image_url
-                        : `http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/images/product/${value.image_url}`;
-                      const isSelected = index === 0 ? "selected" : "";
-                      return (
-                        <tr key={index} className={isSelected}>
-                          <td className="product-title-cell">
-                            <img
-                              src={image1}
-                              alt=""
-                              className="product-image"
-                              width={50}
-                              height={50}
-                            />
-                            <span className="product-name">{value.name}</span>
-                          </td>
-                          <td>{value.category_name}</td>
-                          <td className="price-cell">{value.price}000 VND</td>
-                          <td className="action-cell">
-                            <Link to={`/admin/product?id=${value.product_id}`}>
-                              <i
-                                onClick={() =>
-                                  handleClickUpdate(value.product_id)
-                                }
-                                className="fa-solid fa-pen"
-                              ></i>
-                            </Link>
-                            <i
-                              onClick={() => handleDelete(value.product_id)}
-                              className="fa-solid fa-trash"
-                            ></i>
-                          </td>
-                        </tr>
-                      );
-                    })}
+                          </Link>
+                          <i
+                            onClick={() => handleDelete(value.product_id)}
+                            className="fa-solid fa-trash"
+                          ></i>
+                        </td>
+                      </tr>
+                    );
+                  })}
               </tbody>
             </table>
           </div>

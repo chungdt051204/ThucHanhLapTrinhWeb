@@ -168,7 +168,7 @@ div.product-page table td.product-title-cell img.product-image {
 .product-page dialog form select {
   margin: 6px 0 12px;
   width: 100%;
-  padding: 9px 0;
+  padding: 9px 5px;
   border-radius: 8px;
   border: 1px solid #cfd6e2;
   outline: none;

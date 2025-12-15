@@ -18,13 +18,14 @@ if ($_SERVER["REQUEST_METHOD"] === "OPTIONS"){
 if($_SERVER["REQUEST_METHOD"] === "GET"){
     $user_id = $_GET["user_id"] ?? "";
     $order_id = $_GET["order_id"] ?? "";
+    $status = $_GET["status"] ?? "";
     if($user_id){
         $sql = "SELECT * FROM `order` WHERE user_id = ?";
         $stmt = $conn->prepare($sql);
         $stmt->execute([$user_id]);
         $ordersWithUserId = $stmt->fetchAll(PDO::FETCH_ASSOC);
         http_response_code(200);
-        echo json_encode($ordersWithUserId);
+        echo json_encode(["data"=>$ordersWithUserId]);
     }
     else if($order_id){
         //Lấy lịch sử đơn hàng
@@ -40,13 +41,21 @@ if($_SERVER["REQUEST_METHOD"] === "GET"){
         http_response_code(200);
         echo json_encode(["data" => $orderStatusHistoryWithOrderId, "data1" => $orderItemsWithOrderId]);
     }
+    else if($status){
+        $sql = "SELECT * FROM `order` WHERE status = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->execute([$status]);
+        $ordersWithStatus = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        http_response_code(200);
+        echo json_encode(["data" => $ordersWithStatus]);
+    }
     else{
         $sql = "SELECT * FROM `order`";
         $stmt = $conn->prepare($sql);
         $stmt->execute();
         $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
         http_response_code(200);
-        echo json_encode($orders);
+        echo json_encode(["data" => $orders]);
     }
 }
 //Xử lý đặt hàng

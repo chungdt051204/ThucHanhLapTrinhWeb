@@ -1,23 +1,35 @@
 import { useEffect, useContext, useState } from "react";
 import AppContext from "./AppContext";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./QuanLyDonHang.css";
+import { fetchApi } from "../services/api";
 export default function QuanLyDonHang() {
+  const navigate = useNavigate();
   const { refresh, setRefresh } = useContext(AppContext);
   const [orders, setOrders] = useState([]);
+  const [orderStatusSelected, setOrderStatusSelected] = useState("");
   useEffect(() => {
-    fetch(
-      "http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/order/order.php"
-    )
-      .then((res) => {
-        if (res.ok) return res.json();
-        throw res;
-      })
-      .then((data) => {
-        console.log(data);
-        setOrders(data);
-      });
+    fetchApi({
+      url: "http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/order/order.php",
+      setData: setOrders,
+    });
   }, [refresh]);
+  const handleOrderStatusSelected = (value) => {
+    setOrderStatusSelected(value);
+    if (value !== "") {
+      navigate(`/admin/order?status=${value}`);
+      fetchApi({
+        url: `http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/order/order.php?status=${value}`,
+        setData: setOrders,
+      });
+    } else {
+      navigate("/admin/order");
+      fetchApi({
+        url: "http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/order/order.php",
+        setData: setOrders,
+      });
+    }
+  };
   const handleConfirmOrder = (id) => {
     fetch(
       `http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/order/order.php?order_id=${id}`,
@@ -119,6 +131,21 @@ export default function QuanLyDonHang() {
     <>
       <div className="order-admin-page">
         <h2>Quản lý đơn hàng</h2>
+        <div className="filter-container">
+          <select
+            value={orderStatusSelected}
+            onChange={(e) => handleOrderStatusSelected(e.target.value)}
+          >
+            <option value="">Chọn trạng thái đơn hàng</option>
+            <option value="PENDING">Chờ xác nhận</option>
+            <option value="OUT_OF_STOCK">Hết hàng</option>
+            <option value="PROCESSING">Đang xử lý</option>
+            <option value="SHIPPING">Đang vận chuyển</option>
+            <option value="COMPLETED">Đã hoàn thành</option>
+            <option value="CANCELLED">Đã hủy</option>
+          </select>
+        </div>
+        <h3>Tổng đơn hàng {orders.length}</h3>
         <table border={1}>
           <tr>
             <th>Mã đơn hàng</th>
