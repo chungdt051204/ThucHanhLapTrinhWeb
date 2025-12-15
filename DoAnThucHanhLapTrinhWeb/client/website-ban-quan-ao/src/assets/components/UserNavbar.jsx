@@ -23,7 +23,7 @@ export default function NavBar() {
       )}`
     )
       .then((res) => res.json())
-      .then((data) => {
+      .then(({ data }) => {
         setSearchSuggestion(data);
       })
       .catch();
@@ -96,8 +96,10 @@ export default function NavBar() {
         <ul>
           <li>
             <div className="input">
-              <input type="text" ref={inputRef} onChange={handleChange} />
-              <button onClick={handleSearch}>Tìm</button>
+              <div style={{ display: "flex" }}>
+                <input type="text" ref={inputRef} onChange={handleChange} />
+                <button onClick={handleSearch}>Tìm</button>
+              </div>
               <div>
                 {searchValue != "" && (
                   <div className="searchSuggestion-track">
@@ -162,11 +164,6 @@ export default function NavBar() {
                 <p>LOGIN</p>
               </Link>
             )}
-          </li>
-          <li>
-            <Link>
-              <i className="fa-regular fa-heart"></i>
-            </Link>
           </li>
           <li>
             <i

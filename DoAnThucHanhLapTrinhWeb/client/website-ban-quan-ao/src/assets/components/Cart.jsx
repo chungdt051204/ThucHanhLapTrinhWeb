@@ -315,7 +315,6 @@ export default function Cart_page() {
               </div>
             </fieldset>
             <fieldset>
-              <p>{tong}</p>
               <legend>3. Xác nhận</legend>
               <table border={1}>
                 <tr>

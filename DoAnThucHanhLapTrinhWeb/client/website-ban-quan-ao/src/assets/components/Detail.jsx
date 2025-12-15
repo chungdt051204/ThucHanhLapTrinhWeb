@@ -15,7 +15,7 @@ export default function Detail() {
       `http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/product/getProducts.php?product_id=${id}`
     )
       .then((res) => res.json())
-      .then((data) => {
+      .then(({ data }) => {
         setProduct(data);
         console.log(data);
       })

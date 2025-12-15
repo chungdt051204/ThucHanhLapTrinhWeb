@@ -13,7 +13,7 @@ export default function ProductWithSearchResult() {
       )}`
     )
       .then((res) => res.json())
-      .then((data) => {
+      .then(({ data }) => {
         setProductWithSearchResult(data);
       })
       .catch();

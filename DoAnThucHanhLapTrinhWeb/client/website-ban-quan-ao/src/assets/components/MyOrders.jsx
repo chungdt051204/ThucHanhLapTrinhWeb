@@ -16,7 +16,7 @@ export default function MyOrders() {
         if (res.ok) return res.json();
         throw res;
       })
-      .then((data) => {
+      .then(({ data }) => {
         setOrdersWithUserId(data);
       })
       .catch();

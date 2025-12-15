@@ -3,29 +3,21 @@ import { useContext, useEffect, useState } from "react";
 import AppContext from "./AppContext";
 import "./Product.css";
 import ProductList from "./ProductList";
+import { fetchApi } from "../services/api.js";
 export default function GetProductsWithQueryString() {
-  const { refresh } = useContext(AppContext);
+  const { refresh, productsPage1, setProductsPage1 } = useContext(AppContext);
   const [searchParams] = useSearchParams("category_id");
   const categoryId = searchParams.get("category_id");
-  const [products, setProducts] = useState([]);
+
   useEffect(() => {
     let apiBackend =
       "http://localhost/ThucHanhLapTrinhWeb/DoAnThucHanhLapTrinhWeb/server/product/getProducts.php";
     if (categoryId) apiBackend = apiBackend + `?category_id=${categoryId}`;
-    fetch(apiBackend)
-      .then((res) => {
-        if (res.ok) return res.json();
-        throw res;
-      })
-      .then((data) => {
-        console.log(data);
-        setProducts(data);
-      })
-      .catch();
-  }, [refresh, categoryId]);
+    fetchApi({ url: apiBackend, setData: setProductsPage1 });
+  }, [refresh, categoryId, setProductsPage1]);
   return (
     <>
-      <ProductList data={products}></ProductList>
+      <ProductList data={productsPage1}></ProductList>
     </>
   );
 }
